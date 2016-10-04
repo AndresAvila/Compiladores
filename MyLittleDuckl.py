@@ -40,7 +40,10 @@ tokens = [
   'LETHAN',#DONE
   'COMMA',#DONE
   'COLON',#DONE
-  'SEMICOLON'#DONE
+  'SEMICOLON',#DONE
+  'LBRACKET',#DONE
+  'RBRACKET', #DONE
+  'EQUALA' #DONE
 ] + list(reserved.values())
 
 
@@ -56,8 +59,11 @@ t_MULTI     = r'\*'
 t_DIVIDE    = r'/'
 t_LPAREN    = r'\('
 t_RPAREN    = r'\)'
+t_LBRACKET    = r'\['
+t_RBRACKET    = r'\]'
 t_LBRACE    = r'\{'
 t_RBRACE    = r'\}'
+t_EQUALA     = r'\='
 t_EQUAL     = r'=='
 t_GTHAN     = r'>'
 t_LTHAN     = r'<'
@@ -90,7 +96,7 @@ lexer = lex.lex()
 
 # Test it out
 data = '''
-    id while HEHE XD 'GG' 3 + 4 * 10
+    id while [ ] = HEHE XD 'GG' 3 + 4 * 10
     + -20 *2
     '''
 

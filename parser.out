@@ -1,0 +1,180 @@
+Created by PLY version 3.9 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    CTEFLOAT
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> PROGRAM ID SEMICOLON cicloVars cicloFuncion bloque
+Rule 2     cicloVars -> vars cicloVars
+Rule 3     cicloVars -> <empty>
+Rule 4     vars -> VAR auxVar1
+Rule 5     auxVar1 -> idVars COLON tipo SEMICOLON auxVar1
+Rule 6     auxVar1 -> <empty>
+Rule 7     idVars -> ID COMMA idVars
+Rule 8     idVars -> ID
+Rule 9     tipo -> auxTipo1
+Rule 10    tipo -> CHAR
+Rule 11    auxTipo1 -> auxTipo2 LBRACKET CTEINT RBRACKET
+Rule 12    auxTipo2 -> INT
+Rule 13    auxTipo2 -> BOOL
+Rule 14    auxTipo2 -> STRING
+Rule 15    auxTipo2 -> FLOAT
+Rule 16    bloque -> LBRACE cicloBloque RBRACE
+Rule 17    cicloBloque -> ESTATUTO cicloBloque
+Rule 18    cicloBloque -> <empty>
+Rule 19    estatuto -> asignacion
+Rule 20    estatuto -> condicion
+Rule 21    estatuto -> escritura
+Rule 22    estatuto -> lectura
+Rule 23    estatuto -> llamada
+Rule 24    estatuto -> ciclo
+Rule 25    asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON
+Rule 26    auxAsignacion1 -> LBRACKET exp RBRACKET
+Rule 27    auxAsignacion1 -> <empty>
+Rule 28    escritura -> PRINT LPAREN auxEscritura1 RPAREN SEMICOLON
+Rule 29    auxEscritura1 -> auxEscritura2 COMMA auxEscritura1
+Rule 30    auxEscritura1 -> auxEscritura2
+Rule 31    auxEscritura2 -> expresion
+Rule 32    auxEscritura2 -> CTESTRING
+Rule 33    auxExpresion -> GTHAN
+Rule 34    auxExpresion -> LTHAN
+Rule 35    auxExpresion -> NOTEQUAL
+Rule 36    auxExpresion -> GETHAN
+Rule 37    auxExpresion -> LETHAN
+Rule 38    auxExpresion -> EQUAL
+Rule 39    condicion -> IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON
+Rule 40    auxCondicion -> ELSE bloque
+Rule 41    auxCondicion -> <empty>
+Rule 42    exp -> cicloExp
+Rule 43    cicloExp -> termino auxExp cicloExp
+Rule 44    cicloExp -> termino
+Rule 45    auxExp -> PLUS
+Rule 46    auxExp -> MINUS
+Rule 47    termino -> cicloTermino
+Rule 48    cicloTermino -> factor auxTermino cicloTermino
+Rule 49    cicloTermino -> factor
+Rule 50    auxTermino -> MULTI
+Rule 51    auxTermino -> DIVIDE
+Rule 52    factor -> LPAREN expresion RPAREN
+Rule 53    factor -> auxFactor varcte
+Rule 54    auxFactor -> auxExp
+Rule 55    auxFactor -> <empty>
+Rule 56    varcte -> ID auxVarcte
+Rule 57    varcte -> CTEINT
+Rule 58    varcte -> CTREFLOAT
+Rule 59    varcte -> CTECHAR
+Rule 60    varcte -> CTEBOOL
+Rule 61    varcte -> CTESTRING
+Rule 62    auxVarcte -> LPAREN exp RPAREN
+Rule 63    auxVarcte -> LBRACKET exp LBRACKET
+Rule 64    auxVarcte -> <empty>
+Rule 65    funcion -> FUNCTION ID LPAREN auxFunction RPAREN bloque
+Rule 66    auxFunction -> parametros
+Rule 67    auxFunction -> <empty>
+Rule 68    parametros -> auxParametros
+Rule 69    auxParametros -> tipo ID COMMA auxParametros
+Rule 70    auxParametros -> tipo ID
+Rule 71    ciclo -> WHILE LPAREN expresion RPAREN bloque SEMICOLON
+Rule 72    llamada -> ID LPAREN auxLlamada RPAREN
+Rule 73    aux_llamada -> argumentos
+Rule 74    aux_llamada -> <empty>
+Rule 75    argumentos -> auxArgumentos1
+Rule 76    argumentos -> <empty>
+Rule 77    p_auxArgumentos1 -> exp COMMA auxArgumentos1
+Rule 78    p_auxArgumentos1 -> exp
+Rule 79    lectura -> READ LPAREN ID RPAREN SEMICOLON
+
+Terminals, with rules where they appear
+
+BOOL                 : 13
+CHAR                 : 10
+COLON                : 5
+COMMA                : 7 29 69 77
+CTEBOOL              : 60
+CTECHAR              : 59
+CTEFLOAT             : 
+CTEINT               : 11 57
+CTESTRING            : 32 61
+DIVIDE               : 51
+ELSE                 : 40
+EQUAL                : 38
+EQUALA               : 25
+FLOAT                : 15
+GETHAN               : 36
+GTHAN                : 33
+ID                   : 1 7 8 25 56 65 69 70 72 79
+IF                   : 39
+INT                  : 12
+LBRACE               : 16
+LBRACKET             : 11 26 63 63
+LETHAN               : 37
+LPAREN               : 28 39 52 62 65 71 72 79
+LTHAN                : 34
+MINUS                : 46
+MULTI                : 50
+NOTEQUAL             : 35
+PLUS                 : 45
+PRINT                : 28
+PROGRAM              : 1
+RBRACE               : 16
+RBRACKET             : 11 26
+RPAREN               : 28 39 52 62 65 71 72 79
+SEMICOLON            : 1 5 25 28 39 71 79
+STRING               : 14
+VAR                  : 4
+WHILE                : 71
+error                : 
+
+Nonterminals, with rules where they appear
+
+CTREFLOAT            : 58
+ESTATUTO             : 17
+FUNCTION             : 65
+READ                 : 79
+argumentos           : 73
+asignacion           : 19
+auxArgumentos1       : 75 77
+auxAsignacion1       : 25
+auxCondicion         : 39
+auxEscritura1        : 28 29
+auxEscritura2        : 29 30
+auxExp               : 43 54
+auxExpresion         : 
+auxFactor            : 53
+auxFunction          : 65
+auxLlamada           : 72
+auxParametros        : 68 69
+auxTermino           : 48
+auxTipo1             : 9
+auxTipo2             : 11
+auxVar1              : 4 5
+auxVarcte            : 56
+aux_llamada          : 
+bloque               : 1 39 40 65 71
+ciclo                : 24
+cicloBloque          : 16 17
+cicloExp             : 42 43
+cicloFuncion         : 1
+cicloTermino         : 47 48
+cicloVars            : 1 2
+condicion            : 20
+escritura            : 21
+estatuto             : 
+exp                  : 26 62 63 77 78
+expresion            : 25 31 39 52 71
+factor               : 48 49
+funcion              : 
+idVars               : 5 7
+lectura              : 22
+llamada              : 23
+p_auxArgumentos1     : 
+parametros           : 66
+programa             : 0
+termino              : 43 44
+tipo                 : 5 69 70
+varcte               : 53
+vars                 : 2
+
