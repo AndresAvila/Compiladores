@@ -203,6 +203,7 @@ parser = yacc.yacc(start='programa')
 def archivo(file):
   fi = open(file, 'r')
   data = fi.read()
+  print (data)
   fi.close()
   if parser.parse(data) == 'OK':
     print('Programa valido')
