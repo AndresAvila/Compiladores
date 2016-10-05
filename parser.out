@@ -1,9 +1,5 @@
 Created by PLY version 3.9 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    CTEFLOAT
-
 Grammar
 
 Rule 0     S' -> programa
@@ -24,7 +20,7 @@ Rule 14    auxTipo2 -> BOOL
 Rule 15    auxTipo2 -> STRING
 Rule 16    auxTipo2 -> FLOAT
 Rule 17    bloque -> LBRACE cicloBloque RBRACE
-Rule 18    cicloBloque -> ESTATUTO cicloBloque
+Rule 18    cicloBloque -> estatuto cicloBloque
 Rule 19    cicloBloque -> <empty>
 Rule 20    estatuto -> asignacion
 Rule 21    estatuto -> condicion
@@ -41,152 +37,2228 @@ Rule 31    ambAuxEscritura1 -> COMMA auxEscritura1
 Rule 32    ambAuxEscritura1 -> <empty>
 Rule 33    auxEscritura2 -> expresion
 Rule 34    auxEscritura2 -> CTESTRING
-Rule 35    auxExpresion -> GTHAN
-Rule 36    auxExpresion -> LTHAN
-Rule 37    auxExpresion -> NOTEQUAL
-Rule 38    auxExpresion -> GETHAN
-Rule 39    auxExpresion -> LETHAN
-Rule 40    auxExpresion -> EQUAL
-Rule 41    condicion -> IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON
-Rule 42    auxCondicion -> ELSE bloque
-Rule 43    auxCondicion -> <empty>
-Rule 44    exp -> cicloExp
-Rule 45    cicloExp -> termino ambExp
-Rule 46    ambExp -> auxExp cicloExp
-Rule 47    ambExp -> <empty>
-Rule 48    auxExp -> PLUS
-Rule 49    auxExp -> MINUS
-Rule 50    termino -> cicloTermino
-Rule 51    cicloTermino -> factor ambCicloTermino
-Rule 52    ambCicloTermino -> auxTermino cicloTermino
-Rule 53    ambCicloTermino -> <empty>
-Rule 54    auxTermino -> MULTI
-Rule 55    auxTermino -> DIVIDE
-Rule 56    factor -> LPAREN expresion RPAREN
-Rule 57    factor -> auxFactor varcte
-Rule 58    auxFactor -> auxExp
-Rule 59    auxFactor -> <empty>
-Rule 60    varcte -> ID auxVarcte
-Rule 61    varcte -> CTEINT
-Rule 62    varcte -> CTREFLOAT
-Rule 63    varcte -> CTECHAR
-Rule 64    varcte -> CTEBOOL
-Rule 65    varcte -> CTESTRING
-Rule 66    auxVarcte -> LPAREN exp RPAREN
-Rule 67    auxVarcte -> LBRACKET exp LBRACKET
-Rule 68    auxVarcte -> <empty>
-Rule 69    funcion -> FUNCTION ID LPAREN auxFunction RPAREN bloque
-Rule 70    auxFunction -> parametros
-Rule 71    auxFunction -> <empty>
-Rule 72    parametros -> auxParametros
-Rule 73    auxParametros -> tipo ID ambAuxParametros
-Rule 74    ambAuxParametros -> COMMA auxParametros
-Rule 75    ambAuxParametros -> <empty>
-Rule 76    ciclo -> WHILE LPAREN expresion RPAREN bloque SEMICOLON
-Rule 77    llamada -> ID LPAREN auxLlamada RPAREN
-Rule 78    aux_llamada -> argumentos
-Rule 79    aux_llamada -> <empty>
-Rule 80    argumentos -> auxArgumentos1
-Rule 81    argumentos -> <empty>
-Rule 82    p_auxArgumentos1 -> exp ambAuxArgumentos1
-Rule 83    ambAuxArgumentos1 -> COMMA auxArgumentos1
-Rule 84    ambAuxArgumentos1 -> <empty>
-Rule 85    lectura -> READ LPAREN ID RPAREN SEMICOLON
+Rule 35    expresion -> exp auxExpresion exp
+Rule 36    expresion -> <empty>
+Rule 37    auxExpresion -> GTHAN
+Rule 38    auxExpresion -> LTHAN
+Rule 39    auxExpresion -> NOTEQUAL
+Rule 40    auxExpresion -> GETHAN
+Rule 41    auxExpresion -> LETHAN
+Rule 42    auxExpresion -> EQUAL
+Rule 43    condicion -> IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON
+Rule 44    auxCondicion -> ELSE bloque
+Rule 45    auxCondicion -> <empty>
+Rule 46    exp -> cicloExp
+Rule 47    cicloExp -> termino ambExp
+Rule 48    ambExp -> auxExp cicloExp
+Rule 49    ambExp -> <empty>
+Rule 50    auxExp -> PLUS
+Rule 51    auxExp -> MINUS
+Rule 52    termino -> cicloTermino
+Rule 53    cicloTermino -> factor ambCicloTermino
+Rule 54    ambCicloTermino -> auxTermino cicloTermino
+Rule 55    ambCicloTermino -> <empty>
+Rule 56    auxTermino -> MULTI
+Rule 57    auxTermino -> DIVIDE
+Rule 58    factor -> LPAREN expresion RPAREN
+Rule 59    factor -> auxFactor varcte
+Rule 60    auxFactor -> auxExp
+Rule 61    auxFactor -> <empty>
+Rule 62    varcte -> ID auxVarcte
+Rule 63    varcte -> CTEINT
+Rule 64    varcte -> CTEFLOAT
+Rule 65    varcte -> CTECHAR
+Rule 66    varcte -> CTEBOOL
+Rule 67    varcte -> CTESTRING
+Rule 68    auxVarcte -> LPAREN exp RPAREN
+Rule 69    auxVarcte -> LBRACKET exp LBRACKET
+Rule 70    auxVarcte -> <empty>
+Rule 71    cicloFuncion -> funcion cicloFuncion
+Rule 72    cicloFuncion -> <empty>
+Rule 73    funcion -> FUNCTION ID LPAREN auxFunction RPAREN bloque
+Rule 74    auxFunction -> parametros
+Rule 75    auxFunction -> <empty>
+Rule 76    parametros -> auxParametros
+Rule 77    auxParametros -> tipo ID ambAuxParametros
+Rule 78    ambAuxParametros -> COMMA auxParametros
+Rule 79    ambAuxParametros -> <empty>
+Rule 80    ciclo -> WHILE LPAREN expresion RPAREN bloque SEMICOLON
+Rule 81    llamada -> ID LPAREN auxLlamada RPAREN
+Rule 82    auxLlamada -> argumentos
+Rule 83    auxLlamada -> <empty>
+Rule 84    argumentos -> auxArgumentos1
+Rule 85    argumentos -> <empty>
+Rule 86    auxArgumentos1 -> exp ambAuxArgumentos1
+Rule 87    ambAuxArgumentos1 -> COMMA auxArgumentos1
+Rule 88    ambAuxArgumentos1 -> <empty>
+Rule 89    lectura -> READ LPAREN ID RPAREN SEMICOLON
 
 Terminals, with rules where they appear
 
 BOOL                 : 14
 CHAR                 : 11
 COLON                : 5
-COMMA                : 8 31 74 83
-CTEBOOL              : 64
-CTECHAR              : 63
-CTEFLOAT             : 
-CTEINT               : 12 61
-CTESTRING            : 34 65
-DIVIDE               : 55
-ELSE                 : 42
-EQUAL                : 40
+COMMA                : 8 31 78 87
+CTEBOOL              : 66
+CTECHAR              : 65
+CTEFLOAT             : 64
+CTEINT               : 12 63
+CTESTRING            : 34 67
+DIVIDE               : 57
+ELSE                 : 44
+EQUAL                : 42
 EQUALA               : 26
 FLOAT                : 16
-GETHAN               : 38
-GTHAN                : 35
-ID                   : 1 7 26 60 69 73 77 85
-IF                   : 41
+FUNCTION             : 73
+GETHAN               : 40
+GTHAN                : 37
+ID                   : 1 7 26 62 73 77 81 89
+IF                   : 43
 INT                  : 13
 LBRACE               : 17
-LBRACKET             : 12 27 67 67
-LETHAN               : 39
-LPAREN               : 29 41 56 66 69 76 77 85
-LTHAN                : 36
-MINUS                : 49
-MULTI                : 54
-NOTEQUAL             : 37
-PLUS                 : 48
+LBRACKET             : 12 27 69 69
+LETHAN               : 41
+LPAREN               : 29 43 58 68 73 80 81 89
+LTHAN                : 38
+MINUS                : 51
+MULTI                : 56
+NOTEQUAL             : 39
+PLUS                 : 50
 PRINT                : 29
 PROGRAM              : 1
 RBRACE               : 17
 RBRACKET             : 12 27
-RPAREN               : 29 41 56 66 69 76 77 85
-SEMICOLON            : 1 5 26 29 41 76 85
+READ                 : 89
+RPAREN               : 29 43 58 68 73 80 81 89
+SEMICOLON            : 1 5 26 29 43 80 89
 STRING               : 15
 VAR                  : 4
-WHILE                : 76
+WHILE                : 80
 error                : 
 
 Nonterminals, with rules where they appear
 
-CTREFLOAT            : 62
-ESTATUTO             : 18
-FUNCTION             : 69
-READ                 : 85
-ambAuxArgumentos1    : 82
+ambAuxArgumentos1    : 86
 ambAuxEscritura1     : 30
-ambAuxParametros     : 73
-ambCicloTermino      : 51
-ambExp               : 45
+ambAuxParametros     : 77
+ambCicloTermino      : 53
+ambExp               : 47
 ambIdVars            : 7
-argumentos           : 78
+argumentos           : 82
 asignacion           : 20
-auxArgumentos1       : 80 83
+auxArgumentos1       : 84 87
 auxAsignacion1       : 26
-auxCondicion         : 41
+auxCondicion         : 43
 auxEscritura1        : 29 31
 auxEscritura2        : 30
-auxExp               : 46 58
-auxExpresion         : 
-auxFactor            : 57
-auxFunction          : 69
-auxLlamada           : 77
-auxParametros        : 72 74
-auxTermino           : 52
+auxExp               : 48 60
+auxExpresion         : 35
+auxFactor            : 59
+auxFunction          : 73
+auxLlamada           : 81
+auxParametros        : 76 78
+auxTermino           : 54
 auxTipo1             : 10
 auxTipo2             : 12
 auxVar1              : 4 5
-auxVarcte            : 60
-aux_llamada          : 
-bloque               : 1 41 42 69 76
+auxVarcte            : 62
+bloque               : 1 43 44 73 80
 ciclo                : 25
 cicloBloque          : 17 18
-cicloExp             : 44 46
-cicloFuncion         : 1
-cicloTermino         : 50 52
+cicloExp             : 46 48
+cicloFuncion         : 1 71
+cicloTermino         : 52 54
 cicloVars            : 1 2
 condicion            : 21
 escritura            : 22
-estatuto             : 
-exp                  : 27 66 67 82
-expresion            : 26 33 41 56 76
-factor               : 51
-funcion              : 
+estatuto             : 18
+exp                  : 27 35 35 68 69 86
+expresion            : 26 33 43 58 80
+factor               : 53
+funcion              : 71
 idVars               : 5 8
 lectura              : 23
 llamada              : 24
-p_auxArgumentos1     : 
-parametros           : 70
+parametros           : 74
 programa             : 0
-termino              : 45
-tipo                 : 5 73
-varcte               : 57
+termino              : 47
+tipo                 : 5 77
+varcte               : 59
 vars                 : 2
 
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . PROGRAM ID SEMICOLON cicloVars cicloFuncion bloque
+
+    PROGRAM         shift and go to state 1
+
+    programa                       shift and go to state 2
+
+state 1
+
+    (1) programa -> PROGRAM . ID SEMICOLON cicloVars cicloFuncion bloque
+
+    ID              shift and go to state 3
+
+
+state 2
+
+    (0) S' -> programa .
+
+
+
+state 3
+
+    (1) programa -> PROGRAM ID . SEMICOLON cicloVars cicloFuncion bloque
+
+    SEMICOLON       shift and go to state 4
+
+
+state 4
+
+    (1) programa -> PROGRAM ID SEMICOLON . cicloVars cicloFuncion bloque
+    (2) cicloVars -> . vars cicloVars
+    (3) cicloVars -> .
+    (4) vars -> . VAR auxVar1
+
+    FUNCTION        reduce using rule 3 (cicloVars -> .)
+    LBRACE          reduce using rule 3 (cicloVars -> .)
+    VAR             shift and go to state 7
+
+    cicloVars                      shift and go to state 6
+    vars                           shift and go to state 5
+
+state 5
+
+    (2) cicloVars -> vars . cicloVars
+    (2) cicloVars -> . vars cicloVars
+    (3) cicloVars -> .
+    (4) vars -> . VAR auxVar1
+
+    FUNCTION        reduce using rule 3 (cicloVars -> .)
+    LBRACE          reduce using rule 3 (cicloVars -> .)
+    VAR             shift and go to state 7
+
+    cicloVars                      shift and go to state 8
+    vars                           shift and go to state 5
+
+state 6
+
+    (1) programa -> PROGRAM ID SEMICOLON cicloVars . cicloFuncion bloque
+    (71) cicloFuncion -> . funcion cicloFuncion
+    (72) cicloFuncion -> .
+    (73) funcion -> . FUNCTION ID LPAREN auxFunction RPAREN bloque
+
+    LBRACE          reduce using rule 72 (cicloFuncion -> .)
+    FUNCTION        shift and go to state 9
+
+    cicloFuncion                   shift and go to state 10
+    funcion                        shift and go to state 11
+
+state 7
+
+    (4) vars -> VAR . auxVar1
+    (5) auxVar1 -> . idVars COLON tipo SEMICOLON auxVar1
+    (6) auxVar1 -> .
+    (7) idVars -> . ID ambIdVars
+
+    VAR             reduce using rule 6 (auxVar1 -> .)
+    FUNCTION        reduce using rule 6 (auxVar1 -> .)
+    LBRACE          reduce using rule 6 (auxVar1 -> .)
+    ID              shift and go to state 14
+
+    idVars                         shift and go to state 12
+    auxVar1                        shift and go to state 13
+
+state 8
+
+    (2) cicloVars -> vars cicloVars .
+
+    FUNCTION        reduce using rule 2 (cicloVars -> vars cicloVars .)
+    LBRACE          reduce using rule 2 (cicloVars -> vars cicloVars .)
+
+
+state 9
+
+    (73) funcion -> FUNCTION . ID LPAREN auxFunction RPAREN bloque
+
+    ID              shift and go to state 15
+
+
+state 10
+
+    (1) programa -> PROGRAM ID SEMICOLON cicloVars cicloFuncion . bloque
+    (17) bloque -> . LBRACE cicloBloque RBRACE
+
+    LBRACE          shift and go to state 16
+
+    bloque                         shift and go to state 17
+
+state 11
+
+    (71) cicloFuncion -> funcion . cicloFuncion
+    (71) cicloFuncion -> . funcion cicloFuncion
+    (72) cicloFuncion -> .
+    (73) funcion -> . FUNCTION ID LPAREN auxFunction RPAREN bloque
+
+    LBRACE          reduce using rule 72 (cicloFuncion -> .)
+    FUNCTION        shift and go to state 9
+
+    cicloFuncion                   shift and go to state 18
+    funcion                        shift and go to state 11
+
+state 12
+
+    (5) auxVar1 -> idVars . COLON tipo SEMICOLON auxVar1
+
+    COLON           shift and go to state 19
+
+
+state 13
+
+    (4) vars -> VAR auxVar1 .
+
+    VAR             reduce using rule 4 (vars -> VAR auxVar1 .)
+    FUNCTION        reduce using rule 4 (vars -> VAR auxVar1 .)
+    LBRACE          reduce using rule 4 (vars -> VAR auxVar1 .)
+
+
+state 14
+
+    (7) idVars -> ID . ambIdVars
+    (8) ambIdVars -> . COMMA idVars
+    (9) ambIdVars -> .
+
+    COMMA           shift and go to state 20
+    COLON           reduce using rule 9 (ambIdVars -> .)
+
+    ambIdVars                      shift and go to state 21
+
+state 15
+
+    (73) funcion -> FUNCTION ID . LPAREN auxFunction RPAREN bloque
+
+    LPAREN          shift and go to state 22
+
+
+state 16
+
+    (17) bloque -> LBRACE . cicloBloque RBRACE
+    (18) cicloBloque -> . estatuto cicloBloque
+    (19) cicloBloque -> .
+    (20) estatuto -> . asignacion
+    (21) estatuto -> . condicion
+    (22) estatuto -> . escritura
+    (23) estatuto -> . lectura
+    (24) estatuto -> . llamada
+    (25) estatuto -> . ciclo
+    (26) asignacion -> . ID auxAsignacion1 EQUALA expresion SEMICOLON
+    (43) condicion -> . IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON
+    (29) escritura -> . PRINT LPAREN auxEscritura1 RPAREN SEMICOLON
+    (89) lectura -> . READ LPAREN ID RPAREN SEMICOLON
+    (81) llamada -> . ID LPAREN auxLlamada RPAREN
+    (80) ciclo -> . WHILE LPAREN expresion RPAREN bloque SEMICOLON
+
+    RBRACE          reduce using rule 19 (cicloBloque -> .)
+    ID              shift and go to state 33
+    IF              shift and go to state 30
+    PRINT           shift and go to state 25
+    READ            shift and go to state 23
+    WHILE           shift and go to state 24
+
+    ciclo                          shift and go to state 26
+    asignacion                     shift and go to state 34
+    estatuto                       shift and go to state 27
+    llamada                        shift and go to state 28
+    condicion                      shift and go to state 29
+    cicloBloque                    shift and go to state 32
+    lectura                        shift and go to state 31
+    escritura                      shift and go to state 35
+
+state 17
+
+    (1) programa -> PROGRAM ID SEMICOLON cicloVars cicloFuncion bloque .
+
+    $end            reduce using rule 1 (programa -> PROGRAM ID SEMICOLON cicloVars cicloFuncion bloque .)
+
+
+state 18
+
+    (71) cicloFuncion -> funcion cicloFuncion .
+
+    LBRACE          reduce using rule 71 (cicloFuncion -> funcion cicloFuncion .)
+
+
+state 19
+
+    (5) auxVar1 -> idVars COLON . tipo SEMICOLON auxVar1
+    (10) tipo -> . auxTipo1
+    (11) tipo -> . CHAR
+    (12) auxTipo1 -> . auxTipo2 LBRACKET CTEINT RBRACKET
+    (13) auxTipo2 -> . INT
+    (14) auxTipo2 -> . BOOL
+    (15) auxTipo2 -> . STRING
+    (16) auxTipo2 -> . FLOAT
+
+    CHAR            shift and go to state 39
+    INT             shift and go to state 37
+    BOOL            shift and go to state 40
+    STRING          shift and go to state 43
+    FLOAT           shift and go to state 38
+
+    auxTipo1                       shift and go to state 41
+    auxTipo2                       shift and go to state 42
+    tipo                           shift and go to state 36
+
+state 20
+
+    (8) ambIdVars -> COMMA . idVars
+    (7) idVars -> . ID ambIdVars
+
+    ID              shift and go to state 14
+
+    idVars                         shift and go to state 44
+
+state 21
+
+    (7) idVars -> ID ambIdVars .
+
+    COLON           reduce using rule 7 (idVars -> ID ambIdVars .)
+
+
+state 22
+
+    (73) funcion -> FUNCTION ID LPAREN . auxFunction RPAREN bloque
+    (74) auxFunction -> . parametros
+    (75) auxFunction -> .
+    (76) parametros -> . auxParametros
+    (77) auxParametros -> . tipo ID ambAuxParametros
+    (10) tipo -> . auxTipo1
+    (11) tipo -> . CHAR
+    (12) auxTipo1 -> . auxTipo2 LBRACKET CTEINT RBRACKET
+    (13) auxTipo2 -> . INT
+    (14) auxTipo2 -> . BOOL
+    (15) auxTipo2 -> . STRING
+    (16) auxTipo2 -> . FLOAT
+
+    RPAREN          reduce using rule 75 (auxFunction -> .)
+    CHAR            shift and go to state 39
+    INT             shift and go to state 37
+    BOOL            shift and go to state 40
+    STRING          shift and go to state 43
+    FLOAT           shift and go to state 38
+
+    tipo                           shift and go to state 45
+    auxFunction                    shift and go to state 46
+    auxParametros                  shift and go to state 47
+    auxTipo2                       shift and go to state 42
+    parametros                     shift and go to state 48
+    auxTipo1                       shift and go to state 41
+
+state 23
+
+    (89) lectura -> READ . LPAREN ID RPAREN SEMICOLON
+
+    LPAREN          shift and go to state 49
+
+
+state 24
+
+    (80) ciclo -> WHILE . LPAREN expresion RPAREN bloque SEMICOLON
+
+    LPAREN          shift and go to state 50
+
+
+state 25
+
+    (29) escritura -> PRINT . LPAREN auxEscritura1 RPAREN SEMICOLON
+
+    LPAREN          shift and go to state 51
+
+
+state 26
+
+    (25) estatuto -> ciclo .
+
+    ID              reduce using rule 25 (estatuto -> ciclo .)
+    IF              reduce using rule 25 (estatuto -> ciclo .)
+    PRINT           reduce using rule 25 (estatuto -> ciclo .)
+    READ            reduce using rule 25 (estatuto -> ciclo .)
+    WHILE           reduce using rule 25 (estatuto -> ciclo .)
+    RBRACE          reduce using rule 25 (estatuto -> ciclo .)
+
+
+state 27
+
+    (18) cicloBloque -> estatuto . cicloBloque
+    (18) cicloBloque -> . estatuto cicloBloque
+    (19) cicloBloque -> .
+    (20) estatuto -> . asignacion
+    (21) estatuto -> . condicion
+    (22) estatuto -> . escritura
+    (23) estatuto -> . lectura
+    (24) estatuto -> . llamada
+    (25) estatuto -> . ciclo
+    (26) asignacion -> . ID auxAsignacion1 EQUALA expresion SEMICOLON
+    (43) condicion -> . IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON
+    (29) escritura -> . PRINT LPAREN auxEscritura1 RPAREN SEMICOLON
+    (89) lectura -> . READ LPAREN ID RPAREN SEMICOLON
+    (81) llamada -> . ID LPAREN auxLlamada RPAREN
+    (80) ciclo -> . WHILE LPAREN expresion RPAREN bloque SEMICOLON
+
+    RBRACE          reduce using rule 19 (cicloBloque -> .)
+    ID              shift and go to state 33
+    IF              shift and go to state 30
+    PRINT           shift and go to state 25
+    READ            shift and go to state 23
+    WHILE           shift and go to state 24
+
+    ciclo                          shift and go to state 26
+    asignacion                     shift and go to state 34
+    estatuto                       shift and go to state 27
+    llamada                        shift and go to state 28
+    condicion                      shift and go to state 29
+    cicloBloque                    shift and go to state 52
+    lectura                        shift and go to state 31
+    escritura                      shift and go to state 35
+
+state 28
+
+    (24) estatuto -> llamada .
+
+    ID              reduce using rule 24 (estatuto -> llamada .)
+    IF              reduce using rule 24 (estatuto -> llamada .)
+    PRINT           reduce using rule 24 (estatuto -> llamada .)
+    READ            reduce using rule 24 (estatuto -> llamada .)
+    WHILE           reduce using rule 24 (estatuto -> llamada .)
+    RBRACE          reduce using rule 24 (estatuto -> llamada .)
+
+
+state 29
+
+    (21) estatuto -> condicion .
+
+    ID              reduce using rule 21 (estatuto -> condicion .)
+    IF              reduce using rule 21 (estatuto -> condicion .)
+    PRINT           reduce using rule 21 (estatuto -> condicion .)
+    READ            reduce using rule 21 (estatuto -> condicion .)
+    WHILE           reduce using rule 21 (estatuto -> condicion .)
+    RBRACE          reduce using rule 21 (estatuto -> condicion .)
+
+
+state 30
+
+    (43) condicion -> IF . LPAREN expresion RPAREN bloque auxCondicion SEMICOLON
+
+    LPAREN          shift and go to state 53
+
+
+state 31
+
+    (23) estatuto -> lectura .
+
+    ID              reduce using rule 23 (estatuto -> lectura .)
+    IF              reduce using rule 23 (estatuto -> lectura .)
+    PRINT           reduce using rule 23 (estatuto -> lectura .)
+    READ            reduce using rule 23 (estatuto -> lectura .)
+    WHILE           reduce using rule 23 (estatuto -> lectura .)
+    RBRACE          reduce using rule 23 (estatuto -> lectura .)
+
+
+state 32
+
+    (17) bloque -> LBRACE cicloBloque . RBRACE
+
+    RBRACE          shift and go to state 54
+
+
+state 33
+
+    (26) asignacion -> ID . auxAsignacion1 EQUALA expresion SEMICOLON
+    (81) llamada -> ID . LPAREN auxLlamada RPAREN
+    (27) auxAsignacion1 -> . LBRACKET exp RBRACKET
+    (28) auxAsignacion1 -> .
+
+    LPAREN          shift and go to state 57
+    LBRACKET        shift and go to state 56
+    EQUALA          reduce using rule 28 (auxAsignacion1 -> .)
+
+    auxAsignacion1                 shift and go to state 55
+
+state 34
+
+    (20) estatuto -> asignacion .
+
+    ID              reduce using rule 20 (estatuto -> asignacion .)
+    IF              reduce using rule 20 (estatuto -> asignacion .)
+    PRINT           reduce using rule 20 (estatuto -> asignacion .)
+    READ            reduce using rule 20 (estatuto -> asignacion .)
+    WHILE           reduce using rule 20 (estatuto -> asignacion .)
+    RBRACE          reduce using rule 20 (estatuto -> asignacion .)
+
+
+state 35
+
+    (22) estatuto -> escritura .
+
+    ID              reduce using rule 22 (estatuto -> escritura .)
+    IF              reduce using rule 22 (estatuto -> escritura .)
+    PRINT           reduce using rule 22 (estatuto -> escritura .)
+    READ            reduce using rule 22 (estatuto -> escritura .)
+    WHILE           reduce using rule 22 (estatuto -> escritura .)
+    RBRACE          reduce using rule 22 (estatuto -> escritura .)
+
+
+state 36
+
+    (5) auxVar1 -> idVars COLON tipo . SEMICOLON auxVar1
+
+    SEMICOLON       shift and go to state 58
+
+
+state 37
+
+    (13) auxTipo2 -> INT .
+
+    LBRACKET        reduce using rule 13 (auxTipo2 -> INT .)
+
+
+state 38
+
+    (16) auxTipo2 -> FLOAT .
+
+    LBRACKET        reduce using rule 16 (auxTipo2 -> FLOAT .)
+
+
+state 39
+
+    (11) tipo -> CHAR .
+
+    ID              reduce using rule 11 (tipo -> CHAR .)
+    SEMICOLON       reduce using rule 11 (tipo -> CHAR .)
+
+
+state 40
+
+    (14) auxTipo2 -> BOOL .
+
+    LBRACKET        reduce using rule 14 (auxTipo2 -> BOOL .)
+
+
+state 41
+
+    (10) tipo -> auxTipo1 .
+
+    ID              reduce using rule 10 (tipo -> auxTipo1 .)
+    SEMICOLON       reduce using rule 10 (tipo -> auxTipo1 .)
+
+
+state 42
+
+    (12) auxTipo1 -> auxTipo2 . LBRACKET CTEINT RBRACKET
+
+    LBRACKET        shift and go to state 59
+
+
+state 43
+
+    (15) auxTipo2 -> STRING .
+
+    LBRACKET        reduce using rule 15 (auxTipo2 -> STRING .)
+
+
+state 44
+
+    (8) ambIdVars -> COMMA idVars .
+
+    COLON           reduce using rule 8 (ambIdVars -> COMMA idVars .)
+
+
+state 45
+
+    (77) auxParametros -> tipo . ID ambAuxParametros
+
+    ID              shift and go to state 60
+
+
+state 46
+
+    (73) funcion -> FUNCTION ID LPAREN auxFunction . RPAREN bloque
+
+    RPAREN          shift and go to state 61
+
+
+state 47
+
+    (76) parametros -> auxParametros .
+
+    RPAREN          reduce using rule 76 (parametros -> auxParametros .)
+
+
+state 48
+
+    (74) auxFunction -> parametros .
+
+    RPAREN          reduce using rule 74 (auxFunction -> parametros .)
+
+
+state 49
+
+    (89) lectura -> READ LPAREN . ID RPAREN SEMICOLON
+
+    ID              shift and go to state 62
+
+
+state 50
+
+    (80) ciclo -> WHILE LPAREN . expresion RPAREN bloque SEMICOLON
+    (35) expresion -> . exp auxExpresion exp
+    (36) expresion -> .
+    (46) exp -> . cicloExp
+    (47) cicloExp -> . termino ambExp
+    (52) termino -> . cicloTermino
+    (53) cicloTermino -> . factor ambCicloTermino
+    (58) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . auxFactor varcte
+    (60) auxFactor -> . auxExp
+    (61) auxFactor -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+    RPAREN          reduce using rule 36 (expresion -> .)
+    LPAREN          shift and go to state 69
+    ID              reduce using rule 61 (auxFactor -> .)
+    CTEINT          reduce using rule 61 (auxFactor -> .)
+    CTEFLOAT        reduce using rule 61 (auxFactor -> .)
+    CTECHAR         reduce using rule 61 (auxFactor -> .)
+    CTEBOOL         reduce using rule 61 (auxFactor -> .)
+    CTESTRING       reduce using rule 61 (auxFactor -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+    expresion                      shift and go to state 63
+    auxExp                         shift and go to state 65
+    auxFactor                      shift and go to state 66
+    termino                        shift and go to state 68
+    exp                            shift and go to state 64
+    factor                         shift and go to state 70
+    cicloExp                       shift and go to state 72
+    cicloTermino                   shift and go to state 73
+
+state 51
+
+    (29) escritura -> PRINT LPAREN . auxEscritura1 RPAREN SEMICOLON
+    (30) auxEscritura1 -> . auxEscritura2 ambAuxEscritura1
+    (33) auxEscritura2 -> . expresion
+    (34) auxEscritura2 -> . CTESTRING
+    (35) expresion -> . exp auxExpresion exp
+    (36) expresion -> .
+    (46) exp -> . cicloExp
+    (47) cicloExp -> . termino ambExp
+    (52) termino -> . cicloTermino
+    (53) cicloTermino -> . factor ambCicloTermino
+    (58) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . auxFactor varcte
+    (60) auxFactor -> . auxExp
+    (61) auxFactor -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+  ! shift/reduce conflict for CTESTRING resolved as shift
+    CTESTRING       shift and go to state 74
+    COMMA           reduce using rule 36 (expresion -> .)
+    RPAREN          reduce using rule 36 (expresion -> .)
+    LPAREN          shift and go to state 69
+    ID              reduce using rule 61 (auxFactor -> .)
+    CTEINT          reduce using rule 61 (auxFactor -> .)
+    CTEFLOAT        reduce using rule 61 (auxFactor -> .)
+    CTECHAR         reduce using rule 61 (auxFactor -> .)
+    CTEBOOL         reduce using rule 61 (auxFactor -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+  ! CTESTRING       [ reduce using rule 61 (auxFactor -> .) ]
+
+    expresion                      shift and go to state 77
+    auxEscritura1                  shift and go to state 75
+    auxEscritura2                  shift and go to state 76
+    auxExp                         shift and go to state 65
+    termino                        shift and go to state 68
+    exp                            shift and go to state 64
+    factor                         shift and go to state 70
+    auxFactor                      shift and go to state 66
+    cicloExp                       shift and go to state 72
+    cicloTermino                   shift and go to state 73
+
+state 52
+
+    (18) cicloBloque -> estatuto cicloBloque .
+
+    RBRACE          reduce using rule 18 (cicloBloque -> estatuto cicloBloque .)
+
+
+state 53
+
+    (43) condicion -> IF LPAREN . expresion RPAREN bloque auxCondicion SEMICOLON
+    (35) expresion -> . exp auxExpresion exp
+    (36) expresion -> .
+    (46) exp -> . cicloExp
+    (47) cicloExp -> . termino ambExp
+    (52) termino -> . cicloTermino
+    (53) cicloTermino -> . factor ambCicloTermino
+    (58) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . auxFactor varcte
+    (60) auxFactor -> . auxExp
+    (61) auxFactor -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+    RPAREN          reduce using rule 36 (expresion -> .)
+    LPAREN          shift and go to state 69
+    ID              reduce using rule 61 (auxFactor -> .)
+    CTEINT          reduce using rule 61 (auxFactor -> .)
+    CTEFLOAT        reduce using rule 61 (auxFactor -> .)
+    CTECHAR         reduce using rule 61 (auxFactor -> .)
+    CTEBOOL         reduce using rule 61 (auxFactor -> .)
+    CTESTRING       reduce using rule 61 (auxFactor -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+    expresion                      shift and go to state 78
+    auxExp                         shift and go to state 65
+    auxFactor                      shift and go to state 66
+    termino                        shift and go to state 68
+    exp                            shift and go to state 64
+    factor                         shift and go to state 70
+    cicloExp                       shift and go to state 72
+    cicloTermino                   shift and go to state 73
+
+state 54
+
+    (17) bloque -> LBRACE cicloBloque RBRACE .
+
+    ELSE            reduce using rule 17 (bloque -> LBRACE cicloBloque RBRACE .)
+    SEMICOLON       reduce using rule 17 (bloque -> LBRACE cicloBloque RBRACE .)
+    $end            reduce using rule 17 (bloque -> LBRACE cicloBloque RBRACE .)
+    FUNCTION        reduce using rule 17 (bloque -> LBRACE cicloBloque RBRACE .)
+    LBRACE          reduce using rule 17 (bloque -> LBRACE cicloBloque RBRACE .)
+
+
+state 55
+
+    (26) asignacion -> ID auxAsignacion1 . EQUALA expresion SEMICOLON
+
+    EQUALA          shift and go to state 79
+
+
+state 56
+
+    (27) auxAsignacion1 -> LBRACKET . exp RBRACKET
+    (46) exp -> . cicloExp
+    (47) cicloExp -> . termino ambExp
+    (52) termino -> . cicloTermino
+    (53) cicloTermino -> . factor ambCicloTermino
+    (58) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . auxFactor varcte
+    (60) auxFactor -> . auxExp
+    (61) auxFactor -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+    LPAREN          shift and go to state 69
+    ID              reduce using rule 61 (auxFactor -> .)
+    CTEINT          reduce using rule 61 (auxFactor -> .)
+    CTEFLOAT        reduce using rule 61 (auxFactor -> .)
+    CTECHAR         reduce using rule 61 (auxFactor -> .)
+    CTEBOOL         reduce using rule 61 (auxFactor -> .)
+    CTESTRING       reduce using rule 61 (auxFactor -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+    auxExp                         shift and go to state 65
+    termino                        shift and go to state 68
+    exp                            shift and go to state 80
+    factor                         shift and go to state 70
+    auxFactor                      shift and go to state 66
+    cicloExp                       shift and go to state 72
+    cicloTermino                   shift and go to state 73
+
+state 57
+
+    (81) llamada -> ID LPAREN . auxLlamada RPAREN
+    (82) auxLlamada -> . argumentos
+    (83) auxLlamada -> .
+    (84) argumentos -> . auxArgumentos1
+    (85) argumentos -> .
+    (86) auxArgumentos1 -> . exp ambAuxArgumentos1
+    (46) exp -> . cicloExp
+    (47) cicloExp -> . termino ambExp
+    (52) termino -> . cicloTermino
+    (53) cicloTermino -> . factor ambCicloTermino
+    (58) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . auxFactor varcte
+    (60) auxFactor -> . auxExp
+    (61) auxFactor -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+  ! reduce/reduce conflict for RPAREN resolved using rule 83 (auxLlamada -> .)
+    RPAREN          reduce using rule 83 (auxLlamada -> .)
+    LPAREN          shift and go to state 69
+    ID              reduce using rule 61 (auxFactor -> .)
+    CTEINT          reduce using rule 61 (auxFactor -> .)
+    CTEFLOAT        reduce using rule 61 (auxFactor -> .)
+    CTECHAR         reduce using rule 61 (auxFactor -> .)
+    CTEBOOL         reduce using rule 61 (auxFactor -> .)
+    CTESTRING       reduce using rule 61 (auxFactor -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+  ! RPAREN          [ reduce using rule 85 (argumentos -> .) ]
+
+    auxLlamada                     shift and go to state 82
+    auxExp                         shift and go to state 65
+    termino                        shift and go to state 68
+    exp                            shift and go to state 81
+    factor                         shift and go to state 70
+    argumentos                     shift and go to state 83
+    auxFactor                      shift and go to state 66
+    auxArgumentos1                 shift and go to state 84
+    cicloExp                       shift and go to state 72
+    cicloTermino                   shift and go to state 73
+
+state 58
+
+    (5) auxVar1 -> idVars COLON tipo SEMICOLON . auxVar1
+    (5) auxVar1 -> . idVars COLON tipo SEMICOLON auxVar1
+    (6) auxVar1 -> .
+    (7) idVars -> . ID ambIdVars
+
+    VAR             reduce using rule 6 (auxVar1 -> .)
+    FUNCTION        reduce using rule 6 (auxVar1 -> .)
+    LBRACE          reduce using rule 6 (auxVar1 -> .)
+    ID              shift and go to state 14
+
+    idVars                         shift and go to state 12
+    auxVar1                        shift and go to state 85
+
+state 59
+
+    (12) auxTipo1 -> auxTipo2 LBRACKET . CTEINT RBRACKET
+
+    CTEINT          shift and go to state 86
+
+
+state 60
+
+    (77) auxParametros -> tipo ID . ambAuxParametros
+    (78) ambAuxParametros -> . COMMA auxParametros
+    (79) ambAuxParametros -> .
+
+    COMMA           shift and go to state 88
+    RPAREN          reduce using rule 79 (ambAuxParametros -> .)
+
+    ambAuxParametros               shift and go to state 87
+
+state 61
+
+    (73) funcion -> FUNCTION ID LPAREN auxFunction RPAREN . bloque
+    (17) bloque -> . LBRACE cicloBloque RBRACE
+
+    LBRACE          shift and go to state 16
+
+    bloque                         shift and go to state 89
+
+state 62
+
+    (89) lectura -> READ LPAREN ID . RPAREN SEMICOLON
+
+    RPAREN          shift and go to state 90
+
+
+state 63
+
+    (80) ciclo -> WHILE LPAREN expresion . RPAREN bloque SEMICOLON
+
+    RPAREN          shift and go to state 91
+
+
+state 64
+
+    (35) expresion -> exp . auxExpresion exp
+    (37) auxExpresion -> . GTHAN
+    (38) auxExpresion -> . LTHAN
+    (39) auxExpresion -> . NOTEQUAL
+    (40) auxExpresion -> . GETHAN
+    (41) auxExpresion -> . LETHAN
+    (42) auxExpresion -> . EQUAL
+
+    GTHAN           shift and go to state 94
+    LTHAN           shift and go to state 97
+    NOTEQUAL        shift and go to state 92
+    GETHAN          shift and go to state 96
+    LETHAN          shift and go to state 98
+    EQUAL           shift and go to state 95
+
+    auxExpresion                   shift and go to state 93
+
+state 65
+
+    (60) auxFactor -> auxExp .
+
+    ID              reduce using rule 60 (auxFactor -> auxExp .)
+    CTEINT          reduce using rule 60 (auxFactor -> auxExp .)
+    CTEFLOAT        reduce using rule 60 (auxFactor -> auxExp .)
+    CTECHAR         reduce using rule 60 (auxFactor -> auxExp .)
+    CTEBOOL         reduce using rule 60 (auxFactor -> auxExp .)
+    CTESTRING       reduce using rule 60 (auxFactor -> auxExp .)
+
+
+state 66
+
+    (59) factor -> auxFactor . varcte
+    (62) varcte -> . ID auxVarcte
+    (63) varcte -> . CTEINT
+    (64) varcte -> . CTEFLOAT
+    (65) varcte -> . CTECHAR
+    (66) varcte -> . CTEBOOL
+    (67) varcte -> . CTESTRING
+
+    ID              shift and go to state 105
+    CTEINT          shift and go to state 102
+    CTEFLOAT        shift and go to state 103
+    CTECHAR         shift and go to state 104
+    CTEBOOL         shift and go to state 101
+    CTESTRING       shift and go to state 99
+
+    varcte                         shift and go to state 100
+
+state 67
+
+    (50) auxExp -> PLUS .
+
+    ID              reduce using rule 50 (auxExp -> PLUS .)
+    CTEINT          reduce using rule 50 (auxExp -> PLUS .)
+    CTEFLOAT        reduce using rule 50 (auxExp -> PLUS .)
+    CTECHAR         reduce using rule 50 (auxExp -> PLUS .)
+    CTEBOOL         reduce using rule 50 (auxExp -> PLUS .)
+    CTESTRING       reduce using rule 50 (auxExp -> PLUS .)
+    LPAREN          reduce using rule 50 (auxExp -> PLUS .)
+    PLUS            reduce using rule 50 (auxExp -> PLUS .)
+    MINUS           reduce using rule 50 (auxExp -> PLUS .)
+
+
+state 68
+
+    (47) cicloExp -> termino . ambExp
+    (48) ambExp -> . auxExp cicloExp
+    (49) ambExp -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+    GTHAN           reduce using rule 49 (ambExp -> .)
+    LTHAN           reduce using rule 49 (ambExp -> .)
+    NOTEQUAL        reduce using rule 49 (ambExp -> .)
+    GETHAN          reduce using rule 49 (ambExp -> .)
+    LETHAN          reduce using rule 49 (ambExp -> .)
+    EQUAL           reduce using rule 49 (ambExp -> .)
+    RBRACKET        reduce using rule 49 (ambExp -> .)
+    COMMA           reduce using rule 49 (ambExp -> .)
+    RPAREN          reduce using rule 49 (ambExp -> .)
+    SEMICOLON       reduce using rule 49 (ambExp -> .)
+    LBRACKET        reduce using rule 49 (ambExp -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+    ambExp                         shift and go to state 107
+    auxExp                         shift and go to state 106
+
+state 69
+
+    (58) factor -> LPAREN . expresion RPAREN
+    (35) expresion -> . exp auxExpresion exp
+    (36) expresion -> .
+    (46) exp -> . cicloExp
+    (47) cicloExp -> . termino ambExp
+    (52) termino -> . cicloTermino
+    (53) cicloTermino -> . factor ambCicloTermino
+    (58) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . auxFactor varcte
+    (60) auxFactor -> . auxExp
+    (61) auxFactor -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+    RPAREN          reduce using rule 36 (expresion -> .)
+    LPAREN          shift and go to state 69
+    ID              reduce using rule 61 (auxFactor -> .)
+    CTEINT          reduce using rule 61 (auxFactor -> .)
+    CTEFLOAT        reduce using rule 61 (auxFactor -> .)
+    CTECHAR         reduce using rule 61 (auxFactor -> .)
+    CTEBOOL         reduce using rule 61 (auxFactor -> .)
+    CTESTRING       reduce using rule 61 (auxFactor -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+    expresion                      shift and go to state 108
+    auxExp                         shift and go to state 65
+    termino                        shift and go to state 68
+    exp                            shift and go to state 64
+    factor                         shift and go to state 70
+    auxFactor                      shift and go to state 66
+    cicloExp                       shift and go to state 72
+    cicloTermino                   shift and go to state 73
+
+state 70
+
+    (53) cicloTermino -> factor . ambCicloTermino
+    (54) ambCicloTermino -> . auxTermino cicloTermino
+    (55) ambCicloTermino -> .
+    (56) auxTermino -> . MULTI
+    (57) auxTermino -> . DIVIDE
+
+    PLUS            reduce using rule 55 (ambCicloTermino -> .)
+    MINUS           reduce using rule 55 (ambCicloTermino -> .)
+    GTHAN           reduce using rule 55 (ambCicloTermino -> .)
+    LTHAN           reduce using rule 55 (ambCicloTermino -> .)
+    NOTEQUAL        reduce using rule 55 (ambCicloTermino -> .)
+    GETHAN          reduce using rule 55 (ambCicloTermino -> .)
+    LETHAN          reduce using rule 55 (ambCicloTermino -> .)
+    EQUAL           reduce using rule 55 (ambCicloTermino -> .)
+    RBRACKET        reduce using rule 55 (ambCicloTermino -> .)
+    COMMA           reduce using rule 55 (ambCicloTermino -> .)
+    RPAREN          reduce using rule 55 (ambCicloTermino -> .)
+    SEMICOLON       reduce using rule 55 (ambCicloTermino -> .)
+    LBRACKET        reduce using rule 55 (ambCicloTermino -> .)
+    MULTI           shift and go to state 109
+    DIVIDE          shift and go to state 110
+
+    ambCicloTermino                shift and go to state 112
+    auxTermino                     shift and go to state 111
+
+state 71
+
+    (51) auxExp -> MINUS .
+
+    ID              reduce using rule 51 (auxExp -> MINUS .)
+    CTEINT          reduce using rule 51 (auxExp -> MINUS .)
+    CTEFLOAT        reduce using rule 51 (auxExp -> MINUS .)
+    CTECHAR         reduce using rule 51 (auxExp -> MINUS .)
+    CTEBOOL         reduce using rule 51 (auxExp -> MINUS .)
+    CTESTRING       reduce using rule 51 (auxExp -> MINUS .)
+    LPAREN          reduce using rule 51 (auxExp -> MINUS .)
+    PLUS            reduce using rule 51 (auxExp -> MINUS .)
+    MINUS           reduce using rule 51 (auxExp -> MINUS .)
+
+
+state 72
+
+    (46) exp -> cicloExp .
+
+    GTHAN           reduce using rule 46 (exp -> cicloExp .)
+    LTHAN           reduce using rule 46 (exp -> cicloExp .)
+    NOTEQUAL        reduce using rule 46 (exp -> cicloExp .)
+    GETHAN          reduce using rule 46 (exp -> cicloExp .)
+    LETHAN          reduce using rule 46 (exp -> cicloExp .)
+    EQUAL           reduce using rule 46 (exp -> cicloExp .)
+    LBRACKET        reduce using rule 46 (exp -> cicloExp .)
+    RPAREN          reduce using rule 46 (exp -> cicloExp .)
+    COMMA           reduce using rule 46 (exp -> cicloExp .)
+    RBRACKET        reduce using rule 46 (exp -> cicloExp .)
+    SEMICOLON       reduce using rule 46 (exp -> cicloExp .)
+
+
+state 73
+
+    (52) termino -> cicloTermino .
+
+    PLUS            reduce using rule 52 (termino -> cicloTermino .)
+    MINUS           reduce using rule 52 (termino -> cicloTermino .)
+    RPAREN          reduce using rule 52 (termino -> cicloTermino .)
+    COMMA           reduce using rule 52 (termino -> cicloTermino .)
+    RBRACKET        reduce using rule 52 (termino -> cicloTermino .)
+    GTHAN           reduce using rule 52 (termino -> cicloTermino .)
+    LTHAN           reduce using rule 52 (termino -> cicloTermino .)
+    NOTEQUAL        reduce using rule 52 (termino -> cicloTermino .)
+    GETHAN          reduce using rule 52 (termino -> cicloTermino .)
+    LETHAN          reduce using rule 52 (termino -> cicloTermino .)
+    EQUAL           reduce using rule 52 (termino -> cicloTermino .)
+    SEMICOLON       reduce using rule 52 (termino -> cicloTermino .)
+    LBRACKET        reduce using rule 52 (termino -> cicloTermino .)
+
+
+state 74
+
+    (34) auxEscritura2 -> CTESTRING .
+
+    COMMA           reduce using rule 34 (auxEscritura2 -> CTESTRING .)
+    RPAREN          reduce using rule 34 (auxEscritura2 -> CTESTRING .)
+
+
+state 75
+
+    (29) escritura -> PRINT LPAREN auxEscritura1 . RPAREN SEMICOLON
+
+    RPAREN          shift and go to state 113
+
+
+state 76
+
+    (30) auxEscritura1 -> auxEscritura2 . ambAuxEscritura1
+    (31) ambAuxEscritura1 -> . COMMA auxEscritura1
+    (32) ambAuxEscritura1 -> .
+
+    COMMA           shift and go to state 114
+    RPAREN          reduce using rule 32 (ambAuxEscritura1 -> .)
+
+    ambAuxEscritura1               shift and go to state 115
+
+state 77
+
+    (33) auxEscritura2 -> expresion .
+
+    COMMA           reduce using rule 33 (auxEscritura2 -> expresion .)
+    RPAREN          reduce using rule 33 (auxEscritura2 -> expresion .)
+
+
+state 78
+
+    (43) condicion -> IF LPAREN expresion . RPAREN bloque auxCondicion SEMICOLON
+
+    RPAREN          shift and go to state 116
+
+
+state 79
+
+    (26) asignacion -> ID auxAsignacion1 EQUALA . expresion SEMICOLON
+    (35) expresion -> . exp auxExpresion exp
+    (36) expresion -> .
+    (46) exp -> . cicloExp
+    (47) cicloExp -> . termino ambExp
+    (52) termino -> . cicloTermino
+    (53) cicloTermino -> . factor ambCicloTermino
+    (58) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . auxFactor varcte
+    (60) auxFactor -> . auxExp
+    (61) auxFactor -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+    SEMICOLON       reduce using rule 36 (expresion -> .)
+    LPAREN          shift and go to state 69
+    ID              reduce using rule 61 (auxFactor -> .)
+    CTEINT          reduce using rule 61 (auxFactor -> .)
+    CTEFLOAT        reduce using rule 61 (auxFactor -> .)
+    CTECHAR         reduce using rule 61 (auxFactor -> .)
+    CTEBOOL         reduce using rule 61 (auxFactor -> .)
+    CTESTRING       reduce using rule 61 (auxFactor -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+    expresion                      shift and go to state 117
+    auxExp                         shift and go to state 65
+    termino                        shift and go to state 68
+    exp                            shift and go to state 64
+    factor                         shift and go to state 70
+    auxFactor                      shift and go to state 66
+    cicloExp                       shift and go to state 72
+    cicloTermino                   shift and go to state 73
+
+state 80
+
+    (27) auxAsignacion1 -> LBRACKET exp . RBRACKET
+
+    RBRACKET        shift and go to state 118
+
+
+state 81
+
+    (86) auxArgumentos1 -> exp . ambAuxArgumentos1
+    (87) ambAuxArgumentos1 -> . COMMA auxArgumentos1
+    (88) ambAuxArgumentos1 -> .
+
+    COMMA           shift and go to state 120
+    RPAREN          reduce using rule 88 (ambAuxArgumentos1 -> .)
+
+    ambAuxArgumentos1              shift and go to state 119
+
+state 82
+
+    (81) llamada -> ID LPAREN auxLlamada . RPAREN
+
+    RPAREN          shift and go to state 121
+
+
+state 83
+
+    (82) auxLlamada -> argumentos .
+
+    RPAREN          reduce using rule 82 (auxLlamada -> argumentos .)
+
+
+state 84
+
+    (84) argumentos -> auxArgumentos1 .
+
+    RPAREN          reduce using rule 84 (argumentos -> auxArgumentos1 .)
+
+
+state 85
+
+    (5) auxVar1 -> idVars COLON tipo SEMICOLON auxVar1 .
+
+    VAR             reduce using rule 5 (auxVar1 -> idVars COLON tipo SEMICOLON auxVar1 .)
+    FUNCTION        reduce using rule 5 (auxVar1 -> idVars COLON tipo SEMICOLON auxVar1 .)
+    LBRACE          reduce using rule 5 (auxVar1 -> idVars COLON tipo SEMICOLON auxVar1 .)
+
+
+state 86
+
+    (12) auxTipo1 -> auxTipo2 LBRACKET CTEINT . RBRACKET
+
+    RBRACKET        shift and go to state 122
+
+
+state 87
+
+    (77) auxParametros -> tipo ID ambAuxParametros .
+
+    RPAREN          reduce using rule 77 (auxParametros -> tipo ID ambAuxParametros .)
+
+
+state 88
+
+    (78) ambAuxParametros -> COMMA . auxParametros
+    (77) auxParametros -> . tipo ID ambAuxParametros
+    (10) tipo -> . auxTipo1
+    (11) tipo -> . CHAR
+    (12) auxTipo1 -> . auxTipo2 LBRACKET CTEINT RBRACKET
+    (13) auxTipo2 -> . INT
+    (14) auxTipo2 -> . BOOL
+    (15) auxTipo2 -> . STRING
+    (16) auxTipo2 -> . FLOAT
+
+    CHAR            shift and go to state 39
+    INT             shift and go to state 37
+    BOOL            shift and go to state 40
+    STRING          shift and go to state 43
+    FLOAT           shift and go to state 38
+
+    auxTipo1                       shift and go to state 41
+    auxTipo2                       shift and go to state 42
+    tipo                           shift and go to state 45
+    auxParametros                  shift and go to state 123
+
+state 89
+
+    (73) funcion -> FUNCTION ID LPAREN auxFunction RPAREN bloque .
+
+    FUNCTION        reduce using rule 73 (funcion -> FUNCTION ID LPAREN auxFunction RPAREN bloque .)
+    LBRACE          reduce using rule 73 (funcion -> FUNCTION ID LPAREN auxFunction RPAREN bloque .)
+
+
+state 90
+
+    (89) lectura -> READ LPAREN ID RPAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 124
+
+
+state 91
+
+    (80) ciclo -> WHILE LPAREN expresion RPAREN . bloque SEMICOLON
+    (17) bloque -> . LBRACE cicloBloque RBRACE
+
+    LBRACE          shift and go to state 16
+
+    bloque                         shift and go to state 125
+
+state 92
+
+    (39) auxExpresion -> NOTEQUAL .
+
+    LPAREN          reduce using rule 39 (auxExpresion -> NOTEQUAL .)
+    PLUS            reduce using rule 39 (auxExpresion -> NOTEQUAL .)
+    MINUS           reduce using rule 39 (auxExpresion -> NOTEQUAL .)
+    ID              reduce using rule 39 (auxExpresion -> NOTEQUAL .)
+    CTEINT          reduce using rule 39 (auxExpresion -> NOTEQUAL .)
+    CTEFLOAT        reduce using rule 39 (auxExpresion -> NOTEQUAL .)
+    CTECHAR         reduce using rule 39 (auxExpresion -> NOTEQUAL .)
+    CTEBOOL         reduce using rule 39 (auxExpresion -> NOTEQUAL .)
+    CTESTRING       reduce using rule 39 (auxExpresion -> NOTEQUAL .)
+
+
+state 93
+
+    (35) expresion -> exp auxExpresion . exp
+    (46) exp -> . cicloExp
+    (47) cicloExp -> . termino ambExp
+    (52) termino -> . cicloTermino
+    (53) cicloTermino -> . factor ambCicloTermino
+    (58) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . auxFactor varcte
+    (60) auxFactor -> . auxExp
+    (61) auxFactor -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+    LPAREN          shift and go to state 69
+    ID              reduce using rule 61 (auxFactor -> .)
+    CTEINT          reduce using rule 61 (auxFactor -> .)
+    CTEFLOAT        reduce using rule 61 (auxFactor -> .)
+    CTECHAR         reduce using rule 61 (auxFactor -> .)
+    CTEBOOL         reduce using rule 61 (auxFactor -> .)
+    CTESTRING       reduce using rule 61 (auxFactor -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+    auxExp                         shift and go to state 65
+    termino                        shift and go to state 68
+    exp                            shift and go to state 126
+    factor                         shift and go to state 70
+    auxFactor                      shift and go to state 66
+    cicloExp                       shift and go to state 72
+    cicloTermino                   shift and go to state 73
+
+state 94
+
+    (37) auxExpresion -> GTHAN .
+
+    LPAREN          reduce using rule 37 (auxExpresion -> GTHAN .)
+    PLUS            reduce using rule 37 (auxExpresion -> GTHAN .)
+    MINUS           reduce using rule 37 (auxExpresion -> GTHAN .)
+    ID              reduce using rule 37 (auxExpresion -> GTHAN .)
+    CTEINT          reduce using rule 37 (auxExpresion -> GTHAN .)
+    CTEFLOAT        reduce using rule 37 (auxExpresion -> GTHAN .)
+    CTECHAR         reduce using rule 37 (auxExpresion -> GTHAN .)
+    CTEBOOL         reduce using rule 37 (auxExpresion -> GTHAN .)
+    CTESTRING       reduce using rule 37 (auxExpresion -> GTHAN .)
+
+
+state 95
+
+    (42) auxExpresion -> EQUAL .
+
+    LPAREN          reduce using rule 42 (auxExpresion -> EQUAL .)
+    PLUS            reduce using rule 42 (auxExpresion -> EQUAL .)
+    MINUS           reduce using rule 42 (auxExpresion -> EQUAL .)
+    ID              reduce using rule 42 (auxExpresion -> EQUAL .)
+    CTEINT          reduce using rule 42 (auxExpresion -> EQUAL .)
+    CTEFLOAT        reduce using rule 42 (auxExpresion -> EQUAL .)
+    CTECHAR         reduce using rule 42 (auxExpresion -> EQUAL .)
+    CTEBOOL         reduce using rule 42 (auxExpresion -> EQUAL .)
+    CTESTRING       reduce using rule 42 (auxExpresion -> EQUAL .)
+
+
+state 96
+
+    (40) auxExpresion -> GETHAN .
+
+    LPAREN          reduce using rule 40 (auxExpresion -> GETHAN .)
+    PLUS            reduce using rule 40 (auxExpresion -> GETHAN .)
+    MINUS           reduce using rule 40 (auxExpresion -> GETHAN .)
+    ID              reduce using rule 40 (auxExpresion -> GETHAN .)
+    CTEINT          reduce using rule 40 (auxExpresion -> GETHAN .)
+    CTEFLOAT        reduce using rule 40 (auxExpresion -> GETHAN .)
+    CTECHAR         reduce using rule 40 (auxExpresion -> GETHAN .)
+    CTEBOOL         reduce using rule 40 (auxExpresion -> GETHAN .)
+    CTESTRING       reduce using rule 40 (auxExpresion -> GETHAN .)
+
+
+state 97
+
+    (38) auxExpresion -> LTHAN .
+
+    LPAREN          reduce using rule 38 (auxExpresion -> LTHAN .)
+    PLUS            reduce using rule 38 (auxExpresion -> LTHAN .)
+    MINUS           reduce using rule 38 (auxExpresion -> LTHAN .)
+    ID              reduce using rule 38 (auxExpresion -> LTHAN .)
+    CTEINT          reduce using rule 38 (auxExpresion -> LTHAN .)
+    CTEFLOAT        reduce using rule 38 (auxExpresion -> LTHAN .)
+    CTECHAR         reduce using rule 38 (auxExpresion -> LTHAN .)
+    CTEBOOL         reduce using rule 38 (auxExpresion -> LTHAN .)
+    CTESTRING       reduce using rule 38 (auxExpresion -> LTHAN .)
+
+
+state 98
+
+    (41) auxExpresion -> LETHAN .
+
+    LPAREN          reduce using rule 41 (auxExpresion -> LETHAN .)
+    PLUS            reduce using rule 41 (auxExpresion -> LETHAN .)
+    MINUS           reduce using rule 41 (auxExpresion -> LETHAN .)
+    ID              reduce using rule 41 (auxExpresion -> LETHAN .)
+    CTEINT          reduce using rule 41 (auxExpresion -> LETHAN .)
+    CTEFLOAT        reduce using rule 41 (auxExpresion -> LETHAN .)
+    CTECHAR         reduce using rule 41 (auxExpresion -> LETHAN .)
+    CTEBOOL         reduce using rule 41 (auxExpresion -> LETHAN .)
+    CTESTRING       reduce using rule 41 (auxExpresion -> LETHAN .)
+
+
+state 99
+
+    (67) varcte -> CTESTRING .
+
+    MULTI           reduce using rule 67 (varcte -> CTESTRING .)
+    DIVIDE          reduce using rule 67 (varcte -> CTESTRING .)
+    PLUS            reduce using rule 67 (varcte -> CTESTRING .)
+    MINUS           reduce using rule 67 (varcte -> CTESTRING .)
+    GTHAN           reduce using rule 67 (varcte -> CTESTRING .)
+    LTHAN           reduce using rule 67 (varcte -> CTESTRING .)
+    NOTEQUAL        reduce using rule 67 (varcte -> CTESTRING .)
+    GETHAN          reduce using rule 67 (varcte -> CTESTRING .)
+    LETHAN          reduce using rule 67 (varcte -> CTESTRING .)
+    EQUAL           reduce using rule 67 (varcte -> CTESTRING .)
+    RBRACKET        reduce using rule 67 (varcte -> CTESTRING .)
+    COMMA           reduce using rule 67 (varcte -> CTESTRING .)
+    RPAREN          reduce using rule 67 (varcte -> CTESTRING .)
+    SEMICOLON       reduce using rule 67 (varcte -> CTESTRING .)
+    LBRACKET        reduce using rule 67 (varcte -> CTESTRING .)
+
+
+state 100
+
+    (59) factor -> auxFactor varcte .
+
+    MULTI           reduce using rule 59 (factor -> auxFactor varcte .)
+    DIVIDE          reduce using rule 59 (factor -> auxFactor varcte .)
+    PLUS            reduce using rule 59 (factor -> auxFactor varcte .)
+    MINUS           reduce using rule 59 (factor -> auxFactor varcte .)
+    GTHAN           reduce using rule 59 (factor -> auxFactor varcte .)
+    LTHAN           reduce using rule 59 (factor -> auxFactor varcte .)
+    NOTEQUAL        reduce using rule 59 (factor -> auxFactor varcte .)
+    GETHAN          reduce using rule 59 (factor -> auxFactor varcte .)
+    LETHAN          reduce using rule 59 (factor -> auxFactor varcte .)
+    EQUAL           reduce using rule 59 (factor -> auxFactor varcte .)
+    RBRACKET        reduce using rule 59 (factor -> auxFactor varcte .)
+    COMMA           reduce using rule 59 (factor -> auxFactor varcte .)
+    RPAREN          reduce using rule 59 (factor -> auxFactor varcte .)
+    SEMICOLON       reduce using rule 59 (factor -> auxFactor varcte .)
+    LBRACKET        reduce using rule 59 (factor -> auxFactor varcte .)
+
+
+state 101
+
+    (66) varcte -> CTEBOOL .
+
+    MULTI           reduce using rule 66 (varcte -> CTEBOOL .)
+    DIVIDE          reduce using rule 66 (varcte -> CTEBOOL .)
+    PLUS            reduce using rule 66 (varcte -> CTEBOOL .)
+    MINUS           reduce using rule 66 (varcte -> CTEBOOL .)
+    GTHAN           reduce using rule 66 (varcte -> CTEBOOL .)
+    LTHAN           reduce using rule 66 (varcte -> CTEBOOL .)
+    NOTEQUAL        reduce using rule 66 (varcte -> CTEBOOL .)
+    GETHAN          reduce using rule 66 (varcte -> CTEBOOL .)
+    LETHAN          reduce using rule 66 (varcte -> CTEBOOL .)
+    EQUAL           reduce using rule 66 (varcte -> CTEBOOL .)
+    RBRACKET        reduce using rule 66 (varcte -> CTEBOOL .)
+    COMMA           reduce using rule 66 (varcte -> CTEBOOL .)
+    RPAREN          reduce using rule 66 (varcte -> CTEBOOL .)
+    SEMICOLON       reduce using rule 66 (varcte -> CTEBOOL .)
+    LBRACKET        reduce using rule 66 (varcte -> CTEBOOL .)
+
+
+state 102
+
+    (63) varcte -> CTEINT .
+
+    MULTI           reduce using rule 63 (varcte -> CTEINT .)
+    DIVIDE          reduce using rule 63 (varcte -> CTEINT .)
+    PLUS            reduce using rule 63 (varcte -> CTEINT .)
+    MINUS           reduce using rule 63 (varcte -> CTEINT .)
+    GTHAN           reduce using rule 63 (varcte -> CTEINT .)
+    LTHAN           reduce using rule 63 (varcte -> CTEINT .)
+    NOTEQUAL        reduce using rule 63 (varcte -> CTEINT .)
+    GETHAN          reduce using rule 63 (varcte -> CTEINT .)
+    LETHAN          reduce using rule 63 (varcte -> CTEINT .)
+    EQUAL           reduce using rule 63 (varcte -> CTEINT .)
+    RBRACKET        reduce using rule 63 (varcte -> CTEINT .)
+    COMMA           reduce using rule 63 (varcte -> CTEINT .)
+    RPAREN          reduce using rule 63 (varcte -> CTEINT .)
+    SEMICOLON       reduce using rule 63 (varcte -> CTEINT .)
+    LBRACKET        reduce using rule 63 (varcte -> CTEINT .)
+
+
+state 103
+
+    (64) varcte -> CTEFLOAT .
+
+    MULTI           reduce using rule 64 (varcte -> CTEFLOAT .)
+    DIVIDE          reduce using rule 64 (varcte -> CTEFLOAT .)
+    PLUS            reduce using rule 64 (varcte -> CTEFLOAT .)
+    MINUS           reduce using rule 64 (varcte -> CTEFLOAT .)
+    GTHAN           reduce using rule 64 (varcte -> CTEFLOAT .)
+    LTHAN           reduce using rule 64 (varcte -> CTEFLOAT .)
+    NOTEQUAL        reduce using rule 64 (varcte -> CTEFLOAT .)
+    GETHAN          reduce using rule 64 (varcte -> CTEFLOAT .)
+    LETHAN          reduce using rule 64 (varcte -> CTEFLOAT .)
+    EQUAL           reduce using rule 64 (varcte -> CTEFLOAT .)
+    RBRACKET        reduce using rule 64 (varcte -> CTEFLOAT .)
+    COMMA           reduce using rule 64 (varcte -> CTEFLOAT .)
+    RPAREN          reduce using rule 64 (varcte -> CTEFLOAT .)
+    SEMICOLON       reduce using rule 64 (varcte -> CTEFLOAT .)
+    LBRACKET        reduce using rule 64 (varcte -> CTEFLOAT .)
+
+
+state 104
+
+    (65) varcte -> CTECHAR .
+
+    MULTI           reduce using rule 65 (varcte -> CTECHAR .)
+    DIVIDE          reduce using rule 65 (varcte -> CTECHAR .)
+    PLUS            reduce using rule 65 (varcte -> CTECHAR .)
+    MINUS           reduce using rule 65 (varcte -> CTECHAR .)
+    GTHAN           reduce using rule 65 (varcte -> CTECHAR .)
+    LTHAN           reduce using rule 65 (varcte -> CTECHAR .)
+    NOTEQUAL        reduce using rule 65 (varcte -> CTECHAR .)
+    GETHAN          reduce using rule 65 (varcte -> CTECHAR .)
+    LETHAN          reduce using rule 65 (varcte -> CTECHAR .)
+    EQUAL           reduce using rule 65 (varcte -> CTECHAR .)
+    RBRACKET        reduce using rule 65 (varcte -> CTECHAR .)
+    COMMA           reduce using rule 65 (varcte -> CTECHAR .)
+    RPAREN          reduce using rule 65 (varcte -> CTECHAR .)
+    SEMICOLON       reduce using rule 65 (varcte -> CTECHAR .)
+    LBRACKET        reduce using rule 65 (varcte -> CTECHAR .)
+
+
+state 105
+
+    (62) varcte -> ID . auxVarcte
+    (68) auxVarcte -> . LPAREN exp RPAREN
+    (69) auxVarcte -> . LBRACKET exp LBRACKET
+    (70) auxVarcte -> .
+
+  ! shift/reduce conflict for LBRACKET resolved as shift
+    LPAREN          shift and go to state 127
+    LBRACKET        shift and go to state 128
+    MULTI           reduce using rule 70 (auxVarcte -> .)
+    DIVIDE          reduce using rule 70 (auxVarcte -> .)
+    PLUS            reduce using rule 70 (auxVarcte -> .)
+    MINUS           reduce using rule 70 (auxVarcte -> .)
+    GTHAN           reduce using rule 70 (auxVarcte -> .)
+    LTHAN           reduce using rule 70 (auxVarcte -> .)
+    NOTEQUAL        reduce using rule 70 (auxVarcte -> .)
+    GETHAN          reduce using rule 70 (auxVarcte -> .)
+    LETHAN          reduce using rule 70 (auxVarcte -> .)
+    EQUAL           reduce using rule 70 (auxVarcte -> .)
+    RBRACKET        reduce using rule 70 (auxVarcte -> .)
+    COMMA           reduce using rule 70 (auxVarcte -> .)
+    RPAREN          reduce using rule 70 (auxVarcte -> .)
+    SEMICOLON       reduce using rule 70 (auxVarcte -> .)
+
+  ! LBRACKET        [ reduce using rule 70 (auxVarcte -> .) ]
+
+    auxVarcte                      shift and go to state 129
+
+state 106
+
+    (48) ambExp -> auxExp . cicloExp
+    (47) cicloExp -> . termino ambExp
+    (52) termino -> . cicloTermino
+    (53) cicloTermino -> . factor ambCicloTermino
+    (58) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . auxFactor varcte
+    (60) auxFactor -> . auxExp
+    (61) auxFactor -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+    LPAREN          shift and go to state 69
+    ID              reduce using rule 61 (auxFactor -> .)
+    CTEINT          reduce using rule 61 (auxFactor -> .)
+    CTEFLOAT        reduce using rule 61 (auxFactor -> .)
+    CTECHAR         reduce using rule 61 (auxFactor -> .)
+    CTEBOOL         reduce using rule 61 (auxFactor -> .)
+    CTESTRING       reduce using rule 61 (auxFactor -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+    cicloExp                       shift and go to state 130
+    termino                        shift and go to state 68
+    factor                         shift and go to state 70
+    auxFactor                      shift and go to state 66
+    auxExp                         shift and go to state 65
+    cicloTermino                   shift and go to state 73
+
+state 107
+
+    (47) cicloExp -> termino ambExp .
+
+    GTHAN           reduce using rule 47 (cicloExp -> termino ambExp .)
+    LTHAN           reduce using rule 47 (cicloExp -> termino ambExp .)
+    NOTEQUAL        reduce using rule 47 (cicloExp -> termino ambExp .)
+    GETHAN          reduce using rule 47 (cicloExp -> termino ambExp .)
+    LETHAN          reduce using rule 47 (cicloExp -> termino ambExp .)
+    EQUAL           reduce using rule 47 (cicloExp -> termino ambExp .)
+    LBRACKET        reduce using rule 47 (cicloExp -> termino ambExp .)
+    COMMA           reduce using rule 47 (cicloExp -> termino ambExp .)
+    RPAREN          reduce using rule 47 (cicloExp -> termino ambExp .)
+    SEMICOLON       reduce using rule 47 (cicloExp -> termino ambExp .)
+    RBRACKET        reduce using rule 47 (cicloExp -> termino ambExp .)
+
+
+state 108
+
+    (58) factor -> LPAREN expresion . RPAREN
+
+    RPAREN          shift and go to state 131
+
+
+state 109
+
+    (56) auxTermino -> MULTI .
+
+    LPAREN          reduce using rule 56 (auxTermino -> MULTI .)
+    PLUS            reduce using rule 56 (auxTermino -> MULTI .)
+    MINUS           reduce using rule 56 (auxTermino -> MULTI .)
+    ID              reduce using rule 56 (auxTermino -> MULTI .)
+    CTEINT          reduce using rule 56 (auxTermino -> MULTI .)
+    CTEFLOAT        reduce using rule 56 (auxTermino -> MULTI .)
+    CTECHAR         reduce using rule 56 (auxTermino -> MULTI .)
+    CTEBOOL         reduce using rule 56 (auxTermino -> MULTI .)
+    CTESTRING       reduce using rule 56 (auxTermino -> MULTI .)
+
+
+state 110
+
+    (57) auxTermino -> DIVIDE .
+
+    LPAREN          reduce using rule 57 (auxTermino -> DIVIDE .)
+    PLUS            reduce using rule 57 (auxTermino -> DIVIDE .)
+    MINUS           reduce using rule 57 (auxTermino -> DIVIDE .)
+    ID              reduce using rule 57 (auxTermino -> DIVIDE .)
+    CTEINT          reduce using rule 57 (auxTermino -> DIVIDE .)
+    CTEFLOAT        reduce using rule 57 (auxTermino -> DIVIDE .)
+    CTECHAR         reduce using rule 57 (auxTermino -> DIVIDE .)
+    CTEBOOL         reduce using rule 57 (auxTermino -> DIVIDE .)
+    CTESTRING       reduce using rule 57 (auxTermino -> DIVIDE .)
+
+
+state 111
+
+    (54) ambCicloTermino -> auxTermino . cicloTermino
+    (53) cicloTermino -> . factor ambCicloTermino
+    (58) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . auxFactor varcte
+    (60) auxFactor -> . auxExp
+    (61) auxFactor -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+    LPAREN          shift and go to state 69
+    ID              reduce using rule 61 (auxFactor -> .)
+    CTEINT          reduce using rule 61 (auxFactor -> .)
+    CTEFLOAT        reduce using rule 61 (auxFactor -> .)
+    CTECHAR         reduce using rule 61 (auxFactor -> .)
+    CTEBOOL         reduce using rule 61 (auxFactor -> .)
+    CTESTRING       reduce using rule 61 (auxFactor -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+    factor                         shift and go to state 70
+    auxFactor                      shift and go to state 66
+    auxExp                         shift and go to state 65
+    cicloTermino                   shift and go to state 132
+
+state 112
+
+    (53) cicloTermino -> factor ambCicloTermino .
+
+    PLUS            reduce using rule 53 (cicloTermino -> factor ambCicloTermino .)
+    MINUS           reduce using rule 53 (cicloTermino -> factor ambCicloTermino .)
+    GTHAN           reduce using rule 53 (cicloTermino -> factor ambCicloTermino .)
+    LTHAN           reduce using rule 53 (cicloTermino -> factor ambCicloTermino .)
+    NOTEQUAL        reduce using rule 53 (cicloTermino -> factor ambCicloTermino .)
+    GETHAN          reduce using rule 53 (cicloTermino -> factor ambCicloTermino .)
+    LETHAN          reduce using rule 53 (cicloTermino -> factor ambCicloTermino .)
+    EQUAL           reduce using rule 53 (cicloTermino -> factor ambCicloTermino .)
+    RPAREN          reduce using rule 53 (cicloTermino -> factor ambCicloTermino .)
+    LBRACKET        reduce using rule 53 (cicloTermino -> factor ambCicloTermino .)
+    RBRACKET        reduce using rule 53 (cicloTermino -> factor ambCicloTermino .)
+    COMMA           reduce using rule 53 (cicloTermino -> factor ambCicloTermino .)
+    SEMICOLON       reduce using rule 53 (cicloTermino -> factor ambCicloTermino .)
+
+
+state 113
+
+    (29) escritura -> PRINT LPAREN auxEscritura1 RPAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 133
+
+
+state 114
+
+    (31) ambAuxEscritura1 -> COMMA . auxEscritura1
+    (30) auxEscritura1 -> . auxEscritura2 ambAuxEscritura1
+    (33) auxEscritura2 -> . expresion
+    (34) auxEscritura2 -> . CTESTRING
+    (35) expresion -> . exp auxExpresion exp
+    (36) expresion -> .
+    (46) exp -> . cicloExp
+    (47) cicloExp -> . termino ambExp
+    (52) termino -> . cicloTermino
+    (53) cicloTermino -> . factor ambCicloTermino
+    (58) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . auxFactor varcte
+    (60) auxFactor -> . auxExp
+    (61) auxFactor -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+  ! shift/reduce conflict for CTESTRING resolved as shift
+    CTESTRING       shift and go to state 74
+    COMMA           reduce using rule 36 (expresion -> .)
+    RPAREN          reduce using rule 36 (expresion -> .)
+    LPAREN          shift and go to state 69
+    ID              reduce using rule 61 (auxFactor -> .)
+    CTEINT          reduce using rule 61 (auxFactor -> .)
+    CTEFLOAT        reduce using rule 61 (auxFactor -> .)
+    CTECHAR         reduce using rule 61 (auxFactor -> .)
+    CTEBOOL         reduce using rule 61 (auxFactor -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+  ! CTESTRING       [ reduce using rule 61 (auxFactor -> .) ]
+
+    expresion                      shift and go to state 77
+    auxEscritura1                  shift and go to state 134
+    auxEscritura2                  shift and go to state 76
+    auxExp                         shift and go to state 65
+    termino                        shift and go to state 68
+    exp                            shift and go to state 64
+    factor                         shift and go to state 70
+    auxFactor                      shift and go to state 66
+    cicloExp                       shift and go to state 72
+    cicloTermino                   shift and go to state 73
+
+state 115
+
+    (30) auxEscritura1 -> auxEscritura2 ambAuxEscritura1 .
+
+    RPAREN          reduce using rule 30 (auxEscritura1 -> auxEscritura2 ambAuxEscritura1 .)
+
+
+state 116
+
+    (43) condicion -> IF LPAREN expresion RPAREN . bloque auxCondicion SEMICOLON
+    (17) bloque -> . LBRACE cicloBloque RBRACE
+
+    LBRACE          shift and go to state 16
+
+    bloque                         shift and go to state 135
+
+state 117
+
+    (26) asignacion -> ID auxAsignacion1 EQUALA expresion . SEMICOLON
+
+    SEMICOLON       shift and go to state 136
+
+
+state 118
+
+    (27) auxAsignacion1 -> LBRACKET exp RBRACKET .
+
+    EQUALA          reduce using rule 27 (auxAsignacion1 -> LBRACKET exp RBRACKET .)
+
+
+state 119
+
+    (86) auxArgumentos1 -> exp ambAuxArgumentos1 .
+
+    RPAREN          reduce using rule 86 (auxArgumentos1 -> exp ambAuxArgumentos1 .)
+
+
+state 120
+
+    (87) ambAuxArgumentos1 -> COMMA . auxArgumentos1
+    (86) auxArgumentos1 -> . exp ambAuxArgumentos1
+    (46) exp -> . cicloExp
+    (47) cicloExp -> . termino ambExp
+    (52) termino -> . cicloTermino
+    (53) cicloTermino -> . factor ambCicloTermino
+    (58) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . auxFactor varcte
+    (60) auxFactor -> . auxExp
+    (61) auxFactor -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+    LPAREN          shift and go to state 69
+    ID              reduce using rule 61 (auxFactor -> .)
+    CTEINT          reduce using rule 61 (auxFactor -> .)
+    CTEFLOAT        reduce using rule 61 (auxFactor -> .)
+    CTECHAR         reduce using rule 61 (auxFactor -> .)
+    CTEBOOL         reduce using rule 61 (auxFactor -> .)
+    CTESTRING       reduce using rule 61 (auxFactor -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+    auxExp                         shift and go to state 65
+    termino                        shift and go to state 68
+    exp                            shift and go to state 81
+    factor                         shift and go to state 70
+    auxFactor                      shift and go to state 66
+    auxArgumentos1                 shift and go to state 137
+    cicloExp                       shift and go to state 72
+    cicloTermino                   shift and go to state 73
+
+state 121
+
+    (81) llamada -> ID LPAREN auxLlamada RPAREN .
+
+    ID              reduce using rule 81 (llamada -> ID LPAREN auxLlamada RPAREN .)
+    IF              reduce using rule 81 (llamada -> ID LPAREN auxLlamada RPAREN .)
+    PRINT           reduce using rule 81 (llamada -> ID LPAREN auxLlamada RPAREN .)
+    READ            reduce using rule 81 (llamada -> ID LPAREN auxLlamada RPAREN .)
+    WHILE           reduce using rule 81 (llamada -> ID LPAREN auxLlamada RPAREN .)
+    RBRACE          reduce using rule 81 (llamada -> ID LPAREN auxLlamada RPAREN .)
+
+
+state 122
+
+    (12) auxTipo1 -> auxTipo2 LBRACKET CTEINT RBRACKET .
+
+    ID              reduce using rule 12 (auxTipo1 -> auxTipo2 LBRACKET CTEINT RBRACKET .)
+    SEMICOLON       reduce using rule 12 (auxTipo1 -> auxTipo2 LBRACKET CTEINT RBRACKET .)
+
+
+state 123
+
+    (78) ambAuxParametros -> COMMA auxParametros .
+
+    RPAREN          reduce using rule 78 (ambAuxParametros -> COMMA auxParametros .)
+
+
+state 124
+
+    (89) lectura -> READ LPAREN ID RPAREN SEMICOLON .
+
+    ID              reduce using rule 89 (lectura -> READ LPAREN ID RPAREN SEMICOLON .)
+    IF              reduce using rule 89 (lectura -> READ LPAREN ID RPAREN SEMICOLON .)
+    PRINT           reduce using rule 89 (lectura -> READ LPAREN ID RPAREN SEMICOLON .)
+    READ            reduce using rule 89 (lectura -> READ LPAREN ID RPAREN SEMICOLON .)
+    WHILE           reduce using rule 89 (lectura -> READ LPAREN ID RPAREN SEMICOLON .)
+    RBRACE          reduce using rule 89 (lectura -> READ LPAREN ID RPAREN SEMICOLON .)
+
+
+state 125
+
+    (80) ciclo -> WHILE LPAREN expresion RPAREN bloque . SEMICOLON
+
+    SEMICOLON       shift and go to state 138
+
+
+state 126
+
+    (35) expresion -> exp auxExpresion exp .
+
+    RPAREN          reduce using rule 35 (expresion -> exp auxExpresion exp .)
+    SEMICOLON       reduce using rule 35 (expresion -> exp auxExpresion exp .)
+    COMMA           reduce using rule 35 (expresion -> exp auxExpresion exp .)
+
+
+state 127
+
+    (68) auxVarcte -> LPAREN . exp RPAREN
+    (46) exp -> . cicloExp
+    (47) cicloExp -> . termino ambExp
+    (52) termino -> . cicloTermino
+    (53) cicloTermino -> . factor ambCicloTermino
+    (58) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . auxFactor varcte
+    (60) auxFactor -> . auxExp
+    (61) auxFactor -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+    LPAREN          shift and go to state 69
+    ID              reduce using rule 61 (auxFactor -> .)
+    CTEINT          reduce using rule 61 (auxFactor -> .)
+    CTEFLOAT        reduce using rule 61 (auxFactor -> .)
+    CTECHAR         reduce using rule 61 (auxFactor -> .)
+    CTEBOOL         reduce using rule 61 (auxFactor -> .)
+    CTESTRING       reduce using rule 61 (auxFactor -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+    auxExp                         shift and go to state 65
+    termino                        shift and go to state 68
+    exp                            shift and go to state 139
+    factor                         shift and go to state 70
+    auxFactor                      shift and go to state 66
+    cicloExp                       shift and go to state 72
+    cicloTermino                   shift and go to state 73
+
+state 128
+
+    (69) auxVarcte -> LBRACKET . exp LBRACKET
+    (46) exp -> . cicloExp
+    (47) cicloExp -> . termino ambExp
+    (52) termino -> . cicloTermino
+    (53) cicloTermino -> . factor ambCicloTermino
+    (58) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . auxFactor varcte
+    (60) auxFactor -> . auxExp
+    (61) auxFactor -> .
+    (50) auxExp -> . PLUS
+    (51) auxExp -> . MINUS
+
+    LPAREN          shift and go to state 69
+    ID              reduce using rule 61 (auxFactor -> .)
+    CTEINT          reduce using rule 61 (auxFactor -> .)
+    CTEFLOAT        reduce using rule 61 (auxFactor -> .)
+    CTECHAR         reduce using rule 61 (auxFactor -> .)
+    CTEBOOL         reduce using rule 61 (auxFactor -> .)
+    CTESTRING       reduce using rule 61 (auxFactor -> .)
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 71
+
+    auxExp                         shift and go to state 65
+    termino                        shift and go to state 68
+    exp                            shift and go to state 140
+    factor                         shift and go to state 70
+    auxFactor                      shift and go to state 66
+    cicloExp                       shift and go to state 72
+    cicloTermino                   shift and go to state 73
+
+state 129
+
+    (62) varcte -> ID auxVarcte .
+
+    MULTI           reduce using rule 62 (varcte -> ID auxVarcte .)
+    DIVIDE          reduce using rule 62 (varcte -> ID auxVarcte .)
+    PLUS            reduce using rule 62 (varcte -> ID auxVarcte .)
+    MINUS           reduce using rule 62 (varcte -> ID auxVarcte .)
+    GTHAN           reduce using rule 62 (varcte -> ID auxVarcte .)
+    LTHAN           reduce using rule 62 (varcte -> ID auxVarcte .)
+    NOTEQUAL        reduce using rule 62 (varcte -> ID auxVarcte .)
+    GETHAN          reduce using rule 62 (varcte -> ID auxVarcte .)
+    LETHAN          reduce using rule 62 (varcte -> ID auxVarcte .)
+    EQUAL           reduce using rule 62 (varcte -> ID auxVarcte .)
+    RBRACKET        reduce using rule 62 (varcte -> ID auxVarcte .)
+    COMMA           reduce using rule 62 (varcte -> ID auxVarcte .)
+    RPAREN          reduce using rule 62 (varcte -> ID auxVarcte .)
+    SEMICOLON       reduce using rule 62 (varcte -> ID auxVarcte .)
+    LBRACKET        reduce using rule 62 (varcte -> ID auxVarcte .)
+
+
+state 130
+
+    (48) ambExp -> auxExp cicloExp .
+
+    GTHAN           reduce using rule 48 (ambExp -> auxExp cicloExp .)
+    LTHAN           reduce using rule 48 (ambExp -> auxExp cicloExp .)
+    NOTEQUAL        reduce using rule 48 (ambExp -> auxExp cicloExp .)
+    GETHAN          reduce using rule 48 (ambExp -> auxExp cicloExp .)
+    LETHAN          reduce using rule 48 (ambExp -> auxExp cicloExp .)
+    EQUAL           reduce using rule 48 (ambExp -> auxExp cicloExp .)
+    RBRACKET        reduce using rule 48 (ambExp -> auxExp cicloExp .)
+    COMMA           reduce using rule 48 (ambExp -> auxExp cicloExp .)
+    RPAREN          reduce using rule 48 (ambExp -> auxExp cicloExp .)
+    SEMICOLON       reduce using rule 48 (ambExp -> auxExp cicloExp .)
+    LBRACKET        reduce using rule 48 (ambExp -> auxExp cicloExp .)
+
+
+state 131
+
+    (58) factor -> LPAREN expresion RPAREN .
+
+    MULTI           reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+    DIVIDE          reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+    PLUS            reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+    MINUS           reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+    GTHAN           reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+    LTHAN           reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+    NOTEQUAL        reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+    GETHAN          reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+    LETHAN          reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+    EQUAL           reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+    RBRACKET        reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+    COMMA           reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+    RPAREN          reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+    SEMICOLON       reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+    LBRACKET        reduce using rule 58 (factor -> LPAREN expresion RPAREN .)
+
+
+state 132
+
+    (54) ambCicloTermino -> auxTermino cicloTermino .
+
+    PLUS            reduce using rule 54 (ambCicloTermino -> auxTermino cicloTermino .)
+    MINUS           reduce using rule 54 (ambCicloTermino -> auxTermino cicloTermino .)
+    GTHAN           reduce using rule 54 (ambCicloTermino -> auxTermino cicloTermino .)
+    LTHAN           reduce using rule 54 (ambCicloTermino -> auxTermino cicloTermino .)
+    NOTEQUAL        reduce using rule 54 (ambCicloTermino -> auxTermino cicloTermino .)
+    GETHAN          reduce using rule 54 (ambCicloTermino -> auxTermino cicloTermino .)
+    LETHAN          reduce using rule 54 (ambCicloTermino -> auxTermino cicloTermino .)
+    EQUAL           reduce using rule 54 (ambCicloTermino -> auxTermino cicloTermino .)
+    RBRACKET        reduce using rule 54 (ambCicloTermino -> auxTermino cicloTermino .)
+    COMMA           reduce using rule 54 (ambCicloTermino -> auxTermino cicloTermino .)
+    RPAREN          reduce using rule 54 (ambCicloTermino -> auxTermino cicloTermino .)
+    SEMICOLON       reduce using rule 54 (ambCicloTermino -> auxTermino cicloTermino .)
+    LBRACKET        reduce using rule 54 (ambCicloTermino -> auxTermino cicloTermino .)
+
+
+state 133
+
+    (29) escritura -> PRINT LPAREN auxEscritura1 RPAREN SEMICOLON .
+
+    ID              reduce using rule 29 (escritura -> PRINT LPAREN auxEscritura1 RPAREN SEMICOLON .)
+    IF              reduce using rule 29 (escritura -> PRINT LPAREN auxEscritura1 RPAREN SEMICOLON .)
+    PRINT           reduce using rule 29 (escritura -> PRINT LPAREN auxEscritura1 RPAREN SEMICOLON .)
+    READ            reduce using rule 29 (escritura -> PRINT LPAREN auxEscritura1 RPAREN SEMICOLON .)
+    WHILE           reduce using rule 29 (escritura -> PRINT LPAREN auxEscritura1 RPAREN SEMICOLON .)
+    RBRACE          reduce using rule 29 (escritura -> PRINT LPAREN auxEscritura1 RPAREN SEMICOLON .)
+
+
+state 134
+
+    (31) ambAuxEscritura1 -> COMMA auxEscritura1 .
+
+    RPAREN          reduce using rule 31 (ambAuxEscritura1 -> COMMA auxEscritura1 .)
+
+
+state 135
+
+    (43) condicion -> IF LPAREN expresion RPAREN bloque . auxCondicion SEMICOLON
+    (44) auxCondicion -> . ELSE bloque
+    (45) auxCondicion -> .
+
+    ELSE            shift and go to state 141
+    SEMICOLON       reduce using rule 45 (auxCondicion -> .)
+
+    auxCondicion                   shift and go to state 142
+
+state 136
+
+    (26) asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON .
+
+    ID              reduce using rule 26 (asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON .)
+    IF              reduce using rule 26 (asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON .)
+    PRINT           reduce using rule 26 (asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON .)
+    READ            reduce using rule 26 (asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON .)
+    WHILE           reduce using rule 26 (asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON .)
+    RBRACE          reduce using rule 26 (asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON .)
+
+
+state 137
+
+    (87) ambAuxArgumentos1 -> COMMA auxArgumentos1 .
+
+    RPAREN          reduce using rule 87 (ambAuxArgumentos1 -> COMMA auxArgumentos1 .)
+
+
+state 138
+
+    (80) ciclo -> WHILE LPAREN expresion RPAREN bloque SEMICOLON .
+
+    ID              reduce using rule 80 (ciclo -> WHILE LPAREN expresion RPAREN bloque SEMICOLON .)
+    IF              reduce using rule 80 (ciclo -> WHILE LPAREN expresion RPAREN bloque SEMICOLON .)
+    PRINT           reduce using rule 80 (ciclo -> WHILE LPAREN expresion RPAREN bloque SEMICOLON .)
+    READ            reduce using rule 80 (ciclo -> WHILE LPAREN expresion RPAREN bloque SEMICOLON .)
+    WHILE           reduce using rule 80 (ciclo -> WHILE LPAREN expresion RPAREN bloque SEMICOLON .)
+    RBRACE          reduce using rule 80 (ciclo -> WHILE LPAREN expresion RPAREN bloque SEMICOLON .)
+
+
+state 139
+
+    (68) auxVarcte -> LPAREN exp . RPAREN
+
+    RPAREN          shift and go to state 143
+
+
+state 140
+
+    (69) auxVarcte -> LBRACKET exp . LBRACKET
+
+    LBRACKET        shift and go to state 144
+
+
+state 141
+
+    (44) auxCondicion -> ELSE . bloque
+    (17) bloque -> . LBRACE cicloBloque RBRACE
+
+    LBRACE          shift and go to state 16
+
+    bloque                         shift and go to state 145
+
+state 142
+
+    (43) condicion -> IF LPAREN expresion RPAREN bloque auxCondicion . SEMICOLON
+
+    SEMICOLON       shift and go to state 146
+
+
+state 143
+
+    (68) auxVarcte -> LPAREN exp RPAREN .
+
+    MULTI           reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+    DIVIDE          reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+    PLUS            reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+    MINUS           reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+    GTHAN           reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+    LTHAN           reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+    NOTEQUAL        reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+    GETHAN          reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+    LETHAN          reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+    EQUAL           reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+    RBRACKET        reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+    COMMA           reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+    RPAREN          reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+    SEMICOLON       reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+    LBRACKET        reduce using rule 68 (auxVarcte -> LPAREN exp RPAREN .)
+
+
+state 144
+
+    (69) auxVarcte -> LBRACKET exp LBRACKET .
+
+    MULTI           reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+    DIVIDE          reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+    PLUS            reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+    MINUS           reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+    GTHAN           reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+    LTHAN           reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+    NOTEQUAL        reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+    GETHAN          reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+    LETHAN          reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+    EQUAL           reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+    RBRACKET        reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+    COMMA           reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+    RPAREN          reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+    SEMICOLON       reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+    LBRACKET        reduce using rule 69 (auxVarcte -> LBRACKET exp LBRACKET .)
+
+
+state 145
+
+    (44) auxCondicion -> ELSE bloque .
+
+    SEMICOLON       reduce using rule 44 (auxCondicion -> ELSE bloque .)
+
+
+state 146
+
+    (43) condicion -> IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON .
+
+    ID              reduce using rule 43 (condicion -> IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON .)
+    IF              reduce using rule 43 (condicion -> IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON .)
+    PRINT           reduce using rule 43 (condicion -> IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON .)
+    READ            reduce using rule 43 (condicion -> IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON .)
+    WHILE           reduce using rule 43 (condicion -> IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON .)
+    RBRACE          reduce using rule 43 (condicion -> IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for CTESTRING in state 51 resolved as shift
+WARNING: shift/reduce conflict for LBRACKET in state 105 resolved as shift
+WARNING: shift/reduce conflict for CTESTRING in state 114 resolved as shift
+WARNING: reduce/reduce conflict in state 57 resolved using rule (auxLlamada -> <empty>)
+WARNING: rejected rule (argumentos -> <empty>) in state 57
+WARNING: Rule (argumentos -> <empty>) is never reduced

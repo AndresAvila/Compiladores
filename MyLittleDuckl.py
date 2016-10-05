@@ -14,6 +14,8 @@ reserved = {
   'float' : 'FLOAT',
   'char' : 'CHAR',
   'while' : 'WHILE',
+  'function' : 'FUNCTION',
+  'read' : 'READ'
 }
 
 # List of token names. This is always required

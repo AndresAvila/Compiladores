@@ -45,7 +45,7 @@ def p_bloque(p): #Done
     '''bloque : LBRACE cicloBloque RBRACE'''
 
 def p_cicloBloque(p): #Done
-    '''cicloBloque : ESTATUTO cicloBloque 
+    '''cicloBloque : estatuto cicloBloque 
         |'''
 
 def p_estatuto(p): #Done
@@ -77,9 +77,9 @@ def p_auxEscritura2(p): #Done
     '''auxEscritura2 : expresion
         | CTESTRING'''
 
-#def p_expresion(p): #Done
-#    '''expresion : exp auxExpresion exp
-#        |'''
+def p_expresion(p): #Done
+    '''expresion : exp auxExpresion exp
+        |'''
 
 def p_auxExpresion(p): #Done
     '''auxExpresion : GTHAN
@@ -135,7 +135,7 @@ def p_auxFactor(p): #Done
 def p_varcte(p): #Done
     '''varcte : ID auxVarcte
         | CTEINT
-        | CTREFLOAT
+        | CTEFLOAT
         | CTECHAR
         | CTEBOOL
         | CTESTRING'''
@@ -143,6 +143,10 @@ def p_varcte(p): #Done
 def p_auxVarcte(p): #Done
     '''auxVarcte : LPAREN exp RPAREN
         | LBRACKET exp LBRACKET 
+        |'''
+
+def p_cicloFuncion(p): #Done
+    '''cicloFuncion : funcion cicloFuncion 
         |'''
 
 def p_funcion(p): #Done
@@ -169,7 +173,7 @@ def p_llamada(p): #Done
     '''llamada : ID LPAREN auxLlamada RPAREN'''
 
 def p_auxLlamada(p): #Done
-    '''aux_llamada : argumentos
+    '''auxLlamada : argumentos
         |'''
 
 def p_argumentos(p): #Done
@@ -177,7 +181,7 @@ def p_argumentos(p): #Done
         |'''
 
 def p_auxArgumentos1(p): #Done
-    '''p_auxArgumentos1 : exp ambAuxArgumentos1'''
+    '''auxArgumentos1 : exp ambAuxArgumentos1'''
 
 def p_ambAuxArgumentos1(p): #Done
     '''ambAuxArgumentos1 : COMMA auxArgumentos1
