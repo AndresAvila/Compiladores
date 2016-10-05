@@ -58,7 +58,7 @@ def p_estatuto(p): #Done
         | ciclo'''
 
 def p_asignacion(p): #Done
-    '''asignacion : ID  auxAsignacion1 EQUALA expresion SEMICOLON'''
+    '''asignacion : ID  auxAsignacion1 EQUALA exp SEMICOLON'''
 
 def p_auxAsignacion1(p): #Done
     '''auxAsignacion1 : LBRACKET exp RBRACKET 

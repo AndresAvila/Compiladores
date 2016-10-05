@@ -29,7 +29,7 @@ Rule 23    estatuto -> escritura
 Rule 24    estatuto -> lectura
 Rule 25    estatuto -> llamada
 Rule 26    estatuto -> ciclo
-Rule 27    asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON
+Rule 27    asignacion -> ID auxAsignacion1 EQUALA exp SEMICOLON
 Rule 28    auxAsignacion1 -> LBRACKET exp RBRACKET
 Rule 29    auxAsignacion1 -> <empty>
 Rule 30    escritura -> PRINT LPAREN auxEscritura1 RPAREN SEMICOLON
@@ -173,8 +173,8 @@ cicloVars            : 1 2
 condicion            : 22
 escritura            : 23
 estatuto             : 19
-exp                  : 28 36 36 69 70 87
-expresion            : 27 34 44 59 81
+exp                  : 27 28 36 36 69 70 87
+expresion            : 34 44 59 81
 factor               : 54
 funcion              : 72
 idVars               : 5 8
@@ -356,7 +356,7 @@ state 16
     (24) estatuto -> . lectura
     (25) estatuto -> . llamada
     (26) estatuto -> . ciclo
-    (27) asignacion -> . ID auxAsignacion1 EQUALA expresion SEMICOLON
+    (27) asignacion -> . ID auxAsignacion1 EQUALA exp SEMICOLON
     (44) condicion -> . IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON
     (30) escritura -> . PRINT LPAREN auxEscritura1 RPAREN SEMICOLON
     (90) lectura -> . READ LPAREN ID RPAREN SEMICOLON
@@ -505,7 +505,7 @@ state 27
     (24) estatuto -> . lectura
     (25) estatuto -> . llamada
     (26) estatuto -> . ciclo
-    (27) asignacion -> . ID auxAsignacion1 EQUALA expresion SEMICOLON
+    (27) asignacion -> . ID auxAsignacion1 EQUALA exp SEMICOLON
     (44) condicion -> . IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON
     (30) escritura -> . PRINT LPAREN auxEscritura1 RPAREN SEMICOLON
     (90) lectura -> . READ LPAREN ID RPAREN SEMICOLON
@@ -580,16 +580,16 @@ state 32
 
 state 33
 
-    (27) asignacion -> ID . auxAsignacion1 EQUALA expresion SEMICOLON
+    (27) asignacion -> ID . auxAsignacion1 EQUALA exp SEMICOLON
     (82) llamada -> ID . LPAREN auxLlamada RPAREN
     (28) auxAsignacion1 -> . LBRACKET exp RBRACKET
     (29) auxAsignacion1 -> .
 
     LPAREN          shift and go to state 57
-    LBRACKET        shift and go to state 56
+    LBRACKET        shift and go to state 55
     EQUALA          reduce using rule 29 (auxAsignacion1 -> .)
 
-    auxAsignacion1                 shift and go to state 55
+    auxAsignacion1                 shift and go to state 56
 
 state 34
 
@@ -854,21 +854,14 @@ state 54
 
     (18) bloque -> LBRACE cicloBloque RBRACE .
 
-    ELSE            reduce using rule 18 (bloque -> LBRACE cicloBloque RBRACE .)
     SEMICOLON       reduce using rule 18 (bloque -> LBRACE cicloBloque RBRACE .)
+    ELSE            reduce using rule 18 (bloque -> LBRACE cicloBloque RBRACE .)
     $end            reduce using rule 18 (bloque -> LBRACE cicloBloque RBRACE .)
     FUNCTION        reduce using rule 18 (bloque -> LBRACE cicloBloque RBRACE .)
     LBRACE          reduce using rule 18 (bloque -> LBRACE cicloBloque RBRACE .)
 
 
 state 55
-
-    (27) asignacion -> ID auxAsignacion1 . EQUALA expresion SEMICOLON
-
-    EQUALA          shift and go to state 79
-
-
-state 56
 
     (28) auxAsignacion1 -> LBRACKET . exp RBRACKET
     (47) exp -> . cicloExp
@@ -894,11 +887,18 @@ state 56
 
     auxExp                         shift and go to state 65
     termino                        shift and go to state 68
-    exp                            shift and go to state 80
+    exp                            shift and go to state 79
     factor                         shift and go to state 70
     auxFactor                      shift and go to state 66
     cicloExp                       shift and go to state 72
     cicloTermino                   shift and go to state 73
+
+state 56
+
+    (27) asignacion -> ID auxAsignacion1 . EQUALA exp SEMICOLON
+
+    EQUALA          shift and go to state 80
+
 
 state 57
 
@@ -1181,8 +1181,8 @@ state 72
     LBRACKET        reduce using rule 47 (exp -> cicloExp .)
     RPAREN          reduce using rule 47 (exp -> cicloExp .)
     COMMA           reduce using rule 47 (exp -> cicloExp .)
-    RBRACKET        reduce using rule 47 (exp -> cicloExp .)
     SEMICOLON       reduce using rule 47 (exp -> cicloExp .)
+    RBRACKET        reduce using rule 47 (exp -> cicloExp .)
 
 
 state 73
@@ -1193,13 +1193,13 @@ state 73
     MINUS           reduce using rule 53 (termino -> cicloTermino .)
     RPAREN          reduce using rule 53 (termino -> cicloTermino .)
     COMMA           reduce using rule 53 (termino -> cicloTermino .)
-    RBRACKET        reduce using rule 53 (termino -> cicloTermino .)
     GTHAN           reduce using rule 53 (termino -> cicloTermino .)
     LTHAN           reduce using rule 53 (termino -> cicloTermino .)
     NOTEQUAL        reduce using rule 53 (termino -> cicloTermino .)
     GETHAN          reduce using rule 53 (termino -> cicloTermino .)
     LETHAN          reduce using rule 53 (termino -> cicloTermino .)
     EQUAL           reduce using rule 53 (termino -> cicloTermino .)
+    RBRACKET        reduce using rule 53 (termino -> cicloTermino .)
     SEMICOLON       reduce using rule 53 (termino -> cicloTermino .)
     LBRACKET        reduce using rule 53 (termino -> cicloTermino .)
 
@@ -1247,9 +1247,14 @@ state 78
 
 state 79
 
-    (27) asignacion -> ID auxAsignacion1 EQUALA . expresion SEMICOLON
-    (36) expresion -> . exp auxExpresion exp
-    (37) expresion -> .
+    (28) auxAsignacion1 -> LBRACKET exp . RBRACKET
+
+    RBRACKET        shift and go to state 117
+
+
+state 80
+
+    (27) asignacion -> ID auxAsignacion1 EQUALA . exp SEMICOLON
     (47) exp -> . cicloExp
     (48) cicloExp -> . termino ambExp
     (53) termino -> . cicloTermino
@@ -1261,7 +1266,6 @@ state 79
     (51) auxExp -> . PLUS
     (52) auxExp -> . MINUS
 
-    SEMICOLON       reduce using rule 37 (expresion -> .)
     LPAREN          shift and go to state 69
     ID              reduce using rule 62 (auxFactor -> .)
     CTEINT          reduce using rule 62 (auxFactor -> .)
@@ -1272,21 +1276,13 @@ state 79
     PLUS            shift and go to state 67
     MINUS           shift and go to state 71
 
-    expresion                      shift and go to state 117
     auxExp                         shift and go to state 65
     termino                        shift and go to state 68
-    exp                            shift and go to state 64
+    exp                            shift and go to state 118
     factor                         shift and go to state 70
     auxFactor                      shift and go to state 66
     cicloExp                       shift and go to state 72
     cicloTermino                   shift and go to state 73
-
-state 80
-
-    (28) auxAsignacion1 -> LBRACKET exp . RBRACKET
-
-    RBRACKET        shift and go to state 118
-
 
 state 81
 
@@ -1709,10 +1705,10 @@ state 107
     LETHAN          reduce using rule 48 (cicloExp -> termino ambExp .)
     EQUAL           reduce using rule 48 (cicloExp -> termino ambExp .)
     LBRACKET        reduce using rule 48 (cicloExp -> termino ambExp .)
+    RBRACKET        reduce using rule 48 (cicloExp -> termino ambExp .)
     COMMA           reduce using rule 48 (cicloExp -> termino ambExp .)
     RPAREN          reduce using rule 48 (cicloExp -> termino ambExp .)
     SEMICOLON       reduce using rule 48 (cicloExp -> termino ambExp .)
-    RBRACKET        reduce using rule 48 (cicloExp -> termino ambExp .)
 
 
 state 108
@@ -1784,6 +1780,7 @@ state 112
 
     PLUS            reduce using rule 54 (cicloTermino -> factor ambCicloTermino .)
     MINUS           reduce using rule 54 (cicloTermino -> factor ambCicloTermino .)
+    RBRACKET        reduce using rule 54 (cicloTermino -> factor ambCicloTermino .)
     GTHAN           reduce using rule 54 (cicloTermino -> factor ambCicloTermino .)
     LTHAN           reduce using rule 54 (cicloTermino -> factor ambCicloTermino .)
     NOTEQUAL        reduce using rule 54 (cicloTermino -> factor ambCicloTermino .)
@@ -1792,7 +1789,6 @@ state 112
     EQUAL           reduce using rule 54 (cicloTermino -> factor ambCicloTermino .)
     RPAREN          reduce using rule 54 (cicloTermino -> factor ambCicloTermino .)
     LBRACKET        reduce using rule 54 (cicloTermino -> factor ambCicloTermino .)
-    RBRACKET        reduce using rule 54 (cicloTermino -> factor ambCicloTermino .)
     COMMA           reduce using rule 54 (cicloTermino -> factor ambCicloTermino .)
     SEMICOLON       reduce using rule 54 (cicloTermino -> factor ambCicloTermino .)
 
@@ -1867,16 +1863,16 @@ state 116
 
 state 117
 
-    (27) asignacion -> ID auxAsignacion1 EQUALA expresion . SEMICOLON
+    (28) auxAsignacion1 -> LBRACKET exp RBRACKET .
 
-    SEMICOLON       shift and go to state 136
+    EQUALA          reduce using rule 28 (auxAsignacion1 -> LBRACKET exp RBRACKET .)
 
 
 state 118
 
-    (28) auxAsignacion1 -> LBRACKET exp RBRACKET .
+    (27) asignacion -> ID auxAsignacion1 EQUALA exp . SEMICOLON
 
-    EQUALA          reduce using rule 28 (auxAsignacion1 -> LBRACKET exp RBRACKET .)
+    SEMICOLON       shift and go to state 136
 
 
 state 119
@@ -1971,7 +1967,6 @@ state 126
     (36) expresion -> exp auxExpresion exp .
 
     RPAREN          reduce using rule 36 (expresion -> exp auxExpresion exp .)
-    SEMICOLON       reduce using rule 36 (expresion -> exp auxExpresion exp .)
     COMMA           reduce using rule 36 (expresion -> exp auxExpresion exp .)
 
 
@@ -2149,14 +2144,14 @@ state 135
 
 state 136
 
-    (27) asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON .
+    (27) asignacion -> ID auxAsignacion1 EQUALA exp SEMICOLON .
 
-    ID              reduce using rule 27 (asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON .)
-    IF              reduce using rule 27 (asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON .)
-    PRINT           reduce using rule 27 (asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON .)
-    READ            reduce using rule 27 (asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON .)
-    WHILE           reduce using rule 27 (asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON .)
-    RBRACE          reduce using rule 27 (asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON .)
+    ID              reduce using rule 27 (asignacion -> ID auxAsignacion1 EQUALA exp SEMICOLON .)
+    IF              reduce using rule 27 (asignacion -> ID auxAsignacion1 EQUALA exp SEMICOLON .)
+    PRINT           reduce using rule 27 (asignacion -> ID auxAsignacion1 EQUALA exp SEMICOLON .)
+    READ            reduce using rule 27 (asignacion -> ID auxAsignacion1 EQUALA exp SEMICOLON .)
+    WHILE           reduce using rule 27 (asignacion -> ID auxAsignacion1 EQUALA exp SEMICOLON .)
+    RBRACE          reduce using rule 27 (asignacion -> ID auxAsignacion1 EQUALA exp SEMICOLON .)
 
 
 state 137

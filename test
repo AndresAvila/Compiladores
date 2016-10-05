@@ -1,5 +1,7 @@
 program gg;
 var a:int[1];
 var b:int;
+function a(int a, bool c) {a = a * b;}
 {
+a = a * b;
 }
