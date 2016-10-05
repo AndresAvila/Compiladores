@@ -33,7 +33,8 @@ def p_tipo(p): #Done
         | CHAR '''
 
 def p_auxTipo1(p): #Done
-    '''auxTipo1 : auxTipo2 LBRACKET CTEINT RBRACKET'''
+    '''auxTipo1 : auxTipo2 LBRACKET CTEINT RBRACKET
+        | auxTipo2'''
 
 def p_auxTipo2(p): #Done
     '''auxTipo2 : INT

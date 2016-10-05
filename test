@@ -1,5 +1,5 @@
 program gg;
+var a:int[1];
+var b:int;
 {
-if (b > c ) 
-a=0;
-};
+}

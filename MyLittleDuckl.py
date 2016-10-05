@@ -98,8 +98,10 @@ lexer = lex.lex()
 
 # Test it out
 data = '''
-    id while [ ] = HEHE XD 'GG' 3 + 4 * 10
-    + -20 *2
+    program gg;
+    var a:int;
+    {
+    }
     '''
 
 # Give the lexer some input
