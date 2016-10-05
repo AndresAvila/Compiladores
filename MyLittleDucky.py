@@ -21,9 +21,12 @@ def p_auxVar1(p): #Done
     '''auxVar1 : idVars COLON tipo SEMICOLON auxVar1 
         |'''
 
-def p_idVars(p): #Ambig
-    '''idVars : ID COMMA idVars 
-        | ID'''
+def p_idVars(p): #Done
+    '''idVars : ID ambIdVars '''
+
+def p_ambIdVars(p): #Done
+    '''ambIdVars : COMMA idVars
+        |'''
 
 def p_tipo(p): #Done
     '''tipo : auxTipo1
@@ -63,9 +66,12 @@ def p_auxAsignacion1(p): #Done
 def p_escritura(p): #Done
     '''escritura : PRINT LPAREN auxEscritura1 RPAREN SEMICOLON'''
 
-def p_auxEscritura1(p): #AMBIG
-    '''auxEscritura1 : auxEscritura2 COMMA auxEscritura1
-        | auxEscritura2 '''
+def p_auxEscritura1(p): #Done
+    '''auxEscritura1 : auxEscritura2 ambAuxEscritura1'''
+
+def p_ambAuxEscritura1(p): #Done
+    '''ambAuxEscritura1 : COMMA auxEscritura1
+        |'''
 
 def p_auxEscritura2(p): #Done
     '''auxEscritura2 : expresion
@@ -93,9 +99,12 @@ def p_auxCondicion(p): #Done
 def p_exp(p): #Done
     '''exp : cicloExp'''
 
-def p_cicloExp(p): #Ambig
-    '''cicloExp : termino auxExp cicloExp
-        | termino'''
+def p_cicloExp(p): #Done
+    '''cicloExp : termino ambExp'''
+
+def p_ambExp(p): #Done
+    '''ambExp : auxExp cicloExp
+        |'''
 
 def p_auxExp(p): #Done
     '''auxExp : PLUS
@@ -104,9 +113,12 @@ def p_auxExp(p): #Done
 def p_termino(p): #Done
     ''' termino : cicloTermino'''
 
-def p_cicloTermino(p): #Ambig
-    '''cicloTermino : factor auxTermino cicloTermino
-        | factor '''
+def p_cicloTermino(p): #Done
+    '''cicloTermino : factor ambCicloTermino'''
+
+def p_ambCicloTermino(p): #Done
+    '''ambCicloTermino : auxTermino cicloTermino
+        | '''
 
 def p_auxTermino(p): #Done
     '''auxTermino : MULTI
@@ -143,9 +155,12 @@ def p_auxFunction(p): #Done
 def p_parametros(p): # Done
     '''parametros : auxParametros '''
 
-def p_auxParametros(p): #Ambig
-    '''auxParametros : tipo ID COMMA auxParametros
-        | tipo ID '''
+def p_auxParametros(p): #Done
+    '''auxParametros : tipo ID ambAuxParametros'''
+
+def p_ambAuxParamentros(p): #Done
+    '''ambAuxParametros : COMMA auxParametros
+        |'''
 
 def p_ciclo(p): #Done
     '''ciclo : WHILE LPAREN expresion RPAREN bloque SEMICOLON '''
@@ -161,9 +176,12 @@ def p_argumentos(p): #Done
     ''' argumentos : auxArgumentos1
         |'''
 
-def p_auxArgumentos1(p): #Ambig
-    '''p_auxArgumentos1 : exp COMMA auxArgumentos1
-        | exp'''
+def p_auxArgumentos1(p): #Done
+    '''p_auxArgumentos1 : exp ambAuxArgumentos1'''
+
+def p_ambAuxArgumentos1(p): #Done
+    '''ambAuxArgumentos1 : COMMA auxArgumentos1
+        |'''
 
 def p_lectura(p): #Done
     ''' lectura : READ LPAREN ID RPAREN SEMICOLON '''

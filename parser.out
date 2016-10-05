@@ -13,168 +13,180 @@ Rule 3     cicloVars -> <empty>
 Rule 4     vars -> VAR auxVar1
 Rule 5     auxVar1 -> idVars COLON tipo SEMICOLON auxVar1
 Rule 6     auxVar1 -> <empty>
-Rule 7     idVars -> ID COMMA idVars
-Rule 8     idVars -> ID
-Rule 9     tipo -> auxTipo1
-Rule 10    tipo -> CHAR
-Rule 11    auxTipo1 -> auxTipo2 LBRACKET CTEINT RBRACKET
-Rule 12    auxTipo2 -> INT
-Rule 13    auxTipo2 -> BOOL
-Rule 14    auxTipo2 -> STRING
-Rule 15    auxTipo2 -> FLOAT
-Rule 16    bloque -> LBRACE cicloBloque RBRACE
-Rule 17    cicloBloque -> ESTATUTO cicloBloque
-Rule 18    cicloBloque -> <empty>
-Rule 19    estatuto -> asignacion
-Rule 20    estatuto -> condicion
-Rule 21    estatuto -> escritura
-Rule 22    estatuto -> lectura
-Rule 23    estatuto -> llamada
-Rule 24    estatuto -> ciclo
-Rule 25    asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON
-Rule 26    auxAsignacion1 -> LBRACKET exp RBRACKET
-Rule 27    auxAsignacion1 -> <empty>
-Rule 28    escritura -> PRINT LPAREN auxEscritura1 RPAREN SEMICOLON
-Rule 29    auxEscritura1 -> auxEscritura2 COMMA auxEscritura1
-Rule 30    auxEscritura1 -> auxEscritura2
-Rule 31    auxEscritura2 -> expresion
-Rule 32    auxEscritura2 -> CTESTRING
-Rule 33    auxExpresion -> GTHAN
-Rule 34    auxExpresion -> LTHAN
-Rule 35    auxExpresion -> NOTEQUAL
-Rule 36    auxExpresion -> GETHAN
-Rule 37    auxExpresion -> LETHAN
-Rule 38    auxExpresion -> EQUAL
-Rule 39    condicion -> IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON
-Rule 40    auxCondicion -> ELSE bloque
-Rule 41    auxCondicion -> <empty>
-Rule 42    exp -> cicloExp
-Rule 43    cicloExp -> termino auxExp cicloExp
-Rule 44    cicloExp -> termino
-Rule 45    auxExp -> PLUS
-Rule 46    auxExp -> MINUS
-Rule 47    termino -> cicloTermino
-Rule 48    cicloTermino -> factor auxTermino cicloTermino
-Rule 49    cicloTermino -> factor
-Rule 50    auxTermino -> MULTI
-Rule 51    auxTermino -> DIVIDE
-Rule 52    factor -> LPAREN expresion RPAREN
-Rule 53    factor -> auxFactor varcte
-Rule 54    auxFactor -> auxExp
-Rule 55    auxFactor -> <empty>
-Rule 56    varcte -> ID auxVarcte
-Rule 57    varcte -> CTEINT
-Rule 58    varcte -> CTREFLOAT
-Rule 59    varcte -> CTECHAR
-Rule 60    varcte -> CTEBOOL
-Rule 61    varcte -> CTESTRING
-Rule 62    auxVarcte -> LPAREN exp RPAREN
-Rule 63    auxVarcte -> LBRACKET exp LBRACKET
-Rule 64    auxVarcte -> <empty>
-Rule 65    funcion -> FUNCTION ID LPAREN auxFunction RPAREN bloque
-Rule 66    auxFunction -> parametros
-Rule 67    auxFunction -> <empty>
-Rule 68    parametros -> auxParametros
-Rule 69    auxParametros -> tipo ID COMMA auxParametros
-Rule 70    auxParametros -> tipo ID
-Rule 71    ciclo -> WHILE LPAREN expresion RPAREN bloque SEMICOLON
-Rule 72    llamada -> ID LPAREN auxLlamada RPAREN
-Rule 73    aux_llamada -> argumentos
-Rule 74    aux_llamada -> <empty>
-Rule 75    argumentos -> auxArgumentos1
-Rule 76    argumentos -> <empty>
-Rule 77    p_auxArgumentos1 -> exp COMMA auxArgumentos1
-Rule 78    p_auxArgumentos1 -> exp
-Rule 79    lectura -> READ LPAREN ID RPAREN SEMICOLON
+Rule 7     idVars -> ID ambIdVars
+Rule 8     ambIdVars -> COMMA idVars
+Rule 9     ambIdVars -> <empty>
+Rule 10    tipo -> auxTipo1
+Rule 11    tipo -> CHAR
+Rule 12    auxTipo1 -> auxTipo2 LBRACKET CTEINT RBRACKET
+Rule 13    auxTipo2 -> INT
+Rule 14    auxTipo2 -> BOOL
+Rule 15    auxTipo2 -> STRING
+Rule 16    auxTipo2 -> FLOAT
+Rule 17    bloque -> LBRACE cicloBloque RBRACE
+Rule 18    cicloBloque -> ESTATUTO cicloBloque
+Rule 19    cicloBloque -> <empty>
+Rule 20    estatuto -> asignacion
+Rule 21    estatuto -> condicion
+Rule 22    estatuto -> escritura
+Rule 23    estatuto -> lectura
+Rule 24    estatuto -> llamada
+Rule 25    estatuto -> ciclo
+Rule 26    asignacion -> ID auxAsignacion1 EQUALA expresion SEMICOLON
+Rule 27    auxAsignacion1 -> LBRACKET exp RBRACKET
+Rule 28    auxAsignacion1 -> <empty>
+Rule 29    escritura -> PRINT LPAREN auxEscritura1 RPAREN SEMICOLON
+Rule 30    auxEscritura1 -> auxEscritura2 ambAuxEscritura1
+Rule 31    ambAuxEscritura1 -> COMMA auxEscritura1
+Rule 32    ambAuxEscritura1 -> <empty>
+Rule 33    auxEscritura2 -> expresion
+Rule 34    auxEscritura2 -> CTESTRING
+Rule 35    auxExpresion -> GTHAN
+Rule 36    auxExpresion -> LTHAN
+Rule 37    auxExpresion -> NOTEQUAL
+Rule 38    auxExpresion -> GETHAN
+Rule 39    auxExpresion -> LETHAN
+Rule 40    auxExpresion -> EQUAL
+Rule 41    condicion -> IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON
+Rule 42    auxCondicion -> ELSE bloque
+Rule 43    auxCondicion -> <empty>
+Rule 44    exp -> cicloExp
+Rule 45    cicloExp -> termino ambExp
+Rule 46    ambExp -> auxExp cicloExp
+Rule 47    ambExp -> <empty>
+Rule 48    auxExp -> PLUS
+Rule 49    auxExp -> MINUS
+Rule 50    termino -> cicloTermino
+Rule 51    cicloTermino -> factor ambCicloTermino
+Rule 52    ambCicloTermino -> auxTermino cicloTermino
+Rule 53    ambCicloTermino -> <empty>
+Rule 54    auxTermino -> MULTI
+Rule 55    auxTermino -> DIVIDE
+Rule 56    factor -> LPAREN expresion RPAREN
+Rule 57    factor -> auxFactor varcte
+Rule 58    auxFactor -> auxExp
+Rule 59    auxFactor -> <empty>
+Rule 60    varcte -> ID auxVarcte
+Rule 61    varcte -> CTEINT
+Rule 62    varcte -> CTREFLOAT
+Rule 63    varcte -> CTECHAR
+Rule 64    varcte -> CTEBOOL
+Rule 65    varcte -> CTESTRING
+Rule 66    auxVarcte -> LPAREN exp RPAREN
+Rule 67    auxVarcte -> LBRACKET exp LBRACKET
+Rule 68    auxVarcte -> <empty>
+Rule 69    funcion -> FUNCTION ID LPAREN auxFunction RPAREN bloque
+Rule 70    auxFunction -> parametros
+Rule 71    auxFunction -> <empty>
+Rule 72    parametros -> auxParametros
+Rule 73    auxParametros -> tipo ID ambAuxParametros
+Rule 74    ambAuxParametros -> COMMA auxParametros
+Rule 75    ambAuxParametros -> <empty>
+Rule 76    ciclo -> WHILE LPAREN expresion RPAREN bloque SEMICOLON
+Rule 77    llamada -> ID LPAREN auxLlamada RPAREN
+Rule 78    aux_llamada -> argumentos
+Rule 79    aux_llamada -> <empty>
+Rule 80    argumentos -> auxArgumentos1
+Rule 81    argumentos -> <empty>
+Rule 82    p_auxArgumentos1 -> exp ambAuxArgumentos1
+Rule 83    ambAuxArgumentos1 -> COMMA auxArgumentos1
+Rule 84    ambAuxArgumentos1 -> <empty>
+Rule 85    lectura -> READ LPAREN ID RPAREN SEMICOLON
 
 Terminals, with rules where they appear
 
-BOOL                 : 13
-CHAR                 : 10
+BOOL                 : 14
+CHAR                 : 11
 COLON                : 5
-COMMA                : 7 29 69 77
-CTEBOOL              : 60
-CTECHAR              : 59
+COMMA                : 8 31 74 83
+CTEBOOL              : 64
+CTECHAR              : 63
 CTEFLOAT             : 
-CTEINT               : 11 57
-CTESTRING            : 32 61
-DIVIDE               : 51
-ELSE                 : 40
-EQUAL                : 38
-EQUALA               : 25
-FLOAT                : 15
-GETHAN               : 36
-GTHAN                : 33
-ID                   : 1 7 8 25 56 65 69 70 72 79
-IF                   : 39
-INT                  : 12
-LBRACE               : 16
-LBRACKET             : 11 26 63 63
-LETHAN               : 37
-LPAREN               : 28 39 52 62 65 71 72 79
-LTHAN                : 34
-MINUS                : 46
-MULTI                : 50
-NOTEQUAL             : 35
-PLUS                 : 45
-PRINT                : 28
+CTEINT               : 12 61
+CTESTRING            : 34 65
+DIVIDE               : 55
+ELSE                 : 42
+EQUAL                : 40
+EQUALA               : 26
+FLOAT                : 16
+GETHAN               : 38
+GTHAN                : 35
+ID                   : 1 7 26 60 69 73 77 85
+IF                   : 41
+INT                  : 13
+LBRACE               : 17
+LBRACKET             : 12 27 67 67
+LETHAN               : 39
+LPAREN               : 29 41 56 66 69 76 77 85
+LTHAN                : 36
+MINUS                : 49
+MULTI                : 54
+NOTEQUAL             : 37
+PLUS                 : 48
+PRINT                : 29
 PROGRAM              : 1
-RBRACE               : 16
-RBRACKET             : 11 26
-RPAREN               : 28 39 52 62 65 71 72 79
-SEMICOLON            : 1 5 25 28 39 71 79
-STRING               : 14
+RBRACE               : 17
+RBRACKET             : 12 27
+RPAREN               : 29 41 56 66 69 76 77 85
+SEMICOLON            : 1 5 26 29 41 76 85
+STRING               : 15
 VAR                  : 4
-WHILE                : 71
+WHILE                : 76
 error                : 
 
 Nonterminals, with rules where they appear
 
-CTREFLOAT            : 58
-ESTATUTO             : 17
-FUNCTION             : 65
-READ                 : 79
-argumentos           : 73
-asignacion           : 19
-auxArgumentos1       : 75 77
-auxAsignacion1       : 25
-auxCondicion         : 39
-auxEscritura1        : 28 29
-auxEscritura2        : 29 30
-auxExp               : 43 54
+CTREFLOAT            : 62
+ESTATUTO             : 18
+FUNCTION             : 69
+READ                 : 85
+ambAuxArgumentos1    : 82
+ambAuxEscritura1     : 30
+ambAuxParametros     : 73
+ambCicloTermino      : 51
+ambExp               : 45
+ambIdVars            : 7
+argumentos           : 78
+asignacion           : 20
+auxArgumentos1       : 80 83
+auxAsignacion1       : 26
+auxCondicion         : 41
+auxEscritura1        : 29 31
+auxEscritura2        : 30
+auxExp               : 46 58
 auxExpresion         : 
-auxFactor            : 53
-auxFunction          : 65
-auxLlamada           : 72
-auxParametros        : 68 69
-auxTermino           : 48
-auxTipo1             : 9
-auxTipo2             : 11
+auxFactor            : 57
+auxFunction          : 69
+auxLlamada           : 77
+auxParametros        : 72 74
+auxTermino           : 52
+auxTipo1             : 10
+auxTipo2             : 12
 auxVar1              : 4 5
-auxVarcte            : 56
+auxVarcte            : 60
 aux_llamada          : 
-bloque               : 1 39 40 65 71
-ciclo                : 24
-cicloBloque          : 16 17
-cicloExp             : 42 43
+bloque               : 1 41 42 69 76
+ciclo                : 25
+cicloBloque          : 17 18
+cicloExp             : 44 46
 cicloFuncion         : 1
-cicloTermino         : 47 48
+cicloTermino         : 50 52
 cicloVars            : 1 2
-condicion            : 20
-escritura            : 21
+condicion            : 21
+escritura            : 22
 estatuto             : 
-exp                  : 26 62 63 77 78
-expresion            : 25 31 39 52 71
-factor               : 48 49
+exp                  : 27 66 67 82
+expresion            : 26 33 41 56 76
+factor               : 51
 funcion              : 
-idVars               : 5 7
-lectura              : 22
-llamada              : 23
+idVars               : 5 8
+lectura              : 23
+llamada              : 24
 p_auxArgumentos1     : 
-parametros           : 66
+parametros           : 70
 programa             : 0
-termino              : 43 44
-tipo                 : 5 69 70
-varcte               : 53
+termino              : 45
+tipo                 : 5 73
+varcte               : 57
 vars                 : 2
 
