@@ -98,8 +98,7 @@ lexer = lex.lex()
 
 # Test it out
 data = '''
-    id while [ ] = HEHE XD 'GG' 3 + 4 * 10
-    + -20 *2
+    if (a > b) {a = 2;}
     '''
 
 # Give the lexer some input

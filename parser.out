@@ -66,13 +66,18 @@ Rule 60    auxFactor -> auxExp
 Rule 61    auxFactor -> <empty>
 Rule 62    varcte -> ID auxVarcte
 Rule 63    varcte -> CTEINT
+<<<<<<< Updated upstream
 Rule 64    varcte -> CTEFLOAT
+=======
+Rule 64    varcte -> CTREFLOAT
+>>>>>>> Stashed changes
 Rule 65    varcte -> CTECHAR
 Rule 66    varcte -> CTEBOOL
 Rule 67    varcte -> CTESTRING
 Rule 68    auxVarcte -> LPAREN exp RPAREN
 Rule 69    auxVarcte -> LBRACKET exp LBRACKET
 Rule 70    auxVarcte -> <empty>
+<<<<<<< Updated upstream
 Rule 71    cicloFuncion -> funcion cicloFuncion
 Rule 72    cicloFuncion -> <empty>
 Rule 73    funcion -> FUNCTION ID LPAREN auxFunction RPAREN bloque
@@ -92,16 +97,42 @@ Rule 86    auxArgumentos1 -> exp ambAuxArgumentos1
 Rule 87    ambAuxArgumentos1 -> COMMA auxArgumentos1
 Rule 88    ambAuxArgumentos1 -> <empty>
 Rule 89    lectura -> READ LPAREN ID RPAREN SEMICOLON
+=======
+Rule 71    funcion -> FUNCTION ID LPAREN auxFunction RPAREN bloque
+Rule 72    auxFunction -> parametros
+Rule 73    auxFunction -> <empty>
+Rule 74    parametros -> auxParametros
+Rule 75    auxParametros -> tipo ID ambAuxParametros
+Rule 76    ambAuxParametros -> COMMA auxParametros
+Rule 77    ambAuxParametros -> <empty>
+Rule 78    ciclo -> WHILE LPAREN expresion RPAREN bloque SEMICOLON
+Rule 79    llamada -> ID LPAREN auxLlamada RPAREN
+Rule 80    aux_llamada -> argumentos
+Rule 81    aux_llamada -> <empty>
+Rule 82    argumentos -> auxArgumentos1
+Rule 83    argumentos -> <empty>
+Rule 84    p_auxArgumentos1 -> exp ambAuxArgumentos1
+Rule 85    ambAuxArgumentos1 -> COMMA auxArgumentos1
+Rule 86    ambAuxArgumentos1 -> <empty>
+Rule 87    lectura -> READ LPAREN ID RPAREN SEMICOLON
+>>>>>>> Stashed changes
 
 Terminals, with rules where they appear
 
 BOOL                 : 14
 CHAR                 : 11
 COLON                : 5
+<<<<<<< Updated upstream
 COMMA                : 8 31 78 87
 CTEBOOL              : 66
 CTECHAR              : 65
 CTEFLOAT             : 64
+=======
+COMMA                : 8 31 76 85
+CTEBOOL              : 66
+CTECHAR              : 65
+CTEFLOAT             : 
+>>>>>>> Stashed changes
 CTEINT               : 12 63
 CTESTRING            : 34 67
 DIVIDE               : 57
@@ -109,16 +140,26 @@ ELSE                 : 44
 EQUAL                : 42
 EQUALA               : 26
 FLOAT                : 16
+<<<<<<< Updated upstream
 FUNCTION             : 73
 GETHAN               : 40
 GTHAN                : 37
 ID                   : 1 7 26 62 73 77 81 89
+=======
+GETHAN               : 40
+GTHAN                : 37
+ID                   : 1 7 26 62 71 75 79 87
+>>>>>>> Stashed changes
 IF                   : 43
 INT                  : 13
 LBRACE               : 17
 LBRACKET             : 12 27 69 69
 LETHAN               : 41
+<<<<<<< Updated upstream
 LPAREN               : 29 43 58 68 73 80 81 89
+=======
+LPAREN               : 29 43 58 68 71 78 79 87
+>>>>>>> Stashed changes
 LTHAN                : 38
 MINUS                : 51
 MULTI                : 56
@@ -128,16 +169,25 @@ PRINT                : 29
 PROGRAM              : 1
 RBRACE               : 17
 RBRACKET             : 12 27
+<<<<<<< Updated upstream
 READ                 : 89
 RPAREN               : 29 43 58 68 73 80 81 89
 SEMICOLON            : 1 5 26 29 43 80 89
 STRING               : 15
 VAR                  : 4
 WHILE                : 80
+=======
+RPAREN               : 29 43 58 68 71 78 79 87
+SEMICOLON            : 1 5 26 29 43 78 87
+STRING               : 15
+VAR                  : 4
+WHILE                : 78
+>>>>>>> Stashed changes
 error                : 
 
 Nonterminals, with rules where they appear
 
+<<<<<<< Updated upstream
 ambAuxArgumentos1    : 86
 ambAuxEscritura1     : 30
 ambAuxParametros     : 77
@@ -147,6 +197,21 @@ ambIdVars            : 7
 argumentos           : 82
 asignacion           : 20
 auxArgumentos1       : 84 87
+=======
+CTREFLOAT            : 64
+ESTATUTO             : 18
+FUNCTION             : 71
+READ                 : 87
+ambAuxArgumentos1    : 84
+ambAuxEscritura1     : 30
+ambAuxParametros     : 75
+ambCicloTermino      : 53
+ambExp               : 47
+ambIdVars            : 7
+argumentos           : 80
+asignacion           : 20
+auxArgumentos1       : 82 85
+>>>>>>> Stashed changes
 auxAsignacion1       : 26
 auxCondicion         : 43
 auxEscritura1        : 29 31
@@ -154,23 +219,39 @@ auxEscritura2        : 30
 auxExp               : 48 60
 auxExpresion         : 35
 auxFactor            : 59
+<<<<<<< Updated upstream
 auxFunction          : 73
 auxLlamada           : 81
 auxParametros        : 76 78
+=======
+auxFunction          : 71
+auxLlamada           : 79
+auxParametros        : 74 76
+>>>>>>> Stashed changes
 auxTermino           : 54
 auxTipo1             : 10
 auxTipo2             : 12
 auxVar1              : 4 5
 auxVarcte            : 62
+<<<<<<< Updated upstream
 bloque               : 1 43 44 73 80
 ciclo                : 25
 cicloBloque          : 17 18
 cicloExp             : 46 48
 cicloFuncion         : 1 71
+=======
+aux_llamada          : 
+bloque               : 1 43 44 71 78
+ciclo                : 25
+cicloBloque          : 17 18
+cicloExp             : 46 48
+cicloFuncion         : 1
+>>>>>>> Stashed changes
 cicloTermino         : 52 54
 cicloVars            : 1 2
 condicion            : 21
 escritura            : 22
+<<<<<<< Updated upstream
 estatuto             : 18
 exp                  : 27 35 35 68 69 86
 expresion            : 26 33 43 58 80
@@ -183,6 +264,21 @@ parametros           : 74
 programa             : 0
 termino              : 47
 tipo                 : 5 77
+=======
+estatuto             : 
+exp                  : 27 35 35 68 69 84
+expresion            : 26 33 43 58 78
+factor               : 53
+funcion              : 
+idVars               : 5 8
+lectura              : 23
+llamada              : 24
+p_auxArgumentos1     : 
+parametros           : 72
+programa             : 0
+termino              : 47
+tipo                 : 5 75
+>>>>>>> Stashed changes
 varcte               : 59
 vars                 : 2
 
