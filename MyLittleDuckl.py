@@ -98,14 +98,10 @@ lexer = lex.lex()
 
 # Test it out
 data = '''
-<<<<<<< HEAD
     program gg;
     var a:int;
     {
     }
-=======
-    if (a > b) {a = 2;}
->>>>>>> origin/master
     '''
 
 # Give the lexer some input

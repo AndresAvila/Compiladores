@@ -201,8 +201,6 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(start='programa')
 
-
-
 def archivo(file):
   fi = open(file, 'r')
   data = fi.read()
@@ -211,10 +209,4 @@ def archivo(file):
   if parser.parse(data) == 'OK':
     print('Programa valido')
 
-<<<<<<< Updated upstream
 archivo("test")
-=======
-archivo("prueba")
-
-  
->>>>>>> Stashed changes
