@@ -99,9 +99,14 @@ lexer = lex.lex()
 # Test it out
 data = '''
     program gg;
-    var a:int;
-    {
-    }
+var a:int[1];
+var b:int;
+function abuela(int debatman, char lolwe)
+{
+  b = 2 + 1;
+}
+{
+}
     '''
 
 # Give the lexer some input

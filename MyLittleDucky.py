@@ -75,7 +75,7 @@ def p_ambAuxEscritura1(p): #Done
         |'''
 
 def p_auxEscritura2(p): #Done
-    '''auxEscritura2 : expresion
+    '''auxEscritura2 : exp
         | CTESTRING'''
 
 def p_expresion(p): #Done
@@ -171,7 +171,7 @@ def p_ciclo(p): #Done
     '''ciclo : WHILE LPAREN expresion RPAREN bloque SEMICOLON '''
 
 def p_llamada(p): #Done
-    '''llamada : ID LPAREN auxLlamada RPAREN'''
+    '''llamada : ID LPAREN auxLlamada RPAREN SEMICOLON'''
 
 def p_auxLlamada(p): #Done
     '''auxLlamada : argumentos
