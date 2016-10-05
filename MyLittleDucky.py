@@ -192,7 +192,7 @@ def p_lectura(p): #Done
 
 # Error rule for syntax errors
 def p_error(p):
-    print("Error de tipo: ", p.value,"  linea: ", p.lineno)
+    print("Error de tipo: " + str(p.value) + "  linea: " + str(p.lineno))
     global err
     err = 0
 
@@ -207,3 +207,5 @@ def archivo(file):
   fi.close()
   if parser.parse(data) == 'OK':
     print('Programa valido')
+
+archivo("test")

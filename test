@@ -1,0 +1,5 @@
+program gg;
+{
+if (b > c ) 
+a=0;
+};
