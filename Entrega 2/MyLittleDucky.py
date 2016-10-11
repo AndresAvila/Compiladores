@@ -6,23 +6,60 @@ import sys
 # Get the token map from the lexer.  This is required.
 from MyLittleDuckl import tokens
 
+tokens = MyLittleDuckl.tokens   
+varDirectory = {}
+varDirectoryFunc = {}
+procDirectory = {}
+varList = []
+
+
 def p_programa(p): #Done
-    '''programa : PROGRAM ID SEMICOLON cicloVars cicloFuncion bloque'''
+    '''programa : PROGRAM createProcedureDir addProcedureDir ID SEMICOLON cicloVars cicloFuncion bloque'''
     p[0] = "OK"
+
+def p_createProcedureDir(p):
+    '''createProcedureDir :'''
+    dirProcedure = {}
+
+def p_addProcedureDir(p):
+    '''addProcedureDir :'''
+    dirProcedure[p[+1]] = {'Variables' : varDirectory.copy(), 'Tipo' : p[-2]} 
+    varDirectory.clear()
+    print("Pasa por addProcedureDir")
+    print(dirProcedure)
 
 def p_cicloVars(p): #Done
     '''cicloVars : vars cicloVars 
         |'''
 
 def p_vars(p): #Done
-    '''vars : VAR auxVar1 '''
+    '''vars : createVariableDir VAR auxVar1 '''
+
+def p_createVariableDir(p):
+    '''createVariableDir :'''
+    varDirectory = {}
+    print("Pasa por createVariableDir")
 
 def p_auxVar1(p): #Done
-    '''auxVar1 : idVars COLON tipo SEMICOLON auxVar1 
+    '''auxVar1 : idVars COLON addTypeGlobal tipo SEMICOLON auxVar1 
         |'''
 
+def p_addTypeGlobal(p):
+    '''addTypeGlobal :'''
+    
+    while (len(varList) > 0):
+        varDir[varList.pop()] = {'Tipo' : p[+1], 'Scope' : 'Global'}
+    print("pasa por addTypeGlobal")
+    print(varDir)
+
 def p_idVars(p): #Done
-    '''idVars : ID ambIdVars '''
+    '''idVars : addVariableDir ID ambIdVars '''
+
+def p_addVariableDir(p):
+    '''addVariableDir :'''
+    varList.append(p[+1])
+    print("pasa por addVariableDir")
+    print(varList)
 
 def p_ambIdVars(p): #Done
     '''ambIdVars : COMMA idVars
@@ -151,7 +188,14 @@ def p_cicloFuncion(p): #Done
         |'''
 
 def p_funcion(p): #Done
-    '''funcion : FUNCTION ID LPAREN auxFunction RPAREN bloque'''
+    '''funcion : tipo FUNCTION addProcDirectoryFunc ID LPAREN auxFunction RPAREN bloque'''
+
+def p_addProcDirectoryFunc(p):
+    '''addProcDirectoryFunc :'''
+    procDirectory[p[+1]] ={'Variables' : varDirectoryFunc.copy(), 'Tipo' : p[-2]}
+    varDirectoryFunc.clear()
+    print("pasa por addProcDirectoryFunc")
+    print(procDirectory)
 
 def p_auxFunction(p): #Done
     '''auxFunction : parametros
