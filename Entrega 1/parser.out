@@ -61,7 +61,7 @@ Rule 55    ambCicloTermino -> auxTermino cicloTermino
 Rule 56    ambCicloTermino -> <empty>
 Rule 57    auxTermino -> MULTI
 Rule 58    auxTermino -> DIVIDE
-Rule 59    factor -> LPAREN expresion RPAREN
+Rule 59    factor -> LPAREN exp RPAREN
 Rule 60    factor -> auxFactor varcte
 Rule 61    auxFactor -> auxExp
 Rule 62    auxFactor -> <empty>
@@ -173,8 +173,8 @@ cicloVars            : 1 2
 condicion            : 22
 escritura            : 23
 estatuto             : 19
-exp                  : 27 28 34 36 36 69 70 87
-expresion            : 44 59 81
+exp                  : 27 28 34 36 36 59 69 70 87
+expresion            : 44 81
 factor               : 54
 funcion              : 72
 idVars               : 5 8
@@ -735,7 +735,7 @@ state 50
     (48) cicloExp -> . termino ambExp
     (53) termino -> . cicloTermino
     (54) cicloTermino -> . factor ambCicloTermino
-    (59) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . LPAREN exp RPAREN
     (60) factor -> . auxFactor varcte
     (61) auxFactor -> . auxExp
     (62) auxFactor -> .
@@ -772,7 +772,7 @@ state 51
     (48) cicloExp -> . termino ambExp
     (53) termino -> . cicloTermino
     (54) cicloTermino -> . factor ambCicloTermino
-    (59) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . LPAREN exp RPAREN
     (60) factor -> . auxFactor varcte
     (61) auxFactor -> . auxExp
     (62) auxFactor -> .
@@ -818,7 +818,7 @@ state 53
     (48) cicloExp -> . termino ambExp
     (53) termino -> . cicloTermino
     (54) cicloTermino -> . factor ambCicloTermino
-    (59) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . LPAREN exp RPAREN
     (60) factor -> . auxFactor varcte
     (61) auxFactor -> . auxExp
     (62) auxFactor -> .
@@ -863,7 +863,7 @@ state 55
     (48) cicloExp -> . termino ambExp
     (53) termino -> . cicloTermino
     (54) cicloTermino -> . factor ambCicloTermino
-    (59) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . LPAREN exp RPAREN
     (60) factor -> . auxFactor varcte
     (61) auxFactor -> . auxExp
     (62) auxFactor -> .
@@ -907,7 +907,7 @@ state 57
     (48) cicloExp -> . termino ambExp
     (53) termino -> . cicloTermino
     (54) cicloTermino -> . factor ambCicloTermino
-    (59) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . LPAREN exp RPAREN
     (60) factor -> . auxFactor varcte
     (61) auxFactor -> . auxExp
     (62) auxFactor -> .
@@ -1087,21 +1087,18 @@ state 68
 
 state 69
 
-    (59) factor -> LPAREN . expresion RPAREN
-    (36) expresion -> . exp auxExpresion exp
-    (37) expresion -> .
+    (59) factor -> LPAREN . exp RPAREN
     (47) exp -> . cicloExp
     (48) cicloExp -> . termino ambExp
     (53) termino -> . cicloTermino
     (54) cicloTermino -> . factor ambCicloTermino
-    (59) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . LPAREN exp RPAREN
     (60) factor -> . auxFactor varcte
     (61) auxFactor -> . auxExp
     (62) auxFactor -> .
     (51) auxExp -> . PLUS
     (52) auxExp -> . MINUS
 
-    RPAREN          reduce using rule 37 (expresion -> .)
     LPAREN          shift and go to state 69
     ID              reduce using rule 62 (auxFactor -> .)
     CTEINT          reduce using rule 62 (auxFactor -> .)
@@ -1112,10 +1109,9 @@ state 69
     PLUS            shift and go to state 67
     MINUS           shift and go to state 71
 
-    expresion                      shift and go to state 108
     auxExp                         shift and go to state 65
     termino                        shift and go to state 68
-    exp                            shift and go to state 64
+    exp                            shift and go to state 108
     factor                         shift and go to state 70
     auxFactor                      shift and go to state 66
     cicloExp                       shift and go to state 72
@@ -1254,7 +1250,7 @@ state 80
     (48) cicloExp -> . termino ambExp
     (53) termino -> . cicloTermino
     (54) cicloTermino -> . factor ambCicloTermino
-    (59) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . LPAREN exp RPAREN
     (60) factor -> . auxFactor varcte
     (61) auxFactor -> . auxExp
     (62) auxFactor -> .
@@ -1404,7 +1400,7 @@ state 93
     (48) cicloExp -> . termino ambExp
     (53) termino -> . cicloTermino
     (54) cicloTermino -> . factor ambCicloTermino
-    (59) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . LPAREN exp RPAREN
     (60) factor -> . auxFactor varcte
     (61) auxFactor -> . auxExp
     (62) auxFactor -> .
@@ -1665,7 +1661,7 @@ state 106
     (48) cicloExp -> . termino ambExp
     (53) termino -> . cicloTermino
     (54) cicloTermino -> . factor ambCicloTermino
-    (59) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . LPAREN exp RPAREN
     (60) factor -> . auxFactor varcte
     (61) auxFactor -> . auxExp
     (62) auxFactor -> .
@@ -1693,14 +1689,14 @@ state 107
 
     (48) cicloExp -> termino ambExp .
 
+    RPAREN          reduce using rule 48 (cicloExp -> termino ambExp .)
+    COMMA           reduce using rule 48 (cicloExp -> termino ambExp .)
     GTHAN           reduce using rule 48 (cicloExp -> termino ambExp .)
     LTHAN           reduce using rule 48 (cicloExp -> termino ambExp .)
     NOTEQUAL        reduce using rule 48 (cicloExp -> termino ambExp .)
     GETHAN          reduce using rule 48 (cicloExp -> termino ambExp .)
     LETHAN          reduce using rule 48 (cicloExp -> termino ambExp .)
     EQUAL           reduce using rule 48 (cicloExp -> termino ambExp .)
-    COMMA           reduce using rule 48 (cicloExp -> termino ambExp .)
-    RPAREN          reduce using rule 48 (cicloExp -> termino ambExp .)
     LBRACKET        reduce using rule 48 (cicloExp -> termino ambExp .)
     RBRACKET        reduce using rule 48 (cicloExp -> termino ambExp .)
     SEMICOLON       reduce using rule 48 (cicloExp -> termino ambExp .)
@@ -1708,7 +1704,7 @@ state 107
 
 state 108
 
-    (59) factor -> LPAREN expresion . RPAREN
+    (59) factor -> LPAREN exp . RPAREN
 
     RPAREN          shift and go to state 131
 
@@ -1747,7 +1743,7 @@ state 111
 
     (55) ambCicloTermino -> auxTermino . cicloTermino
     (54) cicloTermino -> . factor ambCicloTermino
-    (59) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . LPAREN exp RPAREN
     (60) factor -> . auxFactor varcte
     (61) auxFactor -> . auxExp
     (62) auxFactor -> .
@@ -1805,7 +1801,7 @@ state 114
     (48) cicloExp -> . termino ambExp
     (53) termino -> . cicloTermino
     (54) cicloTermino -> . factor ambCicloTermino
-    (59) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . LPAREN exp RPAREN
     (60) factor -> . auxFactor varcte
     (61) auxFactor -> . auxExp
     (62) auxFactor -> .
@@ -1880,7 +1876,7 @@ state 120
     (48) cicloExp -> . termino ambExp
     (53) termino -> . cicloTermino
     (54) cicloTermino -> . factor ambCicloTermino
-    (59) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . LPAREN exp RPAREN
     (60) factor -> . auxFactor varcte
     (61) auxFactor -> . auxExp
     (62) auxFactor -> .
@@ -1961,7 +1957,7 @@ state 127
     (48) cicloExp -> . termino ambExp
     (53) termino -> . cicloTermino
     (54) cicloTermino -> . factor ambCicloTermino
-    (59) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . LPAREN exp RPAREN
     (60) factor -> . auxFactor varcte
     (61) auxFactor -> . auxExp
     (62) auxFactor -> .
@@ -1993,7 +1989,7 @@ state 128
     (48) cicloExp -> . termino ambExp
     (53) termino -> . cicloTermino
     (54) cicloTermino -> . factor ambCicloTermino
-    (59) factor -> . LPAREN expresion RPAREN
+    (59) factor -> . LPAREN exp RPAREN
     (60) factor -> . auxFactor varcte
     (61) auxFactor -> . auxExp
     (62) auxFactor -> .
@@ -2058,23 +2054,23 @@ state 130
 
 state 131
 
-    (59) factor -> LPAREN expresion RPAREN .
+    (59) factor -> LPAREN exp RPAREN .
 
-    MULTI           reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
-    DIVIDE          reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
-    PLUS            reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
-    MINUS           reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
-    GTHAN           reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
-    LTHAN           reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
-    NOTEQUAL        reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
-    GETHAN          reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
-    LETHAN          reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
-    EQUAL           reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
-    COMMA           reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
-    RPAREN          reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
-    RBRACKET        reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
-    SEMICOLON       reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
-    LBRACKET        reduce using rule 59 (factor -> LPAREN expresion RPAREN .)
+    MULTI           reduce using rule 59 (factor -> LPAREN exp RPAREN .)
+    DIVIDE          reduce using rule 59 (factor -> LPAREN exp RPAREN .)
+    PLUS            reduce using rule 59 (factor -> LPAREN exp RPAREN .)
+    MINUS           reduce using rule 59 (factor -> LPAREN exp RPAREN .)
+    GTHAN           reduce using rule 59 (factor -> LPAREN exp RPAREN .)
+    LTHAN           reduce using rule 59 (factor -> LPAREN exp RPAREN .)
+    NOTEQUAL        reduce using rule 59 (factor -> LPAREN exp RPAREN .)
+    GETHAN          reduce using rule 59 (factor -> LPAREN exp RPAREN .)
+    LETHAN          reduce using rule 59 (factor -> LPAREN exp RPAREN .)
+    EQUAL           reduce using rule 59 (factor -> LPAREN exp RPAREN .)
+    COMMA           reduce using rule 59 (factor -> LPAREN exp RPAREN .)
+    RPAREN          reduce using rule 59 (factor -> LPAREN exp RPAREN .)
+    RBRACKET        reduce using rule 59 (factor -> LPAREN exp RPAREN .)
+    SEMICOLON       reduce using rule 59 (factor -> LPAREN exp RPAREN .)
+    LBRACKET        reduce using rule 59 (factor -> LPAREN exp RPAREN .)
 
 
 state 132

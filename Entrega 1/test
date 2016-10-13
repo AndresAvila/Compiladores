@@ -6,7 +6,12 @@ function abuela(int debatman, char lolwe)
 {
 	if ( a > b )
 	{
-		b = 2 + 1;
+		if (c > d)
+		{
+			b = 2 + 1;
+		}else {
+			b = 3;
+		};
 	};
 	print(2 + 1);
 	read(c);
@@ -15,7 +20,7 @@ function abuela(int debatman, char lolwe)
 abuela(a , c);
 a = a * b;
 while (a > b){
-	a = a + 1;
+	a = (a + 1) * 8 / 7 + c;
 	print('hehe xd');
 };
 }

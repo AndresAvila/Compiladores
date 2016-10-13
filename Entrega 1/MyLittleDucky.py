@@ -126,7 +126,7 @@ def p_auxTermino(p): #Done
         | DIVIDE'''
 
 def p_factor(p): #Done
-    ''' factor : LPAREN expresion RPAREN
+    ''' factor : LPAREN exp RPAREN
         | auxFactor varcte'''
 
 def p_auxFactor(p): #Done
