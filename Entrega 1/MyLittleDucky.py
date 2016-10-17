@@ -7,7 +7,7 @@ import sys
 from MyLittleDuckl import tokens
 
 def p_programa(p): #Done
-    '''programa : PROGRAM ID SEMICOLON cicloVars cicloFuncion bloque'''
+    '''programa : PROGRAM ID SEMICOLON cicloVars cicloFuncion MAIN bloque'''
     p[0] = "OK"
 
 def p_cicloVars(p): #Done
@@ -91,7 +91,7 @@ def p_auxExpresion(p): #Done
         | EQUAL '''
 
 def p_condicion(p): #Done
-    '''condicion : IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON'''
+    '''condicion : IF LPAREN expresion RPAREN bloque auxCondicion '''
 
 def p_auxCondicion(p): #Done
     '''auxCondicion : ELSE bloque
@@ -168,7 +168,7 @@ def p_ambAuxParamentros(p): #Done
         |'''
 
 def p_ciclo(p): #Done
-    '''ciclo : WHILE LPAREN expresion RPAREN bloque SEMICOLON '''
+    '''ciclo : WHILE LPAREN expresion RPAREN bloque '''
 
 def p_llamada(p): #Done
     '''llamada : ID LPAREN auxLlamada RPAREN SEMICOLON'''

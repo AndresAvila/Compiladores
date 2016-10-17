@@ -1,23 +1,24 @@
 program gg;
-var a:int[1];
-var b:int;
-function a(int a, bool c) {a = a * b;}
-function abuela(int debatman, char lolwe)
+var b:int[2];
+var b,d,e:char;
+function int[3] a(int a, bool c) {a = a * b;}
+function char abuela(int debatman, char lolwe)
 {
 	if ( a > b )
 	{
 		b = 2 + 1;
-	};
+	}
 	print(2 + 1);
+	a[8] = 7;
 	read(c);
 }
-{
+main {
 abuela(a , c);
 a = a * b;
 while (a > b){
 	a = a + 1;
 	print('hehe xd');
-};
+}
 abuela(a, b);
 }
 

@@ -11,16 +11,16 @@ function abuela(int debatman, char lolwe)
 			b = 2 + 1;
 		}else {
 			b = 3;
-		};
-	};
+		}
+	}
 	print(2 + 1);
 	read(c);
 }
-{
+main {
 abuela(a , c);
 a = a * b;
 while (a > b){
 	a = (a + 1) * 8 / 7 + c;
 	print('hehe xd');
-};
+}
 }

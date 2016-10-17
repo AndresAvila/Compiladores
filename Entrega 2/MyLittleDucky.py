@@ -11,21 +11,19 @@ varDirectory = {}
 varDirectoryFunc = {}
 procDirectory = {}
 varList = []
+dirProcedure = {}
 
 
 def p_programa(p): #Done
-    '''programa : PROGRAM createProcedureDir addProcedureDir ID SEMICOLON cicloVars cicloFuncion bloque'''
+    '''programa : PROGRAM ID addProcedureDir SEMICOLON cicloVars cicloFuncion MAIN bloque'''
     p[0] = "OK"
 
-def p_createProcedureDir(p):
-    '''createProcedureDir :'''
-    dirProcedure = {}
-
 def p_addProcedureDir(p):
-    '''addProcedureDir :'''
-    dirProcedure[p[+1]] = {'Variables' : varDirectory.copy(), 'Tipo' : p[-2]} 
+    '''addProcedureDir : '''
+    #print("Pasa por addProcedureDir")
+    dirProcedure[p[-1]] = {'Variables' : varDirectory.copy(), 'Tipo' : p[-2]} 
     varDirectory.clear()
-    print("Pasa por addProcedureDir")
+    #print("TERMINA addProcedureDir")
     print(dirProcedure)
 
 def p_cicloVars(p): #Done
@@ -36,48 +34,52 @@ def p_vars(p): #Done
     '''vars : createVariableDir VAR auxVar1 '''
 
 def p_createVariableDir(p):
-    '''createVariableDir :'''
+    '''createVariableDir : '''
     varDirectory = {}
-    print("Pasa por createVariableDir")
+    #print("Pasa por createVariableDir")
 
 def p_auxVar1(p): #Done
-    '''auxVar1 : idVars COLON addTypeGlobal tipo SEMICOLON auxVar1 
-        |'''
+    '''auxVar1 : idVars COLON tipo addTypeGlobal SEMICOLON auxVar1 
+        | '''
 
 def p_addTypeGlobal(p):
-    '''addTypeGlobal :'''
-    
+    '''addTypeGlobal : '''
+    #print("pasa por addTypeGlobal")
     while (len(varList) > 0):
-        varDir[varList.pop()] = {'Tipo' : p[+1], 'Scope' : 'Global'}
-    print("pasa por addTypeGlobal")
-    print(varDir)
+        varDirectory[varList.pop()] = {'Tipo' : p[-1], 'Scope' : 'Global'}
+    #print("TERMINA addTypeGlobal")
+    print(varDirectory)
+
 
 def p_idVars(p): #Done
-    '''idVars : addVariableDir ID ambIdVars '''
+    '''idVars : ID addVariableDir ambIdVars '''
 
 def p_addVariableDir(p):
-    '''addVariableDir :'''
-    varList.append(p[+1])
-    print("pasa por addVariableDir")
-    print(varList)
+    '''addVariableDir : '''
+    #print("pasa por addVariableDir")
+    if (p[-1] in varDirectory):
+        print("Ya existe la variable")
+    else:
+        varList.append(p[-1])
+        print("Se agrego ")
+        
 
 def p_ambIdVars(p): #Done
     '''ambIdVars : COMMA idVars
         |'''
 
 def p_tipo(p): #Done
-    '''tipo : auxTipo1
-        | CHAR '''
+    '''tipo : INT ambAuxTipo1
+        | BOOL ambAuxTipo1
+        | STRING ambAuxTipo1
+        | FLOAT ambAuxTipo1
+        | CHAR ambAuxTipo1'''
+    p[0] = p[1]
 
-def p_auxTipo1(p): #Done
-    '''auxTipo1 : auxTipo2 LBRACKET CTEINT RBRACKET
-        | auxTipo2'''
 
-def p_auxTipo2(p): #Done
-    '''auxTipo2 : INT
-        | BOOL
-        | STRING
-        | FLOAT '''
+def p_ambAuxTipo1(p):
+    '''ambAuxTipo1 : LBRACKET CTEINT RBRACKET
+        | ''' 
 
 def p_bloque(p): #Done
     '''bloque : LBRACE cicloBloque RBRACE'''
@@ -128,7 +130,7 @@ def p_auxExpresion(p): #Done
         | EQUAL '''
 
 def p_condicion(p): #Done
-    '''condicion : IF LPAREN expresion RPAREN bloque auxCondicion SEMICOLON'''
+    '''condicion : IF LPAREN expresion RPAREN bloque auxCondicion'''
 
 def p_auxCondicion(p): #Done
     '''auxCondicion : ELSE bloque
@@ -163,7 +165,7 @@ def p_auxTermino(p): #Done
         | DIVIDE'''
 
 def p_factor(p): #Done
-    ''' factor : LPAREN expresion RPAREN
+    ''' factor : LPAREN exp RPAREN
         | auxFactor varcte'''
 
 def p_auxFactor(p): #Done
@@ -188,13 +190,13 @@ def p_cicloFuncion(p): #Done
         |'''
 
 def p_funcion(p): #Done
-    '''funcion : tipo FUNCTION addProcDirectoryFunc ID LPAREN auxFunction RPAREN bloque'''
+    '''funcion : FUNCTION tipo ID addProcDirectoryFunc LPAREN auxFunction RPAREN bloque'''
 
 def p_addProcDirectoryFunc(p):
-    '''addProcDirectoryFunc :'''
-    procDirectory[p[+1]] ={'Variables' : varDirectoryFunc.copy(), 'Tipo' : p[-2]}
+    '''addProcDirectoryFunc : '''
+    procDirectory[p[-1]] ={'Variables' : varDirectoryFunc.copy(), 'Tipo' : p[-2]}
     varDirectoryFunc.clear()
-    print("pasa por addProcDirectoryFunc")
+    #print("pasa por addProcDirectoryFunc")
     print(procDirectory)
 
 def p_auxFunction(p): #Done
@@ -212,7 +214,7 @@ def p_ambAuxParamentros(p): #Done
         |'''
 
 def p_ciclo(p): #Done
-    '''ciclo : WHILE LPAREN expresion RPAREN bloque SEMICOLON '''
+    '''ciclo : WHILE LPAREN expresion RPAREN bloque '''
 
 def p_llamada(p): #Done
     '''llamada : ID LPAREN auxLlamada RPAREN SEMICOLON'''
@@ -248,7 +250,7 @@ parser = yacc.yacc(start='programa')
 def archivo(file):
   fi = open(file, 'r')
   data = fi.read()
-  print (data)
+  #print (data)
   fi.close()
   if parser.parse(data) == 'OK':
     print('Programa valido')

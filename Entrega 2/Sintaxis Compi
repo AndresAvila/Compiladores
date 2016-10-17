@@ -8,14 +8,14 @@ ESTATUTO ::= ASIGNACIÓN | CONDICIÓN | ESCRITURA | LECTURA | LLAMADA | CICLO
 ASIGNACIÓN ::= 'id' ('[' EXP ']')? '=' EXP ';'
 ESCRITURA ::= 'print' '(' (EXP | 'cte string')(',' (EXP | 'cte string'))* ')' ';'
 EXPRESIÓN ::= EXP (('>' | '<' | '<>' | '>=' | '<=' | '==')EXP)?
-CONDICIÓN ::= 'if' '(' EXPRESIÓN ')' BLOQUE ('else' BLOQUE)? ';'
+CONDICIÓN ::= 'if' '(' EXPRESIÓN ')' BLOQUE ('else' BLOQUE)?
 EXP ::= TÉRMINO (( '+' | '-' )TÉRMINO)*
 TÉRMINO ::= FACTOR (( '*' | '/' )FACTOR)*
-FACTOR ::= '(' EXPRESIÓN ')' | ( '+' | '-' )? VAR_CTE
+FACTOR ::= '(' EXP ')' | ( '+' | '-' )? VAR_CTE
 VAR_CTE ::= 'id' (('(' EXP ')')|('[' EXP ']'))? | 'cte int' | 'cte float' | 'cte char' | 'cte bool' | 'cte string'
 FUNCIÓN ::= 'function' 'id' '(' PARAMETROS? ')' BLOQUE
 PARAMETROS ::= TIPO 'id' (',' TIPO 'id')*
-CICLO ::= 'while' '(' EXPRESIÓN ')' BLOQUE ';'
+CICLO ::= 'while' '(' EXPRESIÓN ')' BLOQUE
 LLAMADA ::= 'id' '(' ARGUMENTOS? ')'
 ARGUMENTOS ::= (EXP (',' EXP)*)?
 LECTURA ::= 'read' '(' 'id' ')' ';'

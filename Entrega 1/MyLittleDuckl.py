@@ -15,7 +15,8 @@ reserved = {
   'char' : 'CHAR',
   'while' : 'WHILE',
   'function' : 'FUNCTION',
-  'read' : 'READ'
+  'read' : 'READ',
+  'main' : 'MAIN'
 }
 
 # List of token names. This is always required

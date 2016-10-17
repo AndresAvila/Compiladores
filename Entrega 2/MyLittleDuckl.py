@@ -15,7 +15,8 @@ reserved = {
   'char' : 'CHAR',
   'while' : 'WHILE',
   'function' : 'FUNCTION',
-  'read' : 'READ'
+  'read' : 'READ',
+  'main' : 'MAIN'
 }
 
 # List of token names. This is always required
@@ -117,4 +118,4 @@ while True:
     tok = lexer.token()
     if not tok:
         break      # No more input
-    print(tok)
+    #print(tok)
