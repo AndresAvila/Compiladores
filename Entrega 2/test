@@ -13,7 +13,8 @@ function char abuela(int debatman, char lolwe)
 	read(c);
 }
 main {
-var m:int;
+var m,j,q:int;
+var s,tonto:char;
 abuela(a , c);
 a = a * b;
 while (a > b){

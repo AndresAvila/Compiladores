@@ -41,8 +41,7 @@ def p_createVariableDir(p):
     #print("Pasa por createVariableDir")
 
 def p_auxVar1(p): #Done
-    '''auxVar1 : idVars COLON tipo addTypeGlobal SEMICOLON auxVar1 
-        | '''
+    '''auxVar1 : idVars COLON tipo addTypeGlobal SEMICOLON'''
 
 def p_addTypeGlobal(p):
     '''addTypeGlobal : '''
@@ -88,7 +87,7 @@ def p_bloque(p): #Done
 
 def p_cicloVarsMain(p): #Done
     '''cicloVarsMain : varsMain cicloVarsMain 
-        |'''
+        | '''
 
 def p_varsMain(p): #Done
     '''varsMain : createVariableDirMain VAR auxVar1Main'''
@@ -99,8 +98,7 @@ def p_createVariableDirMain(p):
     print("Pasa por createVariableDirMain")
 
 def p_auxVar1Main(p): #Done
-    '''auxVar1Main : idVarsMain COLON tipo addTypeGlobalMain SEMICOLON auxVar1Main 
-        | '''
+    '''auxVar1Main : idVarsMain COLON tipo addTypeGlobalMain SEMICOLON'''
 
 def p_addTypeGlobalMain(p):
     '''addTypeGlobalMain : '''
@@ -127,11 +125,11 @@ def p_addVariableDirMain(p):
 
 def p_ambIdVarsMain(p): #Done
     '''ambIdVarsMain : COMMA idVarsMain
-        |'''
+        | '''
 
 def p_cicloBloque(p): #Done
     '''cicloBloque : estatuto cicloBloque 
-        |'''
+        | '''
 
 def p_estatuto(p): #Done
     '''estatuto : asignacion
