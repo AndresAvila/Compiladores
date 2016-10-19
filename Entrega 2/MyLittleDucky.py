@@ -8,9 +8,11 @@ from MyLittleDuckl import tokens
 
 tokens = MyLittleDuckl.tokens   
 varDirectory = {}
+varDirectoryMain = {}
 varDirectoryFunc = {}
 procDirectory = {}
 varList = []
+varListMain = []
 dirProcedure = {}
 
 
@@ -82,7 +84,50 @@ def p_ambAuxTipo1(p):
         | ''' 
 
 def p_bloque(p): #Done
-    '''bloque : LBRACE cicloBloque RBRACE'''
+    '''bloque : LBRACE cicloVarsMain cicloBloque RBRACE'''
+
+def p_cicloVarsMain(p): #Done
+    '''cicloVarsMain : varsMain cicloVarsMain 
+        |'''
+
+def p_varsMain(p): #Done
+    '''varsMain : createVariableDirMain VAR auxVar1Main'''
+
+def p_createVariableDirMain(p):
+    '''createVariableDirMain : '''
+    varDirectoryMain = {}
+    print("Pasa por createVariableDirMain")
+
+def p_auxVar1Main(p): #Done
+    '''auxVar1Main : idVarsMain COLON tipo addTypeGlobalMain SEMICOLON auxVar1Main 
+        | '''
+
+def p_addTypeGlobalMain(p):
+    '''addTypeGlobalMain : '''
+    print("pasa por addTypeGlobalMain")
+    while (len(varListMain) > 0):
+        print("entra loop addTypeGlobalMain")
+        varDirectoryMain[varListMain.pop()] = {'Tipo' : p[-1], 'Scope' : 'Main'}
+    print("TERMINA addTypeGlobalMain")
+    print(varDirectoryMain)
+
+
+def p_idVarsMain(p): #Done
+    '''idVarsMain : ID addVariableDirMain ambIdVarsMain '''
+
+def p_addVariableDirMain(p):
+    '''addVariableDirMain : '''
+    print("pasa por addVariableDirMain")
+    if (p[-1] in varDirectoryMain):
+        print("Ya existe la variable")
+    else:
+        varListMain.append(p[-1])
+        print("Se agrego ")
+        
+
+def p_ambIdVarsMain(p): #Done
+    '''ambIdVarsMain : COMMA idVarsMain
+        |'''
 
 def p_cicloBloque(p): #Done
     '''cicloBloque : estatuto cicloBloque 
