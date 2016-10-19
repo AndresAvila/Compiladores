@@ -13,6 +13,7 @@ varDirectoryFunc = {}
 procDirectory = {}
 varList = []
 varListMain = []
+varListFuncion = []
 dirProcedure = {}
 
 
@@ -62,7 +63,7 @@ def p_addVariableDir(p):
         print("Ya existe la variable")
     else:
         varList.append(p[-1])
-        print("Se agrego ")
+        #print("Se agrego ")
         
 
 def p_ambIdVars(p): #Done
@@ -82,9 +83,6 @@ def p_ambAuxTipo1(p):
     '''ambAuxTipo1 : LBRACKET CTEINT RBRACKET
         | ''' 
 
-def p_bloque(p): #Done
-    '''bloque : LBRACE cicloVarsMain cicloBloque RBRACE'''
-
 def p_cicloVarsMain(p): #Done
     '''cicloVarsMain : varsMain cicloVarsMain 
         | '''
@@ -95,18 +93,18 @@ def p_varsMain(p): #Done
 def p_createVariableDirMain(p):
     '''createVariableDirMain : '''
     varDirectoryMain = {}
-    print("Pasa por createVariableDirMain")
+    #print("Pasa por createVariableDirMain")
 
 def p_auxVar1Main(p): #Done
     '''auxVar1Main : idVarsMain COLON tipo addTypeGlobalMain SEMICOLON'''
 
 def p_addTypeGlobalMain(p):
     '''addTypeGlobalMain : '''
-    print("pasa por addTypeGlobalMain")
+    #print("pasa por addTypeGlobalMain")
     while (len(varListMain) > 0):
-        print("entra loop addTypeGlobalMain")
+        #print("entra loop addTypeGlobalMain")
         varDirectoryMain[varListMain.pop()] = {'Tipo' : p[-1], 'Scope' : 'Main'}
-    print("TERMINA addTypeGlobalMain")
+    #print("TERMINA addTypeGlobalMain")
     print(varDirectoryMain)
 
 
@@ -115,20 +113,72 @@ def p_idVarsMain(p): #Done
 
 def p_addVariableDirMain(p):
     '''addVariableDirMain : '''
-    print("pasa por addVariableDirMain")
+    #print("pasa por addVariableDirMain")
     if (p[-1] in varDirectoryMain):
         print("Ya existe la variable")
     else:
         varListMain.append(p[-1])
-        print("Se agrego ")
+        #print("Se agrego ")
         
 
 def p_ambIdVarsMain(p): #Done
     '''ambIdVarsMain : COMMA idVarsMain
         | '''
 
+def p_bloque(p): #Done
+    '''bloque : LBRACE cicloVarsMain cicloBloque RBRACE'''
+
 def p_cicloBloque(p): #Done
     '''cicloBloque : estatuto cicloBloque 
+        | '''
+
+def p_bloqueFuncion(p): #Done
+    '''bloqueFuncion : LBRACE cicloVarsFuncion cicloBloqueFuncion RBRACE'''
+
+def p_cicloBloqueFuncion(p): #Done
+    '''cicloBloqueFuncion : estatuto cicloBloqueFuncion 
+        | '''
+
+def p_cicloVarsFuncion(p): #Done
+    '''cicloVarsFuncion : varsFuncion cicloVarsFuncion 
+        | '''
+
+def p_varsFuncion(p): #Done
+    '''varsFuncion : createVariableDirFuncion VAR auxVar1Funcion'''
+
+def p_createVariableDirFuncion(p):
+    '''createVariableDirFuncion : '''
+    varDirectoryFunc = {}
+    #print("Pasa por createVariableDirFuncion")
+
+def p_auxVar1Funcion(p): #Done
+    '''auxVar1Funcion : idVarsFuncion COLON tipo addTypeGlobalFuncion SEMICOLON'''
+
+def p_addTypeGlobalFuncion(p):
+    '''addTypeGlobalFuncion : '''
+    #print("pasa por addTypeGlobalFuncion")
+    while (len(varListFuncion) > 0):
+        #print("entra loop addTypeGlobalFuncion")
+        varDirectoryFunc[varListFuncion.pop()] = {'Tipo' : p[-1], 'Scope' : 'Funcion'}
+    #print("TERMINA addTypeGlobalFuncion")
+    print(varDirectoryFunc)
+
+
+def p_idVarsFuncion(p): #Done
+    '''idVarsFuncion : ID addVariableDirFuncion ambIdVarsFuncion '''
+
+def p_addVariableDirFuncion(p):
+    '''addVariableDirFuncion : '''
+    #print("pasa por addVariableDirFuncion")
+    if (p[-1] in varDirectoryFunc):
+        print("Ya existe la variable")
+    else:
+        varListFuncion.append(p[-1])
+        #print("Se agrego ")
+        
+
+def p_ambIdVarsFuncion(p): #Done
+    '''ambIdVarsFuncion : COMMA idVarsFuncion
         | '''
 
 def p_estatuto(p): #Done
@@ -233,7 +283,7 @@ def p_cicloFuncion(p): #Done
         |'''
 
 def p_funcion(p): #Done
-    '''funcion : FUNCTION tipo ID addProcDirectoryFunc LPAREN auxFunction RPAREN bloque'''
+    '''funcion : FUNCTION tipo ID addProcDirectoryFunc LPAREN auxFunction RPAREN bloqueFuncion'''
 
 def p_addProcDirectoryFunc(p):
     '''addProcDirectoryFunc : '''
