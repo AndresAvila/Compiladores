@@ -1,9 +1,12 @@
 program gg;
 var b:int[2];
 var b,d,e:char;
-function int[3] a(int a, bool c) {a = a * b;}
+function int[3] a(int a, bool c) {
+var a:string;
+a = a * b;}
 function char abuela(int debatman, char lolwe)
 {
+	var a:int;
 	if ( a > b )
 	{
 		b = 2 + 1;
