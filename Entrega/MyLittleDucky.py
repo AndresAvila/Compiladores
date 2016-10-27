@@ -21,6 +21,9 @@ dirProcedure = {}
 pOperadores = []
 pOperandos = []
 pTipos = []
+contTemporales = 0
+contCuadruplos = 40001
+
 pSaltos = deque([])
 
 cubo = cubo.cubo
@@ -246,17 +249,23 @@ def p_ambAuxEscritura1(p): #Done
 def p_auxEscritura2(p): #Done
     '''auxEscritura2 : exp
         | CTESTRING'''
+
 def p_cicloExpresion(p):
-    '''cicloExpresion : expresion auxCicloExpresion cicloExpresion 
+    '''cicloExpresion : expresion ambCicloExpresion'''
+
+def p_ambCicloExpresion(p):
+    '''ambCicloExpresion : auxCicloExpresion expresion cicloExpresion
         | '''
 
 def p_auxCicloExpresion(p):
-    '''auxCicloExpresion : AND 
-        | OR 
-        | '''
+    '''auxCicloExpresion : AND paso8_and
+        | OR paso8_or'''
 
 def p_expresion(p): #Done
-    '''expresion : exp auxExpresion exp
+    '''expresion : exp ambExp'''
+
+def p_ambExp(p):
+    '''ambExp : auxExpresion exp 
         | '''
 
 def p_auxExpresion(p): #Done
@@ -278,7 +287,7 @@ def p_exp(p): #Done
     '''exp : cicloExp'''
 
 def p_cicloExp(p): #Done
-    '''cicloExp : termino ambExp'''
+    '''cicloExp : termino paso4 ambExp'''
 
 def p_ambExp(p): #Done
     '''ambExp : auxExp cicloExp
@@ -292,7 +301,7 @@ def p_termino(p): #Done
     ''' termino : cicloTermino'''
 
 def p_cicloTermino(p): #Done
-    '''cicloTermino : factor ambCicloTermino'''
+    '''cicloTermino : factor paso5 ambCicloTermino'''
 
 def p_ambCicloTermino(p): #Done
     '''ambCicloTermino : auxTermino cicloTermino
@@ -303,7 +312,7 @@ def p_auxTermino(p): #Done
         | DIVIDE paso2_mult'''
 
 def p_factor(p): #Done
-    ''' factor : LPAREN exp RPAREN
+    ''' factor : LPAREN paso6 exp RPAREN paso7
         | auxFactor varcte paso1'''
 
 def p_auxFactor(p): #Done
@@ -312,11 +321,11 @@ def p_auxFactor(p): #Done
 
 def p_varcte(p): #Done
     '''varcte : ID auxVarcte
-        | CTEINT
-        | CTEFLOAT
-        | CTECHAR
-        | CTEBOOL
-        | CTESTRING'''
+        | CTEINT cteInt
+        | CTEFLOAT cteFloat
+        | CTECHAR cteChar
+        | CTEBOOL cteBool
+        | CTESTRING cteString'''
 
 def p_auxVarcte(p): #Done
     '''auxVarcte : LPAREN exp RPAREN
@@ -409,6 +418,99 @@ def p_paso3_resta(p):
     '''paso3_resta : '''
     pOperadores.append(RESTA)
 
+def p_paso4(p):
+    '''paso4 : '''
+    #global pOperadores
+    print("Entra paso4")
+    global contTemporales
+    global contCuadruplos
+    if pOperadores :
+        if pOperadores[-1] == SUMA or pOperadores[-1]== RESTA :
+            op = pOperadores.pop()
+            opdoDer = pOperandos.pop()
+            tipoDer = pTipos.pop()
+            opdoIzq = pOperandos.pop()
+            tipoIzq = pTipos.pop()
+            if cuboSemantico[tipoDer][tipoIzq][op] != ERR and (cuboSemantico[tipoDer][tipoIzq][op] == INT or cuboSemantico[tipoDer][tipoIzq][op] == FLOAT) :
+                tipoRes = cuboSemantico[tipoDer][tipoIzq][op]
+                cuadruplos[contCuadruplos] = [op, opdoIzq, opdoDer, contTemporales]
+                pOperandos.append(contTemporales)
+                pTipos.append(tipoRes)
+                contTemporales+=1
+                contCuadruplos+=1
+                print(cuadruplos)
+            else:
+                print("Error arimetico - tipos no validos")
+                exit()
+
+
+def p_paso5(p):
+    '''paso5 : '''
+    #global pOperadores
+    print("Entra paso5")
+    global contTemporales
+    global contCuadruplos
+    if pOperadores :
+        if pOperadores[-1] == MULT or pOperadores[-1]== DIV :
+            op = pOperadores.pop()
+            opdoDer = pOperandos.pop()
+            tipoDer = pTipos.pop()
+            opdoIzq = pOperandos.pop()
+            tipoIzq = pTipos.pop()
+            if cuboSemantico[tipoDer][tipoIzq][op] != ERR and (cuboSemantico[tipoDer][tipoIzq][op] == INT or cuboSemantico[tipoDer][tipoIzq][op] == FLOAT) :
+                tipoRes = cuboSemantico[tipoDer][tipoIzq][op]
+                cuadruplos[contCuadruplos] = [op, opdoIzq, opdoDer, contTemporales]
+                pOperandos.append(contTemporales)
+                pTipos.append(tipoRes)
+                contTemporales+=1
+                contCuadruplos+=1
+                print(cuadruplos)
+            else:
+                print("Error arimetico - tipos no validos")
+                exit()
+
+
+def p_paso6(p):
+    '''paso6 : '''
+    pOperadores.append("(")
+
+def p_paso7(p):
+    '''paso7 : '''
+    if pOperadores[-1] == "(" :
+        pOperadores.pop()
+    else:
+        print("Falta parentesis izquierdo")
+
+def p_paso8_and(p):
+    '''paso8_and : '''
+    pOperadores.append(AND)
+
+def p_paso8_or(p):
+    '''paso8_or : '''
+    pOperadores.append(OR)
+
+def p_cteInt(p):
+    '''cteInt : '''
+    pTipos.append(INT)
+
+def p_cteFloat(p):
+    '''cteFloat : '''
+    pTipos.append(FLOAT)
+
+
+def p_cteChar(p):
+    '''cteChar : '''
+    pTipos.append(CHAR)
+
+
+def p_cteBool(p):
+    '''cteBool : '''
+    pTipos.append(BOOL)
+
+
+def p_cteString(p):
+    '''cteString : '''
+    pTipos.append(STRING)
 
 
 # Error rule for syntax errors
