@@ -47,7 +47,9 @@ tokens = [
   'SEMICOLON',#DONE
   'LBRACKET',#DONE
   'RBRACKET', #DONE
-  'EQUALA' #DONE
+  'EQUALA', #DONE
+  'AND', #DONE
+  'OR' #DONE
 ] + list(reserved.values())
 
 
@@ -77,7 +79,10 @@ t_NOTEQUAL    = r'<>'
 t_COMMA     = r'\,'
 t_COLON     = r':'
 t_SEMICOLON = r';'
+t_AND       = r'&&'
+t_OR        = r'\|\|'
 t_ignore    = ' \t'
+
 
     # A regular expression rule with some action code
 def t_ID(t):
@@ -106,6 +111,8 @@ var b:int;
 function abuela(int debatman, char lolwe)
 {
   b = 2 + 1;
+  || 
+  &&
 }
 {
 }
@@ -119,4 +126,4 @@ while True:
     tok = lexer.token()
     if not tok:
         break      # No more input
-    #print(tok)
+    print(tok)

@@ -3,8 +3,10 @@
 import ply.yacc as yacc
 import MyLittleDuckl
 import sys 
+import cubo
 # Get the token map from the lexer.  This is required.
 from MyLittleDuckl import tokens
+from collections import deque
 
 tokens = MyLittleDuckl.tokens   
 varDirectory = {}
@@ -15,6 +17,40 @@ varList = []
 varListMain = []
 varListFuncion = []
 dirProcedure = {}
+
+pOperadores = []
+pOperandos = []
+pTipos = []
+pSaltos = deque([])
+
+cubo = cubo.cubo
+print(cubo[1][1][1])
+
+
+#Tipo
+INT = 1
+FLOAT = 2
+CHAR = 3
+BOOL = 4
+
+#Operaciones
+SUMA = 1
+RESTA = 2
+MULT = 3
+DIV = 4
+ASIG = 5
+OR = 6
+AND = 7
+MAYOR = 8
+MENOR = 9
+MAYORIG = 10
+MENORIG = 11
+IGUAL = 12
+DIF = 13
+GOTO = 14
+GOTOF = 15
+GOTOV = 16
+ERR = 17
 
 
 def p_programa(p): #Done
@@ -210,10 +246,18 @@ def p_ambAuxEscritura1(p): #Done
 def p_auxEscritura2(p): #Done
     '''auxEscritura2 : exp
         | CTESTRING'''
+def p_cicloExpresion(p):
+    '''cicloExpresion : expresion auxCicloExpresion cicloExpresion 
+        | '''
+
+def p_auxCicloExpresion(p):
+    '''auxCicloExpresion : AND 
+        | OR 
+        | '''
 
 def p_expresion(p): #Done
     '''expresion : exp auxExpresion exp
-        |'''
+        | '''
 
 def p_auxExpresion(p): #Done
     '''auxExpresion : GTHAN
@@ -224,7 +268,7 @@ def p_auxExpresion(p): #Done
         | EQUAL '''
 
 def p_condicion(p): #Done
-    '''condicion : IF LPAREN expresion RPAREN bloque auxCondicion'''
+    '''condicion : IF LPAREN cicloExpresion RPAREN bloque auxCondicion'''
 
 def p_auxCondicion(p): #Done
     '''auxCondicion : ELSE bloque
@@ -241,8 +285,8 @@ def p_ambExp(p): #Done
         |'''
 
 def p_auxExp(p): #Done
-    '''auxExp : PLUS
-        | MINUS'''
+    '''auxExp : PLUS paso3_suma
+        | MINUS paso3_resta'''
 
 def p_termino(p): #Done
     ''' termino : cicloTermino'''
@@ -255,12 +299,12 @@ def p_ambCicloTermino(p): #Done
         | '''
 
 def p_auxTermino(p): #Done
-    '''auxTermino : MULTI
-        | DIVIDE'''
+    '''auxTermino : MULTI paso2_mult
+        | DIVIDE paso2_mult'''
 
 def p_factor(p): #Done
     ''' factor : LPAREN exp RPAREN
-        | auxFactor varcte'''
+        | auxFactor varcte paso1'''
 
 def p_auxFactor(p): #Done
     '''auxFactor : auxExp
@@ -319,7 +363,7 @@ def p_ambAuxParamentros(p): #Done
         |'''
 
 def p_ciclo(p): #Done
-    '''ciclo : WHILE LPAREN expresion RPAREN bloque '''
+    '''ciclo : WHILE LPAREN cicloExpresion RPAREN bloque '''
 
 def p_llamada(p): #Done
     '''llamada : ID LPAREN auxLlamada RPAREN SEMICOLON'''
@@ -341,6 +385,31 @@ def p_ambAuxArgumentos1(p): #Done
 
 def p_lectura(p): #Done
     ''' lectura : READ LPAREN ID RPAREN SEMICOLON '''
+
+
+#Cuadruplos
+
+def p_paso1(p):
+    '''paso1 : '''
+    pOperandos.append(p[-1])
+
+def p_paso2_mult(p):
+    '''paso2_mult : '''
+    pOperadores.append(MULT)
+
+def p_paso2_div(p):
+    '''paso2_div : '''
+    pOperadores.append(DIV)
+
+def p_paso3_suma(p):
+    '''paso3_suma : '''
+    pOperadores.append(SUMA)
+
+def p_paso3_resta(p):
+    '''paso3_resta : '''
+    pOperadores.append(RESTA)
+
+
 
 # Error rule for syntax errors
 def p_error(p):

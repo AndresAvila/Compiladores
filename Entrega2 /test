@@ -1,0 +1,34 @@
+program gg;
+var b:int[2];
+var a,d,e:char;
+function int[3] fun1(int a, bool c) {
+var func1vartest:char;
+a = a * b;
+return c;
+}
+function char abuela(int debatman, char lolwe)
+{
+	var a:int;
+	var varab1:string;
+	if ( a > b )
+	{
+		b = 2 + 1;
+	}
+	print(2 + 1);
+	a[8] = 7;
+	read(c);
+	return a;
+}
+main {
+var m,j,q:int;
+var s,tonto:char;
+var varab1:string;
+abuela(a , c);
+a = a * b;
+while (a > b){
+	a = a + 1;
+	print('hehe xd');
+}
+abuela(a, b);
+}
+

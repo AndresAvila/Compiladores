@@ -10,7 +10,7 @@ function char abuela(int debatman, char lolwe)
 {
 	var a:int;
 	var varab1:string;
-	if ( a > b )
+	if ( a > b && c >= 2 || d > 3)
 	{
 		b = 2 + 1;
 	}

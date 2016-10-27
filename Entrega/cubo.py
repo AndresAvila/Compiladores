@@ -1,7 +1,7 @@
 from collections import defaultdict
 cubo = defaultdict(lambda :defaultdict(lambda :defaultdict(int)))
 
-# Significado de cada dimención del cubo.
+# Significado de cada dimencion del cubo.
 # x = operando 1
 # y = operando 2
 # z = operador
