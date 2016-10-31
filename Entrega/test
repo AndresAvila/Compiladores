@@ -1,34 +1,22 @@
 program gg;
-var b:int[2];
-var a,d,e:char;
-function int[3] fun1(int a, bool c) {
-var func1vartest:char;
-a = a * b;
-return c;
-}
-function char abuela(int debatman, char lolwe)
+var z: int;
+function int abuela()
 {
-	var a:int;
-	var varab1:string;
-	if ( a > b && c >= 2 || d > 3)
-	{
-		b = 2 + 1;
-	}
-	print(2 + 1);
-	a[8] = 7;
-	read(c);
-	return a;
+	z = 3 + z;
+	return z * 4;
 }
+
 main {
-var m,j,q:int;
-var s,tonto:char;
-var varab1:string;
-abuela(a , c);
-a = a * b;
-while (a > b){
-	a = a + 1;
-	print('hehe xd');
+	var a: int;
+	var b: int;
+	var c: float;
+	var d: float;
+	var e: bool;
+	var f: bool;
+	
+	c = z * (b - 2) + 4.0;	
+	
+	
 }
-abuela(a, b);
-}
+
 

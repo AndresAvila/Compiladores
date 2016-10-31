@@ -18,6 +18,7 @@ varListMain = []
 varListFuncion = []
 dirProcedure = {}
 
+cuadruplos = {}
 pOperadores = []
 pOperandos = []
 pTipos = []
@@ -29,31 +30,38 @@ pSaltos = deque([])
 cubo = cubo.cubo
 print(cubo[1][1][1])
 
+# Equivalencia numerica de cada tipo de dato.
+# Int:    1
+# Bool:   2
+# String: 3
+# Float:  4
+# Char:   5
 
 #Tipo
 INT = 1
-FLOAT = 2
-CHAR = 3
-BOOL = 4
+FLOAT = 4
+CHAR = 5
+BOOL = 2
+STRING = 3
 
 #Operaciones
 SUMA = 1
 RESTA = 2
 MULT = 3
 DIV = 4
-ASIG = 5
+ASIG = 13
 OR = 6
-AND = 7
+AND = 5
 MAYOR = 8
-MENOR = 9
+MENOR = 7
 MAYORIG = 10
-MENORIG = 11
-IGUAL = 12
-DIF = 13
+MENORIG = 9
+IGUAL = 11
+DIF = 12
 GOTO = 14
 GOTOF = 15
 GOTOV = 16
-ERR = 17
+ERR = -1
 
 
 def p_programa(p): #Done
@@ -172,7 +180,7 @@ def p_cicloBloque(p): #Done
         | '''
 
 def p_bloqueFuncion(p): #Done
-    '''bloqueFuncion : LBRACE cicloVarsFuncion cicloBloqueFuncion RETURN ID SEMICOLON RBRACE'''
+    '''bloqueFuncion : LBRACE cicloVarsFuncion cicloBloqueFuncion RETURN expresion SEMICOLON RBRACE'''
 
 def p_cicloBloqueFuncion(p): #Done
     '''cicloBloqueFuncion : estatuto cicloBloqueFuncion 
@@ -228,23 +236,26 @@ def p_estatuto(p): #Done
         | lectura
         | llamada
         | ciclo'''
+    print("entra a estatuto")
 
 def p_asignacion(p): #Done
     '''asignacion : ID  auxAsignacion1 EQUALA exp SEMICOLON'''
+    print("entra a asignacion")
 
 def p_auxAsignacion1(p): #Done
     '''auxAsignacion1 : LBRACKET exp RBRACKET 
-        |'''
+        | '''
 
 def p_escritura(p): #Done
     '''escritura : PRINT LPAREN auxEscritura1 RPAREN SEMICOLON'''
+    print("entra a escritura")
 
 def p_auxEscritura1(p): #Done
     '''auxEscritura1 : auxEscritura2 ambAuxEscritura1'''
 
 def p_ambAuxEscritura1(p): #Done
     '''ambAuxEscritura1 : COMMA auxEscritura1
-        |'''
+        | '''
 
 def p_auxEscritura2(p): #Done
     '''auxEscritura2 : exp
@@ -262,7 +273,7 @@ def p_auxCicloExpresion(p):
         | OR paso8_or'''
 
 def p_expresion(p): #Done
-    '''expresion : exp ambExp'''
+    '''expresion : exp ambExp paso9'''
 
 def p_ambExp(p):
     '''ambExp : auxExpresion exp 
@@ -278,10 +289,11 @@ def p_auxExpresion(p): #Done
 
 def p_condicion(p): #Done
     '''condicion : IF LPAREN cicloExpresion RPAREN bloque auxCondicion'''
+    print("entra a condicion")
 
 def p_auxCondicion(p): #Done
     '''auxCondicion : ELSE bloque
-        |'''
+        | '''
 
 def p_exp(p): #Done
     '''exp : cicloExp'''
@@ -291,7 +303,7 @@ def p_cicloExp(p): #Done
 
 def p_ambExp(p): #Done
     '''ambExp : auxExp cicloExp
-        |'''
+        | '''
 
 def p_auxExp(p): #Done
     '''auxExp : PLUS paso3_suma
@@ -313,28 +325,56 @@ def p_auxTermino(p): #Done
 
 def p_factor(p): #Done
     ''' factor : LPAREN paso6 exp RPAREN paso7
-        | auxFactor varcte paso1'''
+        | auxFactor varcte '''
 
 def p_auxFactor(p): #Done
     '''auxFactor : auxExp
-        |'''
+        | '''
 
 def p_varcte(p): #Done
-    '''varcte : ID auxVarcte
-        | CTEINT cteInt
-        | CTEFLOAT cteFloat
-        | CTECHAR cteChar
-        | CTEBOOL cteBool
-        | CTESTRING cteString'''
+    '''varcte : ID paso1 addType auxVarcte
+        | CTEINT paso1 cteInt
+        | CTEFLOAT paso1 cteFloat
+        | CTECHAR paso1 cteChar
+        | CTEBOOL paso1 cteBool
+        | CTESTRING paso1 cteString'''
+def translate(x):
+    if x == "int":
+        return 1
+    elif x == "bool":
+        return 2
+    elif x == "string":
+        return 3
+    elif x == "float":
+        return 4
+    elif x == "char":
+        return 5
+    else:
+        return -1
+
+def p_addType(p):
+    '''addType : '''
+    if p[-2] in varDirectory.keys():
+        print(translate(varDirectory[p[-2]]['Tipo']))
+        pTipos.append(translate(varDirectory[p[-2]]['Tipo']))
+    elif p[-2] in varDirectoryMain.keys():
+        print(translate(varDirectoryMain[p[-2]]['Tipo']))
+        pTipos.append(translate(varDirectoryMain[p[-2]]['Tipo']))
+    elif p[-2] in varDirectoryFunc.keys():
+        print(translate(varDirectoryFunc[p[-2]]['Tipo']))
+        pTipos.append(translate(varDirectoryFunc[p[-2]]['Tipo']))
+    else:
+        return -1
+
 
 def p_auxVarcte(p): #Done
     '''auxVarcte : LPAREN exp RPAREN
         | LBRACKET exp LBRACKET 
-        |'''
+        | '''
 
 def p_cicloFuncion(p): #Done
     '''cicloFuncion : funcion cicloFuncion 
-        |'''
+        | '''
 
 def p_funcion(p): #Done
     '''funcion : FUNCTION tipo ID LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc'''
@@ -348,7 +388,7 @@ def p_addProcDirectoryFunc(p):
 
 def p_auxFunction(p): #Done
     '''auxFunction : parametros
-        |'''
+        | '''
 
 def p_parametros(p): # Done
     '''parametros : auxParametros '''
@@ -369,37 +409,40 @@ def p_addParameters(p):
 
 def p_ambAuxParamentros(p): #Done
     '''ambAuxParametros : COMMA auxParametros
-        |'''
+        | '''
 
 def p_ciclo(p): #Done
     '''ciclo : WHILE LPAREN cicloExpresion RPAREN bloque '''
+    print("entra a ciclo")
 
 def p_llamada(p): #Done
     '''llamada : ID LPAREN auxLlamada RPAREN SEMICOLON'''
+    print("entra a llamada")
 
 def p_auxLlamada(p): #Done
     '''auxLlamada : argumentos
-        |'''
+        | '''
 
 def p_argumentos(p): #Done
     ''' argumentos : auxArgumentos1
-        |'''
+        | '''
 
 def p_auxArgumentos1(p): #Done
     '''auxArgumentos1 : exp ambAuxArgumentos1'''
 
 def p_ambAuxArgumentos1(p): #Done
     '''ambAuxArgumentos1 : COMMA auxArgumentos1
-        |'''
+        | '''
 
 def p_lectura(p): #Done
     ''' lectura : READ LPAREN ID RPAREN SEMICOLON '''
-
+    print("entra a lectura")
 
 #Cuadruplos
 
 def p_paso1(p):
     '''paso1 : '''
+    #print(p[-1])
     pOperandos.append(p[-1])
 
 def p_paso2_mult(p):
@@ -420,7 +463,8 @@ def p_paso3_resta(p):
 
 def p_paso4(p):
     '''paso4 : '''
-    #global pOperadores
+    global pOperadores
+    global pTipos
     print("Entra paso4")
     global contTemporales
     global contCuadruplos
@@ -431,8 +475,8 @@ def p_paso4(p):
             tipoDer = pTipos.pop()
             opdoIzq = pOperandos.pop()
             tipoIzq = pTipos.pop()
-            if cuboSemantico[tipoDer][tipoIzq][op] != ERR and (cuboSemantico[tipoDer][tipoIzq][op] == INT or cuboSemantico[tipoDer][tipoIzq][op] == FLOAT) :
-                tipoRes = cuboSemantico[tipoDer][tipoIzq][op]
+            if cubo[tipoDer][tipoIzq][op] != ERR and (cubo[tipoDer][tipoIzq][op] == INT or cubo[tipoDer][tipoIzq][op] == FLOAT) :
+                tipoRes = cubo[tipoDer][tipoIzq][op]
                 cuadruplos[contCuadruplos] = [op, opdoIzq, opdoDer, contTemporales]
                 pOperandos.append(contTemporales)
                 pTipos.append(tipoRes)
@@ -440,14 +484,19 @@ def p_paso4(p):
                 contCuadruplos+=1
                 print(cuadruplos)
             else:
-                print("Error arimetico - tipos no validos")
+                print("Error arimetico 4 - tipos no validos")
                 exit()
+    print("Sale paso 4") 
 
 
 def p_paso5(p):
     '''paso5 : '''
-    #global pOperadores
-    print("Entra paso5")
+    global pTipos
+    global pOperadores
+    print("Entra paso 5")
+    print(pTipos)
+    #print(pOperandos)
+    
     global contTemporales
     global contCuadruplos
     if pOperadores :
@@ -457,8 +506,9 @@ def p_paso5(p):
             tipoDer = pTipos.pop()
             opdoIzq = pOperandos.pop()
             tipoIzq = pTipos.pop()
-            if cuboSemantico[tipoDer][tipoIzq][op] != ERR and (cuboSemantico[tipoDer][tipoIzq][op] == INT or cuboSemantico[tipoDer][tipoIzq][op] == FLOAT) :
-                tipoRes = cuboSemantico[tipoDer][tipoIzq][op]
+            if cubo[tipoDer][tipoIzq][op] != ERR and (cubo[tipoDer][tipoIzq][op] == INT or cubo[tipoDer][tipoIzq][op] == FLOAT) :
+                tipoRes = cubo[tipoDer][tipoIzq][op]
+                print(tipoRes)
                 cuadruplos[contCuadruplos] = [op, opdoIzq, opdoDer, contTemporales]
                 pOperandos.append(contTemporales)
                 pTipos.append(tipoRes)
@@ -466,9 +516,9 @@ def p_paso5(p):
                 contCuadruplos+=1
                 print(cuadruplos)
             else:
-                print("Error arimetico - tipos no validos")
+                print("Error arimetico 5 - tipos no validos")
                 exit()
-
+    print("Sale paso 5")               
 
 def p_paso6(p):
     '''paso6 : '''
@@ -489,6 +539,37 @@ def p_paso8_or(p):
     '''paso8_or : '''
     pOperadores.append(OR)
 
+def p_paso9(p):
+    '''paso9 : '''
+    global pTipos
+    global pOperadores
+    print("Entra paso 9")
+    print(pTipos)
+    #print(pOperandos)
+    
+    global contTemporales
+    global contCuadruplos
+    if pOperadores :
+        if pOperadores[-1] == AND or pOperadores[-1]== OR :
+            op = pOperadores.pop()
+            opdoDer = pOperandos.pop()
+            tipoDer = pTipos.pop()
+            opdoIzq = pOperandos.pop()
+            tipoIzq = pTipos.pop()
+            if cubo[tipoDer][tipoIzq][op] != ERR and cubo[tipoDer][tipoIzq][op] == BOOL :
+                tipoRes = cubo[tipoDer][tipoIzq][op]
+                print(tipoRes)
+                cuadruplos[contCuadruplos] = [op, opdoIzq, opdoDer, contTemporales]
+                pOperandos.append(contTemporales)
+                pTipos.append(tipoRes)
+                contTemporales+=1
+                contCuadruplos+=1
+                print(cuadruplos)
+            else:
+                print("Error arimetico 9 - tipos no validos")
+                exit()
+    print("Sale paso 9")  
+
 def p_cteInt(p):
     '''cteInt : '''
     pTipos.append(INT)
@@ -506,6 +587,7 @@ def p_cteChar(p):
 def p_cteBool(p):
     '''cteBool : '''
     pTipos.append(BOOL)
+    print(pTipos)
 
 
 def p_cteString(p):
