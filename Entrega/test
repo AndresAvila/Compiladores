@@ -1,10 +1,6 @@
 program gg;
 var z: int;
-function int abuela()
-{
-	z = 3 + z;
-	return z * 4;
-}
+var a: int;
 
 main {
 	var a: int;
@@ -14,7 +10,12 @@ main {
 	var e: bool;
 	var f: bool;
 	
-	c = z * (b - 2) + 4.0;	
+	if(a>b && c == d) {
+		a = z + 2;
+	}
+	
+	
+	
 	
 	
 }

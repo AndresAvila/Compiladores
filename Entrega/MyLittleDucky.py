@@ -239,7 +239,7 @@ def p_estatuto(p): #Done
     print("entra a estatuto")
 
 def p_asignacion(p): #Done
-    '''asignacion : ID  auxAsignacion1 EQUALA exp SEMICOLON'''
+    '''asignacion : ID paso1 addType auxAsignacion1 EQUALA asig exp paso11 SEMICOLON'''
     print("entra a asignacion")
 
 def p_auxAsignacion1(p): #Done
@@ -262,33 +262,32 @@ def p_auxEscritura2(p): #Done
         | CTESTRING'''
 
 def p_cicloExpresion(p):
-    '''cicloExpresion : expresion ambCicloExpresion'''
+    '''cicloExpresion : expresion paso10  '''
 
-def p_ambCicloExpresion(p):
-    '''ambCicloExpresion : auxCicloExpresion expresion cicloExpresion
-        | '''
 
 def p_auxCicloExpresion(p):
-    '''auxCicloExpresion : AND paso8_and
-        | OR paso8_or'''
-
-def p_expresion(p): #Done
-    '''expresion : exp ambExp paso9'''
-
-def p_ambExp(p):
-    '''ambExp : auxExpresion exp 
+    '''auxCicloExpresion : AND paso8_and cicloExpresion paso9 auxCicloExpresion
+        | OR paso8_or cicloExpresion paso9 auxCicloExpresion
         | '''
 
+def p_expresion(p): #Done
+    '''expresion : exp auxExpresion '''
+
+
 def p_auxExpresion(p): #Done
-    '''auxExpresion : GTHAN
-        | LTHAN
-        | NOTEQUAL
-        | GETHAN
-        | LETHAN
-        | EQUAL '''
+    '''auxExpresion : GTHAN mayor exp
+        | LTHAN menor exp
+        | NOTEQUAL diferente exp
+        | GETHAN mayorIg exp
+        | LETHAN menorIg exp
+        | EQUAL igual exp
+        | '''
+
+def p_expAndOr(p): 
+    '''expAndOr : cicloExpresion auxCicloExpresion '''
 
 def p_condicion(p): #Done
-    '''condicion : IF LPAREN cicloExpresion RPAREN bloque auxCondicion'''
+    '''condicion : IF LPAREN expAndOr RPAREN bloque auxCondicion'''
     print("entra a condicion")
 
 def p_auxCondicion(p): #Done
@@ -321,7 +320,7 @@ def p_ambCicloTermino(p): #Done
 
 def p_auxTermino(p): #Done
     '''auxTermino : MULTI paso2_mult
-        | DIVIDE paso2_mult'''
+        | DIVIDE paso2_div'''
 
 def p_factor(p): #Done
     ''' factor : LPAREN paso6 exp RPAREN paso7
@@ -412,7 +411,7 @@ def p_ambAuxParamentros(p): #Done
         | '''
 
 def p_ciclo(p): #Done
-    '''ciclo : WHILE LPAREN cicloExpresion RPAREN bloque '''
+    '''ciclo : WHILE LPAREN expAndOr RPAREN bloque '''
     print("entra a ciclo")
 
 def p_llamada(p): #Done
@@ -568,7 +567,77 @@ def p_paso9(p):
             else:
                 print("Error arimetico 9 - tipos no validos")
                 exit()
-    print("Sale paso 9")  
+    print("Sale paso 9") 
+
+def p_paso10(p):
+    '''paso10 : '''
+    global pTipos
+    global pOperadores
+    print("Entra paso 10")
+    print(pTipos)
+    print(pOperadores)
+    
+    global contTemporales
+    global contCuadruplos
+    if pOperadores :
+        if pOperadores[-1] == MAYOR or pOperadores[-1]== MENOR or pOperadores[-1]== IGUAL or pOperadores[-1]== DIF or pOperadores[-1]== MAYORIG or pOperadores[-1]== MENORIG:
+            op = pOperadores.pop()
+            opdoDer = pOperandos.pop()
+            tipoDer = pTipos.pop()
+            opdoIzq = pOperandos.pop()
+            tipoIzq = pTipos.pop()
+            if cubo[tipoDer][tipoIzq][op] != ERR and cubo[tipoDer][tipoIzq][op] == BOOL :
+                tipoRes = cubo[tipoDer][tipoIzq][op]
+                print(tipoRes)
+                cuadruplos[contCuadruplos] = [op, opdoIzq, opdoDer, contTemporales]
+                pOperandos.append(contTemporales)
+                pTipos.append(tipoRes)
+                contTemporales+=1
+                contCuadruplos+=1
+                print(cuadruplos)
+            else:
+                print("Error arimetico 10 - tipos no validos")
+                exit()
+    print("Sale paso 10")  
+
+def p_paso11(p):
+    '''paso11 : '''
+    global pTipos
+    global pOperadores
+    print("Entra paso 11")
+    print(pTipos)
+    print(pOperadores)
+    
+    global contTemporales
+    global contCuadruplos
+    if pOperadores :
+        print("hola")
+        if pOperadores[-1] == ASIG:
+            op = pOperadores.pop()
+            opdoDer = pOperandos.pop()
+            tipoDer = pTipos.pop()
+            opdoIzq = pOperandos.pop()
+            tipoIzq = pTipos.pop()
+            print(opdoIzq)
+            print(opdoDer)
+            print(tipoIzq)
+            print(tipoDer)
+            if opdoIzq in varDirectory.keys() or opdoIzq in varDirectoryMain.keys() or opdoIzq in varDirectoryFunc.keys():
+                if cubo[tipoDer][tipoIzq][op] != ERR:
+                    tipoRes = cubo[tipoDer][tipoIzq][op]
+                    print(tipoRes)
+                    cuadruplos[contCuadruplos] = [op, opdoDer, "", opdoIzq ]
+                    pOperandos.append(contTemporales)
+                    pTipos.append(tipoRes)
+                    contTemporales+=1
+                    contCuadruplos+=1
+                    print(cuadruplos)
+                else:
+                    print("Error arimetico 11 - tipos no validos")
+                    exit()
+            else: 
+                print("La variable no existe")
+    print("Sale paso 11")
 
 def p_cteInt(p):
     '''cteInt : '''
@@ -589,11 +658,37 @@ def p_cteBool(p):
     pTipos.append(BOOL)
     print(pTipos)
 
-
 def p_cteString(p):
     '''cteString : '''
     pTipos.append(STRING)
 
+def p_mayor(p):
+    '''mayor : '''
+    pOperadores.append(MAYOR)
+
+def p_menor(p):
+    '''menor : '''
+    pOperadores.append(MENOR)
+
+def p_mayorIg(p):
+    '''mayorIg : '''
+    pOperadores.append(MAYORIG)
+
+def p_menorIg(p):
+    '''menorIg : '''
+    pOperadores.append(MENORIG)
+
+def p_igual(p):
+    '''igual : '''
+    pOperadores.append(IGUAL)
+
+def p_diferente(p):
+    '''diferente : '''
+    pOperadores.append(DIF)
+
+def p_asig(p):
+    '''asig : '''
+    pOperadores.append(ASIG)
 
 # Error rule for syntax errors
 def p_error(p):
