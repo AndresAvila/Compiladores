@@ -24,8 +24,9 @@ pOperandos = []
 pTipos = []
 contTemporales = 0
 contCuadruplos = 40001
+pSaltos = []
 
-pSaltos = deque([])
+#pSaltos = deque([])
 
 cubo = cubo.cubo
 print(cubo[1][1][1])
@@ -287,11 +288,11 @@ def p_expAndOr(p):
     '''expAndOr : cicloExpresion auxCicloExpresion '''
 
 def p_condicion(p): #Done
-    '''condicion : IF LPAREN expAndOr RPAREN bloque auxCondicion'''
+    '''condicion : IF LPAREN expAndOr paso12 RPAREN bloque auxCondicion paso14'''
     print("entra a condicion")
 
 def p_auxCondicion(p): #Done
-    '''auxCondicion : ELSE bloque
+    '''auxCondicion : ELSE paso13 bloque
         | '''
 
 def p_exp(p): #Done
@@ -493,7 +494,7 @@ def p_paso5(p):
     global pTipos
     global pOperadores
     print("Entra paso 5")
-    print(pTipos)
+    #print(pTipos)
     #print(pOperandos)
     
     global contTemporales
@@ -507,7 +508,7 @@ def p_paso5(p):
             tipoIzq = pTipos.pop()
             if cubo[tipoDer][tipoIzq][op] != ERR and (cubo[tipoDer][tipoIzq][op] == INT or cubo[tipoDer][tipoIzq][op] == FLOAT) :
                 tipoRes = cubo[tipoDer][tipoIzq][op]
-                print(tipoRes)
+                #print(tipoRes)
                 cuadruplos[contCuadruplos] = [op, opdoIzq, opdoDer, contTemporales]
                 pOperandos.append(contTemporales)
                 pTipos.append(tipoRes)
@@ -543,7 +544,7 @@ def p_paso9(p):
     global pTipos
     global pOperadores
     print("Entra paso 9")
-    print(pTipos)
+    #print(pTipos)
     #print(pOperandos)
     
     global contTemporales
@@ -557,7 +558,7 @@ def p_paso9(p):
             tipoIzq = pTipos.pop()
             if cubo[tipoDer][tipoIzq][op] != ERR and cubo[tipoDer][tipoIzq][op] == BOOL :
                 tipoRes = cubo[tipoDer][tipoIzq][op]
-                print(tipoRes)
+                #print(tipoRes)
                 cuadruplos[contCuadruplos] = [op, opdoIzq, opdoDer, contTemporales]
                 pOperandos.append(contTemporales)
                 pTipos.append(tipoRes)
@@ -574,8 +575,8 @@ def p_paso10(p):
     global pTipos
     global pOperadores
     print("Entra paso 10")
-    print(pTipos)
-    print(pOperadores)
+    #print(pTipos)
+    #print(pOperadores)
     
     global contTemporales
     global contCuadruplos
@@ -588,7 +589,7 @@ def p_paso10(p):
             tipoIzq = pTipos.pop()
             if cubo[tipoDer][tipoIzq][op] != ERR and cubo[tipoDer][tipoIzq][op] == BOOL :
                 tipoRes = cubo[tipoDer][tipoIzq][op]
-                print(tipoRes)
+                #print(tipoRes)
                 cuadruplos[contCuadruplos] = [op, opdoIzq, opdoDer, contTemporales]
                 pOperandos.append(contTemporales)
                 pTipos.append(tipoRes)
@@ -605,27 +606,27 @@ def p_paso11(p):
     global pTipos
     global pOperadores
     print("Entra paso 11")
-    print(pTipos)
-    print(pOperadores)
+    #print(pTipos)
+    #print(pOperadores)
     
     global contTemporales
     global contCuadruplos
     if pOperadores :
-        print("hola")
+        #print("hola")
         if pOperadores[-1] == ASIG:
             op = pOperadores.pop()
             opdoDer = pOperandos.pop()
             tipoDer = pTipos.pop()
             opdoIzq = pOperandos.pop()
             tipoIzq = pTipos.pop()
-            print(opdoIzq)
-            print(opdoDer)
-            print(tipoIzq)
-            print(tipoDer)
+            #print(opdoIzq)
+            #print(opdoDer)
+            #print(tipoIzq)
+            #print(tipoDer)
             if opdoIzq in varDirectory.keys() or opdoIzq in varDirectoryMain.keys() or opdoIzq in varDirectoryFunc.keys():
                 if cubo[tipoDer][tipoIzq][op] != ERR:
                     tipoRes = cubo[tipoDer][tipoIzq][op]
-                    print(tipoRes)
+                    #print(tipoRes)
                     cuadruplos[contCuadruplos] = [op, opdoDer, "", opdoIzq ]
                     pOperandos.append(contTemporales)
                     pTipos.append(tipoRes)
@@ -638,6 +639,43 @@ def p_paso11(p):
             else: 
                 print("La variable no existe")
     print("Sale paso 11")
+
+def p_paso12(p):
+    '''paso12 : '''
+    global pTipos
+    global pOperandos
+    global pSaltos
+    global contCuadruplos
+    aux = pTipos.pop()
+    #print("valor de aux: ", aux)
+    if aux == BOOL :
+        resultado = pOperandos.pop()
+        cuadruplos[contCuadruplos] = [GOTOF, resultado, "", ""]
+        #print(cuadruplos[contCuadruplos][3])
+        pSaltos.append(contCuadruplos)
+        contCuadruplos += 1
+        print(pSaltos, "VALOR DE PSALTOS")
+        print(contCuadruplos, "VALOR DE CONTCUADRUPLOS")
+
+def p_paso13(p):
+    '''paso13 : '''
+    global contCuadruplos
+    global pSaltos
+    global cuadruplos
+    cuadruplos[contCuadruplos] = [GOTO, "", "", ""]
+    contCuadruplos += 1
+    cuadruplos[pSaltos.pop()][3] = contCuadruplos
+    pSaltos.append(contCuadruplos - 1)
+    #print("cuadruplos paso 13", cuadruplos)
+    #print(pSaltos)
+
+def p_paso14(p):
+    '''paso14 : '''
+    global cuadruplos
+    global contCuadruplos
+    global pSaltos
+    cuadruplos[pSaltos.pop()][3] = contCuadruplos
+    print(cuadruplos)
 
 def p_cteInt(p):
     '''cteInt : '''

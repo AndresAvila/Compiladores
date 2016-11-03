@@ -13,10 +13,12 @@ main {
 	if(a>b && c == d) {
 		a = z + 2;
 	}
+	else {
+		a = z - 2;
+	}
 	
-	
-	
-	
+	print(a);
+	read(b);
 	
 }
 
