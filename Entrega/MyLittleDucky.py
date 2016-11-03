@@ -62,6 +62,7 @@ DIF = 12
 GOTO = 14
 GOTOF = 15
 GOTOV = 16
+PRINT = 17
 ERR = -1
 
 
@@ -234,9 +235,9 @@ def p_estatuto(p): #Done
     '''estatuto : asignacion
         | condicion
         | escritura
-        | lectura
         | llamada
         | ciclo'''
+
     print("entra a estatuto")
 
 def p_asignacion(p): #Done
@@ -252,15 +253,15 @@ def p_escritura(p): #Done
     print("entra a escritura")
 
 def p_auxEscritura1(p): #Done
-    '''auxEscritura1 : auxEscritura2 ambAuxEscritura1'''
+    '''auxEscritura1 : auxEscritura2 paso18 ambAuxEscritura1'''
 
 def p_ambAuxEscritura1(p): #Done
     '''ambAuxEscritura1 : COMMA auxEscritura1
         | '''
 
 def p_auxEscritura2(p): #Done
-    '''auxEscritura2 : exp
-        | CTESTRING'''
+    '''auxEscritura2 : exp 
+        | CTESTRING paso1 '''
 
 def p_cicloExpresion(p):
     '''cicloExpresion : expresion paso10  '''
@@ -412,7 +413,7 @@ def p_ambAuxParamentros(p): #Done
         | '''
 
 def p_ciclo(p): #Done
-    '''ciclo : WHILE LPAREN expAndOr RPAREN bloque '''
+    '''ciclo : WHILE paso15 LPAREN expAndOr RPAREN paso16 bloque paso17'''
     print("entra a ciclo")
 
 def p_llamada(p): #Done
@@ -656,6 +657,8 @@ def p_paso12(p):
         contCuadruplos += 1
         print(pSaltos, "VALOR DE PSALTOS")
         print(contCuadruplos, "VALOR DE CONTCUADRUPLOS")
+    else: 
+        print("Condicion del if no es bool")
 
 def p_paso13(p):
     '''paso13 : '''
@@ -676,6 +679,50 @@ def p_paso14(p):
     global pSaltos
     cuadruplos[pSaltos.pop()][3] = contCuadruplos
     print(cuadruplos)
+
+def p_paso15(p):
+    '''paso15 : '''
+    global pSaltos
+    global contCuadruplos
+    pSaltos.append(contCuadruplos)
+
+def p_paso16(p):
+    '''paso16 : '''
+    global pTipos
+    global pOperandos
+    global pSaltos
+    global contCuadruplos
+    aux = pTipos.pop()
+    #print("valor de aux: ", aux)
+    if aux == BOOL :
+        resultado = pOperandos.pop()
+        cuadruplos[contCuadruplos] = [GOTOF, resultado, "", ""]
+        #print(cuadruplos[contCuadruplos][3])
+        pSaltos.append(contCuadruplos)
+        contCuadruplos += 1
+        print(pSaltos, "VALOR DE PSALTOS")
+        print(contCuadruplos, "VALOR DE CONTCUADRUPLOS")
+    else: 
+        print("Condicion del while no es bool")
+
+def p_paso17(p):
+    '''paso17 : '''
+    global cuadruplos
+    global pSaltos
+    global contCuadruplos
+    cuadruplos[pSaltos.pop()][3] = contCuadruplos + 1
+    cuadruplos[contCuadruplos] = [GOTO, "", "", pSaltos.pop()]
+    contCuadruplos += 1
+    print("cuadruplos while: " , cuadruplos)
+
+def p_paso18(p):
+    '''paso18 : '''
+    global cuadruplos
+    global contCuadruplos
+    global pOperandos
+    cuadruplos[contCuadruplos] = [PRINT, "", "", pOperandos.pop()]
+    contCuadruplos += 1
+    print("cuadruplos print: " , cuadruplos)
 
 def p_cteInt(p):
     '''cteInt : '''

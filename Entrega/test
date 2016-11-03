@@ -1,24 +1,15 @@
 program gg;
-var z: int;
-var a: int;
+
 
 main {
 	var a: int;
 	var b: int;
-	var c: float;
-	var d: float;
-	var e: bool;
-	var f: bool;
+
+
 	
-	if(a>b && c == d) {
-		a = z + 2;
-	}
-	else {
-		a = z - 2;
-	}
 	
-	print(a);
-	read(b);
+	
+	print(a, 'hola', b + a);
 	
 }
 
