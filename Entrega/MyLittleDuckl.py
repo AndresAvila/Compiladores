@@ -17,7 +17,8 @@ reserved = {
   'function' : 'FUNCTION',
   'read' : 'READ',
   'main' : 'MAIN',
-  'return' : 'RETURN'
+  'return' : 'RETURN',
+  'call' : 'CALL'
 }
 
 # List of token names. This is always required

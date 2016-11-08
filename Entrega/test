@@ -1,15 +1,21 @@
 program gg;
 
+function int func(int b, string c, bool m) {
+	var z: int;
+	
+	return b*2;
+}
+
 
 main {
 	var a: int;
 	var b: int;
 
 
+	a = call:func();
 	
 	
-	
-	print(a, 'hola', b + a);
+	print(a, 'hola', a + b);
 	
 }
 

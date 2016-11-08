@@ -18,12 +18,16 @@ varListMain = []
 varListFuncion = []
 dirProcedure = {}
 
+funcActual = ""
+
 cuadruplos = {}
 pOperadores = []
 pOperandos = []
 pTipos = []
 contTemporales = 0
 contCuadruplos = 40001
+contParametros = 0
+contVarLocFunc = 0
 pSaltos = []
 
 #pSaltos = deque([])
@@ -63,11 +67,15 @@ GOTO = 14
 GOTOF = 15
 GOTOV = 16
 PRINT = 17
+ERA = 18
+GOSUB = 19
+RET = 20
+RETURN = 21
 ERR = -1
 
 
 def p_programa(p): #Done
-    '''programa : PROGRAM ID addProcedureDir SEMICOLON cicloVars cicloFuncion MAIN bloque'''
+    '''programa : PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque'''
     p[0] = "OK"
 
 def p_addProcedureDir(p):
@@ -182,7 +190,7 @@ def p_cicloBloque(p): #Done
         | '''
 
 def p_bloqueFuncion(p): #Done
-    '''bloqueFuncion : LBRACE cicloVarsFuncion cicloBloqueFuncion RETURN expresion SEMICOLON RBRACE'''
+    '''bloqueFuncion : LBRACE cicloVarsFuncion paso21 cicloBloqueFuncion RETURN expresion SEMICOLON RBRACE'''
 
 def p_cicloBloqueFuncion(p): #Done
     '''cicloBloqueFuncion : estatuto cicloBloqueFuncion 
@@ -207,7 +215,7 @@ def p_addTypeGlobalFuncion(p):
     '''addTypeGlobalFuncion : '''
     #print("pasa por addTypeGlobalFuncion")
     while (len(varListFuncion) > 0):
-        print("entra loop addTypeGlobalFuncion")
+        #print("entra loop addTypeGlobalFuncion")
         varDirectoryFunc[varListFuncion.pop()] = {'Tipo' : p[-1], 'Scope' : 'Funcion'}
     #print("TERMINA addTypeGlobalFuncion")
     #print(varDirectoryFunc)
@@ -218,12 +226,14 @@ def p_idVarsFuncion(p): #Done
 
 def p_addVariableDirFuncion(p):
     '''addVariableDirFuncion : '''
+    global contVarLocFunc
     #print("pasa por addVariableDirFuncion")
     if (p[-1] in varDirectoryFunc or p[-1] in varDirectoryMain or p[-1] in varDirectory):
         print("Ya existe la variable")
     else:
         print("Se agrego ")
         varListFuncion.append(p[-1])
+        contVarLocFunc += 1
         
         
 
@@ -235,14 +245,13 @@ def p_estatuto(p): #Done
     '''estatuto : asignacion
         | condicion
         | escritura
-        | llamada
-        | ciclo'''
+        | ciclo '''
 
-    print("entra a estatuto")
+    #print("entra a estatuto")
 
 def p_asignacion(p): #Done
     '''asignacion : ID paso1 addType auxAsignacion1 EQUALA asig exp paso11 SEMICOLON'''
-    print("entra a asignacion")
+    #print("entra a asignacion")
 
 def p_auxAsignacion1(p): #Done
     '''auxAsignacion1 : LBRACKET exp RBRACKET 
@@ -250,7 +259,7 @@ def p_auxAsignacion1(p): #Done
 
 def p_escritura(p): #Done
     '''escritura : PRINT LPAREN auxEscritura1 RPAREN SEMICOLON'''
-    print("entra a escritura")
+    #print("entra a escritura")
 
 def p_auxEscritura1(p): #Done
     '''auxEscritura1 : auxEscritura2 paso18 ambAuxEscritura1'''
@@ -290,7 +299,7 @@ def p_expAndOr(p):
 
 def p_condicion(p): #Done
     '''condicion : IF LPAREN expAndOr paso12 RPAREN bloque auxCondicion paso14'''
-    print("entra a condicion")
+    #print("entra a condicion")
 
 def p_auxCondicion(p): #Done
     '''auxCondicion : ELSE paso13 bloque
@@ -338,7 +347,9 @@ def p_varcte(p): #Done
         | CTEFLOAT paso1 cteFloat
         | CTECHAR paso1 cteChar
         | CTEBOOL paso1 cteBool
-        | CTESTRING paso1 cteString'''
+        | CTESTRING paso1 cteString
+        | llamada '''
+
 def translate(x):
     if x == "int":
         return 1
@@ -378,14 +389,29 @@ def p_cicloFuncion(p): #Done
         | '''
 
 def p_funcion(p): #Done
-    '''funcion : FUNCTION tipo ID LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc'''
+    '''funcion : FUNCTION tipo ID LPAREN auxFunction RPAREN initDicFunc bloqueFuncion addProcDirectoryFunc paso22 paso23'''
 
 def p_addProcDirectoryFunc(p):
     '''addProcDirectoryFunc : '''
-    procDirectory[p[-5]] ={'Variables' : varDirectoryFunc.copy(), 'Tipo' : p[-6]}
+    global contParametros
+    global contVarLocFunc
+    procDirectory[funcActual]['Variables'] = varDirectoryFunc.copy()
+    procDirectory[funcActual]['Tipo'] = p[-7]
+    procDirectory[funcActual]['Parametros'] = contParametros
+    procDirectory[funcActual]['Locales'] = contVarLocFunc
+
+    #procDirectory[p[-6]] = {'Variables' : varDirectoryFunc.copy(), 'Tipo' : p[-6], 'Parametros' : contParametros, 'Locales' : contVarLocFunc, 'Inicio' : contCuadruplos }
     varDirectoryFunc.clear()
+    contParametros = 0
+    contVarLocFunc = 0
     #print("pasa por addProcDirectoryFunc")
     print(procDirectory)
+
+def p_initDicFunc(p):
+    '''initDicFunc : '''
+    global funcActual
+    funcActual = p[-4]
+    procDirectory[p[-4]] = {'Variables' : "", 'Tipo' : "", 'Parametros' : 0, 'Locales' : 0, 'Inicio' : 0, 'Retorno' : 0 }
 
 def p_auxFunction(p): #Done
     '''auxFunction : parametros
@@ -399,14 +425,17 @@ def p_auxParametros(p): #Done
 
 def p_addParameters(p):
     '''addParameters : '''
+    global contParametros
     if (p[-1] in varDirectoryFunc or p[-1] in varDirectoryMain or p[-1] in varDirectory):
         print("Ya existe la variable")
     else:
-        print("Se agrego ")
+        #print("Se agrego ")
+        contParametros += 1
         varListFuncion.append(p[-1])
     while (len(varListFuncion) > 0):
-        print("entra loop addTypeGlobalFuncion")
+        #print("entra loop addTypeGlobalFuncion")
         varDirectoryFunc[varListFuncion.pop()] = {'Tipo' : p[-2], 'Scope' : 'Funcion'}
+        
 
 def p_ambAuxParamentros(p): #Done
     '''ambAuxParametros : COMMA auxParametros
@@ -414,10 +443,10 @@ def p_ambAuxParamentros(p): #Done
 
 def p_ciclo(p): #Done
     '''ciclo : WHILE paso15 LPAREN expAndOr RPAREN paso16 bloque paso17'''
-    print("entra a ciclo")
+    #print("entra a ciclo")
 
 def p_llamada(p): #Done
-    '''llamada : ID LPAREN auxLlamada RPAREN SEMICOLON'''
+    '''llamada : CALL COLON ID paso24 cteLlamada LPAREN RPAREN'''
     print("entra a llamada")
 
 def p_auxLlamada(p): #Done
@@ -429,7 +458,7 @@ def p_argumentos(p): #Done
         | '''
 
 def p_auxArgumentos1(p): #Done
-    '''auxArgumentos1 : exp ambAuxArgumentos1'''
+    '''auxArgumentos1 : exp'''
 
 def p_ambAuxArgumentos1(p): #Done
     '''ambAuxArgumentos1 : COMMA auxArgumentos1
@@ -437,7 +466,7 @@ def p_ambAuxArgumentos1(p): #Done
 
 def p_lectura(p): #Done
     ''' lectura : READ LPAREN ID RPAREN SEMICOLON '''
-    print("entra a lectura")
+    #print("entra a lectura")
 
 #Cuadruplos
 
@@ -466,7 +495,7 @@ def p_paso4(p):
     '''paso4 : '''
     global pOperadores
     global pTipos
-    print("Entra paso4")
+    #print("Entra paso4")
     global contTemporales
     global contCuadruplos
     if pOperadores :
@@ -487,14 +516,14 @@ def p_paso4(p):
             else:
                 print("Error arimetico 4 - tipos no validos")
                 exit()
-    print("Sale paso 4") 
+    #print("Sale paso 4") 
 
 
 def p_paso5(p):
     '''paso5 : '''
     global pTipos
     global pOperadores
-    print("Entra paso 5")
+    #print("Entra paso 5")
     #print(pTipos)
     #print(pOperandos)
     
@@ -519,7 +548,7 @@ def p_paso5(p):
             else:
                 print("Error arimetico 5 - tipos no validos")
                 exit()
-    print("Sale paso 5")               
+    #print("Sale paso 5")               
 
 def p_paso6(p):
     '''paso6 : '''
@@ -531,6 +560,7 @@ def p_paso7(p):
         pOperadores.pop()
     else:
         print("Falta parentesis izquierdo")
+        exit()
 
 def p_paso8_and(p):
     '''paso8_and : '''
@@ -544,7 +574,7 @@ def p_paso9(p):
     '''paso9 : '''
     global pTipos
     global pOperadores
-    print("Entra paso 9")
+    #print("Entra paso 9")
     #print(pTipos)
     #print(pOperandos)
     
@@ -569,13 +599,13 @@ def p_paso9(p):
             else:
                 print("Error arimetico 9 - tipos no validos")
                 exit()
-    print("Sale paso 9") 
+    #print("Sale paso 9") 
 
 def p_paso10(p):
     '''paso10 : '''
     global pTipos
     global pOperadores
-    print("Entra paso 10")
+    #print("Entra paso 10")
     #print(pTipos)
     #print(pOperadores)
     
@@ -600,13 +630,13 @@ def p_paso10(p):
             else:
                 print("Error arimetico 10 - tipos no validos")
                 exit()
-    print("Sale paso 10")  
+    #print("Sale paso 10")  
 
 def p_paso11(p):
     '''paso11 : '''
     global pTipos
     global pOperadores
-    print("Entra paso 11")
+    #print("Entra paso 11")
     #print(pTipos)
     #print(pOperadores)
     
@@ -620,11 +650,11 @@ def p_paso11(p):
             tipoDer = pTipos.pop()
             opdoIzq = pOperandos.pop()
             tipoIzq = pTipos.pop()
-            #print(opdoIzq)
-            #print(opdoDer)
-            #print(tipoIzq)
-            #print(tipoDer)
-            if opdoIzq in varDirectory.keys() or opdoIzq in varDirectoryMain.keys() or opdoIzq in varDirectoryFunc.keys():
+            print(opdoIzq)
+            print(opdoDer)
+            print(tipoIzq)
+            print(tipoDer)
+            if opdoIzq in varDirectory.keys() or opdoIzq in varDirectoryMain.keys() or opdoIzq in varDirectoryFunc.keys() or opdoIzq in procDirectory.keys():
                 if cubo[tipoDer][tipoIzq][op] != ERR:
                     tipoRes = cubo[tipoDer][tipoIzq][op]
                     #print(tipoRes)
@@ -638,8 +668,8 @@ def p_paso11(p):
                     print("Error arimetico 11 - tipos no validos")
                     exit()
             else: 
-                print("La variable no existe")
-    print("Sale paso 11")
+                print("La variable no existe ", opdoIzq)
+    #print("Sale paso 11")
 
 def p_paso12(p):
     '''paso12 : '''
@@ -655,10 +685,11 @@ def p_paso12(p):
         #print(cuadruplos[contCuadruplos][3])
         pSaltos.append(contCuadruplos)
         contCuadruplos += 1
-        print(pSaltos, "VALOR DE PSALTOS")
-        print(contCuadruplos, "VALOR DE CONTCUADRUPLOS")
+        #print(pSaltos, "VALOR DE PSALTOS")
+        #print(contCuadruplos, "VALOR DE CONTCUADRUPLOS")
     else: 
         print("Condicion del if no es bool")
+        exit()
 
 def p_paso13(p):
     '''paso13 : '''
@@ -700,10 +731,11 @@ def p_paso16(p):
         #print(cuadruplos[contCuadruplos][3])
         pSaltos.append(contCuadruplos)
         contCuadruplos += 1
-        print(pSaltos, "VALOR DE PSALTOS")
-        print(contCuadruplos, "VALOR DE CONTCUADRUPLOS")
+        #print(pSaltos, "VALOR DE PSALTOS")
+        #print(contCuadruplos, "VALOR DE CONTCUADRUPLOS")
     else: 
         print("Condicion del while no es bool")
+        exit()
 
 def p_paso17(p):
     '''paso17 : '''
@@ -713,16 +745,89 @@ def p_paso17(p):
     cuadruplos[pSaltos.pop()][3] = contCuadruplos + 1
     cuadruplos[contCuadruplos] = [GOTO, "", "", pSaltos.pop()]
     contCuadruplos += 1
-    print("cuadruplos while: " , cuadruplos)
+    #print("cuadruplos while: " , cuadruplos)
 
 def p_paso18(p):
     '''paso18 : '''
     global cuadruplos
     global contCuadruplos
     global pOperandos
+    print("entra print")
     cuadruplos[contCuadruplos] = [PRINT, "", "", pOperandos.pop()]
+    print(cuadruplos)
+    print("sale print")
     contCuadruplos += 1
-    print("cuadruplos print: " , cuadruplos)
+    #print("cuadruplos print: " , cuadruplos)
+
+def p_paso19(p):
+    '''paso19 : '''
+    global cuadruplos
+    global contCuadruplos
+    global pSaltos
+    cuadruplos[contCuadruplos] = [GOTO, "", "", ""]
+    pSaltos.append(contCuadruplos)
+    contCuadruplos += 1
+
+def p_paso20(p):
+    '''paso20 : '''
+    global cuadruplos
+    global contCuadruplos
+    global pSaltos
+    cuadruplos[pSaltos.pop()][3] = contCuadruplos
+
+def p_paso21(p):
+    '''paso21 : '''
+    global pSaltos
+    global cuadruplos
+    global contCuadruplos
+    global funcActual
+    global procDirectory
+    #print('-------------------')
+    procDirectory[funcActual]['Inicio'] = contCuadruplos
+    #print('-------------------')
+    #procDirectory[funcActual]['Inicio'] = contCuadruplos
+
+def p_paso22(p):
+    '''paso22 : '''
+    global cuadruplos
+    global contCuadruplos
+    global pSaltos
+    procDirectory[funcActual]['Variables'].clear()
+    cuadruplos[contCuadruplos] = [RET, "", "", ""]
+    contCuadruplos += 1
+    print(cuadruplos)
+
+
+def p_paso23(p):
+    '''paso23 : '''
+    global pOperandos
+    global contCuadruplos
+    global funcActual
+    global pTipos
+    res = pOperandos.pop()
+    tipoRes = pTipos.pop()
+    #print(tipoRes)
+    print((procDirectory[funcActual]['Tipo']))
+    if tipoRes == translate(procDirectory[funcActual]['Tipo']) :
+        cuadruplos[contCuadruplos] = [RETURN, "", "", res]
+        procDirectory[funcActual]['Retorno'] = res
+        contCuadruplos += 1
+        print(cuadruplos)
+    else :
+        print("Tipo de retorno invalido")
+        exit()
+
+def p_paso24(p):
+    '''paso24 : '''
+    print("entra a paso24")
+    if p[-1] in procDirectory :
+        print("La funcion existe en procDirectory")
+    else:
+        print("No existe la funcion")
+        exit()
+
+def p_paso25(p):
+    '''paso25 : '''
 
 def p_cteInt(p):
     '''cteInt : '''
@@ -746,6 +851,17 @@ def p_cteBool(p):
 def p_cteString(p):
     '''cteString : '''
     pTipos.append(STRING)
+
+def p_cteLlamada(p):
+    '''cteLlamada : '''
+    global pOperandos
+    global pTipos
+    print("entra ctellamada")
+    pTipos.append(translate(procDirectory[p[-2]]['Tipo']))
+    pOperandos.append(procDirectory[p[-2]]['Retorno'])
+    print(pTipos, "pTipos")
+    print(pOperandos, "pOperandos")
+    print("sale ctellamada")
 
 def p_mayor(p):
     '''mayor : '''
