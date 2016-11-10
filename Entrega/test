@@ -1,21 +1,27 @@
 program gg;
 
-function int func(int b, string c, bool m) {
+function int func(int b, string c) {
 	var z: int;
 	
 	return b*2;
 }
 
+function string str(string ta, bool a){
+	
+	return ta;
+}
+
 
 main {
-	var a: int;
 	var b: int;
+	var c: string;
+	var m: bool;
 
 
-	a = call:func();
+	b = call:func(b,c);
 	
 	
-	print(a, 'hola', a + b);
+	
 	
 }
 
