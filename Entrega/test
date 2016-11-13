@@ -1,27 +1,15 @@
 program gg;
-
-function int func(int b, string c) {
-	var z: int;
-	
-	return b*2;
+var enteroglobal: int;
+function int test(int a){
+	var x,y:int;
+	a = x + y;
+	return a;
 }
-
-function string str(string ta, bool a){
-	
-	return ta;
-}
-
-
 main {
 	var b: int;
-	var c: string;
-	var m: bool;
 
-
-	b = call:func(b,c);
-	
-	
-	
+	enteroglobal = test(b);
+	b = b + enteroglobal;
 	
 }
 

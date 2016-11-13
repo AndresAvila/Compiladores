@@ -4,9 +4,11 @@ import ply.yacc as yacc
 import MyLittleDuckl
 import sys 
 import cubo
+
 # Get the token map from the lexer.  This is required.
 from MyLittleDuckl import tokens
 from collections import deque
+
 
 tokens = MyLittleDuckl.tokens   
 varDirectory = {}
@@ -214,8 +216,28 @@ def p_auxVar1(p): #Done
 def p_addTypeGlobal(p):
     '''addTypeGlobal : '''
     #print("pasa por addTypeGlobal")
+    global cont_int_globales
+    global cont_float_globales
+    global cont_bool_globales
+    global cont_charcontobales
+    global cont_string_globales
     while (len(varList) > 0):
-        varDirectory[varList.pop()] = {'Tipo' : p[-1], 'Scope' : 'Global'}
+        variable = varList.pop()
+        if(translate(p[-1]) == 1):
+            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_int_globales + cont_int_globales}
+            cont_int_globales += 1
+        elif(translate(p[-1]) == 2):
+            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_bool_globales + cont_bool_globales}
+            cont_bool_globales += 1
+        elif(translate(p[-1]) == 3):
+            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_string_globales + cont_string_globales}
+            cont_string_globales += 1
+        elif(translate(p[-1]) == 4):
+            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_float_globales + cont_float_globales}
+            cont_float_globales += 1
+        elif(translate(p[-1]) == 5):
+            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_char_globales + cont_char_globales}
+            cont_char_globales += 1
     #print("TERMINA addTypeGlobal")
     print(varDirectory)
 
@@ -228,6 +250,7 @@ def p_addVariableDir(p):
     #print("pasa por addVariableDir")
     if (p[-1] in varDirectory):
         print("Ya existe la variable")
+        exit()
     else:
         varList.append(p[-1])
         #print("Se agrego ")
@@ -263,15 +286,34 @@ def p_createVariableDirMain(p):
     #print("Pasa por createVariableDirMain")
 
 def p_auxVar1Main(p): #Done
-    '''auxVar1Main : idVarsMain COLON tipo addTypeGlobalMain SEMICOLON'''
+    '''auxVar1Main : idVarsMain COLON tipo addTypeMain SEMICOLON'''
 
-def p_addTypeGlobalMain(p):
-    '''addTypeGlobalMain : '''
-    #print("pasa por addTypeGlobalMain")
+def p_addTypeMain(p):
+    '''addTypeMain : '''
+    #print("pasa por addTypeMain")
+    global cont_int_locales
+    global cont_float_locales
+    global cont_bool_locales
+    global cont_char_locales
+    global cont_string_locales
     while (len(varListMain) > 0):
-        #print("entra loop addTypeGlobalMain")
-        varDirectoryMain[varListMain.pop()] = {'Tipo' : p[-1], 'Scope' : 'Main'}
-    #print("TERMINA addTypeGlobalMain")
+        variable = varListMain.pop()
+        if(translate(p[-1]) == 1):
+            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_int_locales + cont_int_locales}
+            cont_int_locales += 1
+        elif(translate(p[-1]) == 2):
+            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_bool_locales + cont_bool_locales}
+            cont_bool_locales += 1
+        elif(translate(p[-1]) == 3):
+            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_string_locales + cont_string_locales}
+            cont_string_locales += 1
+        elif(translate(p[-1]) == 4):
+            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_float_locales + cont_float_locales}
+            cont_float_locales += 1
+        elif(translate(p[-1]) == 5):
+            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_char_locales + cont_char_locales}
+            cont_char_locales += 1
+    #print("TERMINA addTypfunciones
     print(varDirectoryMain)
 
 
@@ -283,6 +325,7 @@ def p_addVariableDirMain(p):
     #print("pasa por addVariableDirMain")
     if (p[-1] in varDirectoryMain or p[-1] in varDirectory):
         print("Ya existe la variable")
+        exit()
     else:
         varListMain.append(p[-1])
         #print("Se agrego ")
@@ -319,15 +362,34 @@ def p_createVariableDirFuncion(p):
     #print("Pasa por createVariableDirFuncion")
 
 def p_auxVar1Funcion(p): #Done
-    '''auxVar1Funcion : idVarsFuncion COLON tipo addTypeGlobalFuncion SEMICOLON'''
+    '''auxVar1Funcion : idVarsFuncion COLON tipo addTypeFuncion SEMICOLON'''
 
-def p_addTypeGlobalFuncion(p):
-    '''addTypeGlobalFuncion : '''
-    #print("pasa por addTypeGlobalFuncion")
+def p_addTypeFuncion(p):
+    '''addTypeFuncion : '''
+    #print("pasa por addTypeFuncion")
+    global cont_int_funciones
+    global cont_float_funciones
+    global cont_bool_funciones
+    global cont_char_funciones
+    global cont_string_funciones
     while (len(varListFuncion) > 0):
-        #print("entra loop addTypeGlobalFuncion")
-        varDirectoryFunc[varListFuncion.pop()] = {'Tipo' : p[-1], 'Scope' : 'Funcion'}
-    #print("TERMINA addTypeGlobalFuncion")
+        variable = varListFuncion.pop()
+        if(translate(p[-1]) == 1):
+            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_int_funciones + cont_int_funciones}
+            cont_int_funciones += 1
+        elif(translate(p[-1]) == 2):
+            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_bool_funciones + cont_bool_funciones}
+            cont_bool_funciones += 1
+        elif(translate(p[-1]) == 3):
+            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_string_funciones + cont_string_funciones}
+            cont_string_funciones += 1
+        elif(translate(p[-1]) == 4):
+            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_float_funciones + cont_float_funciones}
+            cont_float_funciones += 1
+        elif(translate(p[-1]) == 5):
+            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_char_funciones + cont_char_funciones}
+            cont_char_funciones += 1
+    #print("TERMINA addTypeFuncion")
     #print(varDirectoryFunc)
 
 
@@ -340,6 +402,7 @@ def p_addVariableDirFuncion(p):
     #print("pasa por addVariableDirFuncion")
     if (p[-1] in varDirectoryFunc or p[-1] in varDirectoryMain or p[-1] in varDirectory):
         print("Ya existe la variable")
+        exit()
     else:
         print("Se agrego ")
         varListFuncion.append(p[-1])
@@ -460,6 +523,9 @@ def p_varcte(p): #Done
         | CTESTRING paso1 cteString
         | llamada '''
 
+def p_assignDirection(p):
+    '''assignDriection :'''
+
 def translate(x):
     if x == "int":
         return 1
@@ -545,7 +611,7 @@ def p_addParameters(p):
         contParametros += 1
         varListFuncion.append(p[-1])
     while (len(varListFuncion) > 0):
-        #print("entra loop addTypeGlobalFuncion")
+        #print("entra loop addTypeFuncion")
         varDirectoryFunc[varListFuncion.pop()] = {'Tipo' : p[-2], 'Scope' : 'Funcion'}
         varListFuncion.append(p[-1])
         decNumParametro += 1
@@ -584,11 +650,19 @@ def p_lectura(p): #Done
     ''' lectura : READ LPAREN ID RPAREN SEMICOLON '''
     #print("entra a lectura")
 
-#Cuadruplos
+def encuentraOperando(x):
+    if x in varDirectory:
+        return varDirectory[x].get('Direccion')
+    if x in varDirectoryMain:
+        return varDirectoryMain[x].get('Direccion')
+    if x in varDirectoryFunc:
+        return varDirectoryFunc[x].get('Direccion')
 
+#Cuadruplos
 def p_paso1(p):
     '''paso1 : '''
     #print(p[-1])
+    print(encuentraOperando(p[-1]))
     pOperandos.append(p[-1])
 
 def p_paso2_mult(p):
@@ -607,6 +681,18 @@ def p_paso3_resta(p):
     '''paso3_resta : '''
     pOperadores.append(RESTA)
 
+def translateToDirection(variable):
+    if variable in varDirectoryMain.keys():
+        return varDirectoryMain[variable].get('Direccion')
+    elif variable in varDirectory.keys():
+        return varDirectory[variable].get('Direccion')
+    elif variable in varDirectoryFunc.keys():
+        return varDirectoryFunc[variable].get('Direccion')
+    else:
+        print("VARIABLE: " ,variable)
+        print("VARDIRFUNC: ",varDirectoryFunc.keys())
+        return -12345
+
 def p_paso4(p):
     '''paso4 : '''
     global pOperadores
@@ -614,12 +700,15 @@ def p_paso4(p):
     #print("Entra paso4")
     global contTemporales
     global contCuadruplos
+    print(funcActual)
     if pOperadores :
         if pOperadores[-1] == SUMA or pOperadores[-1]== RESTA :
             op = pOperadores.pop()
             opdoDer = pOperandos.pop()
+            opdoDer = translateToDirection(opdoDer)
             tipoDer = pTipos.pop()
             opdoIzq = pOperandos.pop()
+            opdoIzq = translateToDirection(opdoIzq)
             tipoIzq = pTipos.pop()
             if cubo[tipoDer][tipoIzq][op] != ERR and (cubo[tipoDer][tipoIzq][op] == INT or cubo[tipoDer][tipoIzq][op] == FLOAT) :
                 tipoRes = cubo[tipoDer][tipoIzq][op]
