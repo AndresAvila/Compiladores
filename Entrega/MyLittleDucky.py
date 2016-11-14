@@ -19,6 +19,7 @@ varList = []
 varListMain = []
 varListFuncion = []
 dirProcedure = {}
+dirConstantes = {}
 
 funcActual = ""
 
@@ -252,6 +253,7 @@ def p_addVariableDir(p):
         print("Ya existe la variable")
         exit()
     else:
+
         varList.append(p[-1])
         #print("Se agrego ")
         
@@ -516,15 +518,55 @@ def p_auxFactor(p): #Done
 
 def p_varcte(p): #Done
     '''varcte : ID paso1 addType auxVarcte
-        | CTEINT paso1 cteInt
-        | CTEFLOAT paso1 cteFloat
-        | CTECHAR paso1 cteChar
-        | CTEBOOL paso1 cteBool
-        | CTESTRING paso1 cteString
+        | CTEINT paso1 cteInt assignDirectionCteInt
+        | CTEFLOAT paso1 cteFloat assignDirectionCteFloat
+        | CTECHAR paso1 cteChar assignDirectionCteChar
+        | CTEBOOL paso1 cteBool assignDirectionCteBool
+        | CTESTRING paso1 cteString assignDirectionCteString
         | llamada '''
 
-def p_assignDirection(p):
-    '''assignDriection :'''
+def p_assignDirectionCteInt(p):
+    '''assignDirectionCteInt :'''
+    global cont_int_constantes
+    global inicia_int_constantes
+    if p[-3] not in dirConstantes.keys():
+        dir_int_constantes.append({'Valor' : p[-3], 'Direccion' : inicia_int_constantes + cont_int_constantes})
+        dirConstantes[p[-3]] = {'Direccion' : inicia_int_constantes + cont_int_constantes, 'Tipo' : 1}
+        cont_int_constantes += 1
+        print("esto es: ", dir_int_constantes)
+
+
+def p_assignDirectionCteFloat(p):
+    '''assignDirectionCteFloat :'''
+    global cont_float_constantes
+    if p[-3] not in dirConstantes.keys():
+        dir_float_constantes.append({'Valor' : p[-3], 'Direccion' : inicia_float_constantes + cont_float_constantes})
+        dirConstantes[p[-3]] = {'Direccion' : inicia_float_constantes + cont_float_constantes, 'Tipo' : 4}
+        cont_float_constantes += 1
+
+def p_assignDirectionCteChar(p):
+    '''assignDirectionCteChar :'''
+    global cont_char_constantes
+    if p[-3] not in dirConstantes.keys():
+        dir_char_constantes.append({'Valor' : p[-3], 'Direccion' : inicia_char_constantes + cont_char_constantes})
+        dirConstantes[p[-3]] = {'Direccion' : inicia_char_constantes + cont_char_constantes, 'Tipo' : 5}
+        cont_char_constantes += 1
+
+def p_assignDirectionCteBool(p):
+    '''assignDirectionCteBool :'''
+    global cont_bool_constantes
+    if p[-3] not in dirConstantes.keys():
+        dir_bool_constantes.append({'Valor' : p[-3], 'Direccion' : inicia_bool_constantes + cont_bool_constantes})
+        dirConstantes[p[-3]] = {'Direccion' : inicia_bool_constantes + cont_bool_constantes, 'Tipo' : 2}
+        cont_bool_constantes += 1
+
+def p_assignDirectionCteString(p):
+    '''assignDirectionCteString :'''
+    global cont_string_constantes
+    if p[-3] not in dirConstantes.keys():
+        dir_string_constantes.append({'Valor' : p[-3], 'Direccion' : inicia_string_constantes + cont_string_constantes})
+        dirConstantes[p[-3]] = {'Direccion' : inicia_string_constantes + cont_string_constantes, 'Tipo' : 3}
+        cont_string_constantes += 1
 
 def translate(x):
     if x == "int":
@@ -688,6 +730,8 @@ def translateToDirection(variable):
         return varDirectory[variable].get('Direccion')
     elif variable in varDirectoryFunc.keys():
         return varDirectoryFunc[variable].get('Direccion')
+    elif variable in dirConstantes.keys():
+        return dirConstantes[variable].get('Direccion')
     else:
         print("VARIABLE: " ,variable)
         print("VARDIRFUNC: ",varDirectoryFunc.keys())
@@ -705,14 +749,14 @@ def p_paso4(p):
         if pOperadores[-1] == SUMA or pOperadores[-1]== RESTA :
             op = pOperadores.pop()
             opdoDer = pOperandos.pop()
-            opdoDer = translateToDirection(opdoDer)
+            opdoDerDir = translateToDirection(opdoDer)
             tipoDer = pTipos.pop()
             opdoIzq = pOperandos.pop()
-            opdoIzq = translateToDirection(opdoIzq)
+            opdoIzqDir = translateToDirection(opdoIzq)
             tipoIzq = pTipos.pop()
             if cubo[tipoDer][tipoIzq][op] != ERR and (cubo[tipoDer][tipoIzq][op] == INT or cubo[tipoDer][tipoIzq][op] == FLOAT) :
                 tipoRes = cubo[tipoDer][tipoIzq][op]
-                cuadruplos[contCuadruplos] = [op, opdoIzq, opdoDer, contTemporales]
+                cuadruplos[contCuadruplos] = [op, opdoIzqDir, opdoDerDir, contTemporales]
                 pOperandos.append(contTemporales)
                 pTipos.append(tipoRes)
                 contTemporales+=1
@@ -738,13 +782,15 @@ def p_paso5(p):
         if pOperadores[-1] == MULT or pOperadores[-1]== DIV :
             op = pOperadores.pop()
             opdoDer = pOperandos.pop()
+            opdoDerDir = translateToDirection(opdoDer)
             tipoDer = pTipos.pop()
             opdoIzq = pOperandos.pop()
+            opdoIzqDir = translateToDirection(opdoIzq)
             tipoIzq = pTipos.pop()
             if cubo[tipoDer][tipoIzq][op] != ERR and (cubo[tipoDer][tipoIzq][op] == INT or cubo[tipoDer][tipoIzq][op] == FLOAT) :
                 tipoRes = cubo[tipoDer][tipoIzq][op]
                 #print(tipoRes)
-                cuadruplos[contCuadruplos] = [op, opdoIzq, opdoDer, contTemporales]
+                cuadruplos[contCuadruplos] = [op, opdoIzqDir, opdoDerDir, contTemporales]
                 pOperandos.append(contTemporales)
                 pTipos.append(tipoRes)
                 contTemporales+=1
@@ -789,13 +835,15 @@ def p_paso9(p):
         if pOperadores[-1] == AND or pOperadores[-1]== OR :
             op = pOperadores.pop()
             opdoDer = pOperandos.pop()
+            opdoDerDir = translateToDirection(opdoDer)
             tipoDer = pTipos.pop()
             opdoIzq = pOperandos.pop()
+            opdoIzqDir = translateToDirection(opdoIzq)
             tipoIzq = pTipos.pop()
             if cubo[tipoDer][tipoIzq][op] != ERR and cubo[tipoDer][tipoIzq][op] == BOOL :
                 tipoRes = cubo[tipoDer][tipoIzq][op]
                 #print(tipoRes)
-                cuadruplos[contCuadruplos] = [op, opdoIzq, opdoDer, contTemporales]
+                cuadruplos[contCuadruplos] = [op, opdoIzqDir, opdoDerDir, contTemporales]
                 pOperandos.append(contTemporales)
                 pTipos.append(tipoRes)
                 contTemporales+=1
@@ -820,13 +868,15 @@ def p_paso10(p):
         if pOperadores[-1] == MAYOR or pOperadores[-1]== MENOR or pOperadores[-1]== IGUAL or pOperadores[-1]== DIF or pOperadores[-1]== MAYORIG or pOperadores[-1]== MENORIG:
             op = pOperadores.pop()
             opdoDer = pOperandos.pop()
+            opdoDerDir = translateToDirection(opdoDer)
             tipoDer = pTipos.pop()
             opdoIzq = pOperandos.pop()
+            opdoIzqDir = translateToDirection(opdoIzq)
             tipoIzq = pTipos.pop()
             if cubo[tipoDer][tipoIzq][op] != ERR and cubo[tipoDer][tipoIzq][op] == BOOL :
                 tipoRes = cubo[tipoDer][tipoIzq][op]
                 #print(tipoRes)
-                cuadruplos[contCuadruplos] = [op, opdoIzq, opdoDer, contTemporales]
+                cuadruplos[contCuadruplos] = [op, opdoIzqDir, opdoDerDir, contTemporales]
                 pOperandos.append(contTemporales)
                 pTipos.append(tipoRes)
                 contTemporales+=1
@@ -852,8 +902,10 @@ def p_paso11(p):
         if pOperadores[-1] == ASIG:
             op = pOperadores.pop()
             opdoDer = pOperandos.pop()
+            opdoDerDir = translateToDirection(opdoDer)
             tipoDer = pTipos.pop()
             opdoIzq = pOperandos.pop()
+            opdoIzqDir = translateToDirection(opdoIzq)
             tipoIzq = pTipos.pop()
             print(opdoIzq)
             print(opdoDer)
@@ -863,7 +915,7 @@ def p_paso11(p):
                 if cubo[tipoDer][tipoIzq][op] != ERR:
                     tipoRes = cubo[tipoDer][tipoIzq][op]
                     #print(tipoRes)
-                    cuadruplos[contCuadruplos] = [op, opdoDer, "", opdoIzq ]
+                    cuadruplos[contCuadruplos] = [op, opdoDerDir, "", opdoIzqDir ]
                     pOperandos.append(contTemporales)
                     pTipos.append(tipoRes)
                     contTemporales+=1
@@ -874,6 +926,7 @@ def p_paso11(p):
                     exit()
             else: 
                 print("La variable no existe ", opdoIzq)
+                exit()
     #print("Sale paso 11")
 
 def p_paso12(p):
