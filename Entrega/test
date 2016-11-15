@@ -2,7 +2,7 @@ program gg;
 var enteroglobal: int;
 function int test(int a){
 	var x,y:int;
-	a = 1 + 1;
+	a = x + 1 + 3;
 	return a;
 }
 main {

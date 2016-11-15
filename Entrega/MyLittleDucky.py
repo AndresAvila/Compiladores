@@ -20,6 +20,7 @@ varListMain = []
 varListFuncion = []
 dirProcedure = {}
 dirConstantes = {}
+dirTemporales = {}
 
 funcActual = ""
 
@@ -220,7 +221,7 @@ def p_addTypeGlobal(p):
     global cont_int_globales
     global cont_float_globales
     global cont_bool_globales
-    global cont_charcontobales
+    global cont_char_globales
     global cont_string_globales
     while (len(varList) > 0):
         variable = varList.pop()
@@ -654,10 +655,11 @@ def p_addParameters(p):
         varListFuncion.append(p[-1])
     while (len(varListFuncion) > 0):
         #print("entra loop addTypeFuncion")
-        varDirectoryFunc[varListFuncion.pop()] = {'Tipo' : p[-2], 'Scope' : 'Funcion'}
+        varDirectoryFunc[varListFuncion.pop()] = {'Tipo' : p[-2], 'Scope' : 'Funcion', 'Direccion': getBaseFuncDirection(translate(p[-2])) + getFuncCounter(translate(p[-2]))}
         varListFuncion.append(p[-1])
         decNumParametro += 1
-        parametrosA[varListFuncion.pop()] = {'Valor' : 0, 'Tipo' : p[-2], 'NumParametro' : decNumParametro}
+        parametrosA[varListFuncion.pop()] = {'Valor' : 0, 'Tipo' : p[-2], 'NumParametro' : decNumParametro, 'Direccion': getBaseFuncDirection(translate(p[-2])) + getFuncCounter(translate(p[-2]))}
+        changeFuncCounter(translate(p[-2]))
         procDirectory[funcActual]['Parametros'] = parametrosA.copy()
         
 
@@ -724,18 +726,132 @@ def p_paso3_resta(p):
     pOperadores.append(RESTA)
 
 def translateToDirection(variable):
+    print("BEFORE IF:", variable)
+    print("vardirfunc", varDirectoryFunc)
     if variable in varDirectoryMain.keys():
         return varDirectoryMain[variable].get('Direccion')
     elif variable in varDirectory.keys():
         return varDirectory[variable].get('Direccion')
     elif variable in varDirectoryFunc.keys():
+        print("ELIF 3", varDirectoryFunc)
         return varDirectoryFunc[variable].get('Direccion')
     elif variable in dirConstantes.keys():
         return dirConstantes[variable].get('Direccion')
+    elif variable in parametrosA.keys():
+        print("ELIF 5", parametrosA)
+        return parametrosA[variable].get('Direccion')
+    elif variable in dirConstantes.keys():
+        return dirConstantes[variable].get('Direccion')
+    elif variable >= 16000 and variable < 21000:
+        return variable
     else:
-        print("VARIABLE: " ,variable)
-        print("VARDIRFUNC: ",varDirectoryFunc.keys())
-        return -12345
+        print("VARIABLE", variable)
+        print("ELSE TRANSLATE", procDirectory)
+        return -1
+
+def getBaseFuncDirection(type):
+    if type == 1:
+        return 11000
+    elif type == 4:
+        return 12000
+    elif type == 5:
+        return 13000
+    elif type == 3:
+        return 14000
+    elif type == 2:
+        return 15000
+    else:
+        return -1
+
+def getFuncCounter(type):
+    global cont_int_funciones
+    global cont_bool_funciones
+    global cont_string_funciones
+    global cont_float_funciones
+    global cont_char_funciones
+    if type == 1:
+        return cont_int_funciones
+    elif type == 4:
+        return cont_float_funciones
+    elif type == 5:
+        return cont_char_funciones
+    elif type == 3:
+        return cont_string_funciones
+    elif type == 2:
+        return cont_bool_funciones
+    else:
+        return -1
+
+def changeFuncCounter(type):
+    global cont_int_funciones
+    global cont_bool_funciones
+    global cont_string_funciones
+    global cont_float_funciones
+    global cont_char_funciones
+    if type == 1:
+        cont_int_funciones += 1
+    elif type == 4:
+        cont_float_funciones += 1
+    elif type == 5:
+        cont_char_funciones += 1
+    elif type == 3:
+        cont_string_funciones += 1
+    elif type == 2:
+        cont_bool_funciones += 1
+    else:
+        pass
+
+def getBaseTemporalDirection(type):
+    if type == 1:
+        return 16000
+    elif type == 4:
+        return 17000
+    elif type == 5:
+        return 18000
+    elif type == 3:
+        return 19000
+    elif type == 2:
+        return 20000
+    else:
+        return -1
+
+def getTemporalCounter(type):
+    global cont_int_temporales
+    global cont_bool_temporales
+    global cont_string_temporales
+    global cont_float_temporales
+    global cont_char_temporales
+    if type == 1:
+        return cont_int_temporales
+    elif type == 4:
+        return cont_float_temporales
+    elif type == 5:
+        return cont_char_temporales
+    elif type == 3:
+        return cont_string_temporales
+    elif type == 2:
+        return cont_bool_temporales
+    else:
+        return -1
+
+def changeTemporalCounter(type):
+    global cont_int_temporales
+    global cont_bool_temporales
+    global cont_string_temporales
+    global cont_float_temporales
+    global cont_char_temporales
+    if type == 1:
+        cont_int_temporales += 1
+    elif type == 4:
+        cont_float_temporales += 1
+    elif type == 5:
+        cont_char_temporales += 1
+    elif type == 3:
+        cont_string_temporales += 1
+    elif type == 2:
+        cont_bool_temporales += 1
+    else:
+        pass
 
 def p_paso4(p):
     '''paso4 : '''
@@ -756,10 +872,10 @@ def p_paso4(p):
             tipoIzq = pTipos.pop()
             if cubo[tipoDer][tipoIzq][op] != ERR and (cubo[tipoDer][tipoIzq][op] == INT or cubo[tipoDer][tipoIzq][op] == FLOAT) :
                 tipoRes = cubo[tipoDer][tipoIzq][op]
-                cuadruplos[contCuadruplos] = [op, opdoIzqDir, opdoDerDir, contTemporales]
-                pOperandos.append(contTemporales)
+                cuadruplos[contCuadruplos] = [op, opdoIzqDir, opdoDerDir, getBaseTemporalDirection(tipoRes) + getTemporalCounter(tipoRes)]
+                pOperandos.append(getBaseTemporalDirection(tipoRes) + getTemporalCounter(tipoRes))
                 pTipos.append(tipoRes)
-                contTemporales+=1
+                changeTemporalCounter(tipoRes)
                 contCuadruplos+=1
                 print(cuadruplos)
             else:
@@ -790,10 +906,10 @@ def p_paso5(p):
             if cubo[tipoDer][tipoIzq][op] != ERR and (cubo[tipoDer][tipoIzq][op] == INT or cubo[tipoDer][tipoIzq][op] == FLOAT) :
                 tipoRes = cubo[tipoDer][tipoIzq][op]
                 #print(tipoRes)
-                cuadruplos[contCuadruplos] = [op, opdoIzqDir, opdoDerDir, contTemporales]
-                pOperandos.append(contTemporales)
+                cuadruplos[contCuadruplos] = [op, opdoIzqDir, opdoDerDir, getBaseTemporalDirection(tipoRes) + getTemporalCounter(tipoRes)]
+                pOperandos.append(getBaseTemporalDirection(tipoRes) + getTemporalCounter(tipoRes))
                 pTipos.append(tipoRes)
-                contTemporales+=1
+                changeTemporalCounter(tipoRes)
                 contCuadruplos+=1
                 print(cuadruplos)
             else:
@@ -843,10 +959,10 @@ def p_paso9(p):
             if cubo[tipoDer][tipoIzq][op] != ERR and cubo[tipoDer][tipoIzq][op] == BOOL :
                 tipoRes = cubo[tipoDer][tipoIzq][op]
                 #print(tipoRes)
-                cuadruplos[contCuadruplos] = [op, opdoIzqDir, opdoDerDir, contTemporales]
-                pOperandos.append(contTemporales)
+                cuadruplos[contCuadruplos] = [op, opdoIzqDir, opdoDerDir, getBaseTemporalDirection(tipoRes) + getTemporalCounter(tipoRes)]
+                pOperandos.append(getBaseTemporalDirection(tipoRes) + getTemporalCounter(tipoRes))
                 pTipos.append(tipoRes)
-                contTemporales+=1
+                changeTemporalCounter(tipoRes)
                 contCuadruplos+=1
                 print(cuadruplos)
             else:
@@ -876,10 +992,10 @@ def p_paso10(p):
             if cubo[tipoDer][tipoIzq][op] != ERR and cubo[tipoDer][tipoIzq][op] == BOOL :
                 tipoRes = cubo[tipoDer][tipoIzq][op]
                 #print(tipoRes)
-                cuadruplos[contCuadruplos] = [op, opdoIzqDir, opdoDerDir, contTemporales]
-                pOperandos.append(contTemporales)
+                cuadruplos[contCuadruplos] = [op, opdoIzqDir, opdoDerDir, getBaseTemporalDirection(tipoRes) + getTemporalCounter(tipoRes)]
+                pOperandos.append(getBaseTemporalDirection(tipoRes) + getTemporalCounter(tipoRes))
                 pTipos.append(tipoRes)
-                contTemporales+=1
+                changeTemporalCounter(tipoRes)
                 contCuadruplos+=1
                 print(cuadruplos)
             else:
@@ -1070,8 +1186,9 @@ def p_paso23(p):
     #print(tipoRes)
     print((procDirectory[funcActual]['Tipo']))
     if tipoRes == translate(procDirectory[funcActual]['Tipo']) :
-        cuadruplos[contCuadruplos] = [RETURN, "", "", res]
-        procDirectory[funcActual]['Retorno'] = res
+        print("VOY A ENTRAR")
+        cuadruplos[contCuadruplos] = [RETURN, "", "", translateToDirection(res)]
+        procDirectory[funcActual]['Retorno'] = translateToDirection(res)
         contCuadruplos += 1
         print(cuadruplos)
     else :
