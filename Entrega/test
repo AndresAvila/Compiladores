@@ -1,15 +1,13 @@
 program gg;
-var enteroglobal: int;
+var enteroglobal,sehada,asdda,asdadadad,apapsdaod: int;
 function int test(int a){
 	var x,y:int;
-	a = x + 1 + 3;
 	return a;
 }
 main {
 	var b: int;
 
-	enteroglobal = call:test(a) + 2;
-	b = b + enteroglobal;
+	enteroglobal = call:test(a) + call:test(a);
 	
 }
 

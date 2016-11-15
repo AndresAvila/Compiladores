@@ -228,18 +228,24 @@ def p_addTypeGlobal(p):
         if(translate(p[-1]) == 1):
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_int_globales + cont_int_globales}
             cont_int_globales += 1
+            dir_int_globales.append(0)
+            print("HEY", dir_int_globales)
         elif(translate(p[-1]) == 2):
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_bool_globales + cont_bool_globales}
             cont_bool_globales += 1
+            dir_bool_globales.append('')
         elif(translate(p[-1]) == 3):
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_string_globales + cont_string_globales}
             cont_string_globales += 1
+            dir_string_globales.append('')
         elif(translate(p[-1]) == 4):
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_float_globales + cont_float_globales}
             cont_float_globales += 1
+            dir_float_globales.append(0.0)
         elif(translate(p[-1]) == 5):
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_char_globales + cont_char_globales}
             cont_char_globales += 1
+            dir_char_globales.append('')
     #print("TERMINA addTypeGlobal")
     print(varDirectory)
 
@@ -304,18 +310,23 @@ def p_addTypeMain(p):
         if(translate(p[-1]) == 1):
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_int_locales + cont_int_locales}
             cont_int_locales += 1
+            dir_int_locales.append(0)
         elif(translate(p[-1]) == 2):
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_bool_locales + cont_bool_locales}
             cont_bool_locales += 1
+            dir_bool_locales.append('')
         elif(translate(p[-1]) == 3):
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_string_locales + cont_string_locales}
             cont_string_locales += 1
+            dir_string_locales.append('')
         elif(translate(p[-1]) == 4):
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_float_locales + cont_float_locales}
             cont_float_locales += 1
+            dir_float_locales.append(0.0)
         elif(translate(p[-1]) == 5):
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_char_locales + cont_char_locales}
             cont_char_locales += 1
+            dir_char_locales.append('')
     #print("TERMINA addTypfunciones
     print(varDirectoryMain)
 
@@ -380,18 +391,23 @@ def p_addTypeFuncion(p):
         if(translate(p[-1]) == 1):
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_int_funciones + cont_int_funciones}
             cont_int_funciones += 1
+            dir_int_funciones.append(0)
         elif(translate(p[-1]) == 2):
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_bool_funciones + cont_bool_funciones}
             cont_bool_funciones += 1
+            dir_bool_funciones.append('')
         elif(translate(p[-1]) == 3):
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_string_funciones + cont_string_funciones}
             cont_string_funciones += 1
+            dir_string_funciones.append('')
         elif(translate(p[-1]) == 4):
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_float_funciones + cont_float_funciones}
             cont_float_funciones += 1
+            dir_float_funciones.append(0.0)
         elif(translate(p[-1]) == 5):
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_char_funciones + cont_char_funciones}
             cont_char_funciones += 1
+            dir_char_funciones.append('')
     #print("TERMINA addTypeFuncion")
     #print(varDirectoryFunc)
 
@@ -786,14 +802,19 @@ def changeFuncCounter(type):
     global cont_char_funciones
     if type == 1:
         cont_int_funciones += 1
+        dir_int_funciones.append(0)
     elif type == 4:
         cont_float_funciones += 1
+        dir_float_funciones.append(0.0)
     elif type == 5:
         cont_char_funciones += 1
+        dir_char_funciones.append('')
     elif type == 3:
         cont_string_funciones += 1
+        dir_string_funciones.append('')
     elif type == 2:
         cont_bool_funciones += 1
+        dir_bool_funciones.append('')
     else:
         pass
 
@@ -838,14 +859,19 @@ def changeTemporalCounter(type):
     global cont_char_temporales
     if type == 1:
         cont_int_temporales += 1
+        dir_int_temporales.append(0)
     elif type == 4:
         cont_float_temporales += 1
+        dir_float_temporales.append(0.0)
     elif type == 5:
         cont_char_temporales += 1
+        dir_char_temporales.append('')
     elif type == 3:
         cont_string_temporales += 1
+        dir_string_temporales.append('')
     elif type == 2:
         cont_bool_temporales += 1
+        dir_bool_temporales.append('')
     else:
         pass
 
@@ -1010,7 +1036,6 @@ def p_paso11(p):
     global contTemporales
     global contCuadruplos
     if pOperadores :
-        #print("hola")
         if pOperadores[-1] == ASIG:
             op = pOperadores.pop()
             opdoDer = pOperandos.pop()
@@ -1224,8 +1249,12 @@ def p_paso25(p):
     global funcActual
     res = pOperandos.pop()
     tipo = pTipos.pop()
+    numArgumento = 1
     try :
+        print("res:", res)
+        print("osoyogi:", procDirectory[funcActual]['Parametros'])
         numPar = procDirectory[funcActual]['Parametros'][res]['NumParametro']
+        print("############################")
         if numPar == numArgumento :
             tipoParam = translate(procDirectory[funcActual]['Parametros'][res]['Tipo'])
             if tipo == tipoParam :
@@ -1279,6 +1308,7 @@ def p_cteLlamada(p):
     global pOperandos
     global pTipos
     print("entra ctellamada")
+    print("heyeyeyeyeyeyeyye", procDirectory[p[-2]]['Retorno'])
     pTipos.append(translate(procDirectory[p[-2]]['Tipo']))
     pOperandos.append(procDirectory[p[-2]]['Retorno'])
     print(pTipos, "pTipos")
