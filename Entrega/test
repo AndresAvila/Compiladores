@@ -8,7 +8,7 @@ function int test(int a){
 main {
 	var b: int;
 
-	enteroglobal = test(b);
+	enteroglobal = call:test(a) + 2;
 	b = b + enteroglobal;
 	
 }

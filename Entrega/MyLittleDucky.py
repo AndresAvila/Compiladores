@@ -620,7 +620,7 @@ def p_addProcDirectoryFunc(p):
     procDirectory[funcActual]['Locales'] = contVarLocFunc
 
     #procDirectory[p[-6]] = {'Variables' : varDirectoryFunc.copy(), 'Tipo' : p[-6], 'Parametros' : contParametros, 'Locales' : contVarLocFunc, 'Inicio' : contCuadruplos }
-    varDirectoryFunc.clear()
+    #varDirectoryFunc.clear()
     contParametros = 0
     contVarLocFunc = 0
     #print("pasa por addProcDirectoryFunc")
@@ -726,28 +726,24 @@ def p_paso3_resta(p):
     pOperadores.append(RESTA)
 
 def translateToDirection(variable):
-    print("BEFORE IF:", variable)
-    print("vardirfunc", varDirectoryFunc)
+    #print("BEFORE IF:", variable)
+    #print("vardirfunc", varDirectoryFunc)
     if variable in varDirectoryMain.keys():
         return varDirectoryMain[variable].get('Direccion')
     elif variable in varDirectory.keys():
         return varDirectory[variable].get('Direccion')
     elif variable in varDirectoryFunc.keys():
-        print("ELIF 3", varDirectoryFunc)
+        #print("ELIF 3", varDirectoryFunc)
         return varDirectoryFunc[variable].get('Direccion')
     elif variable in dirConstantes.keys():
         return dirConstantes[variable].get('Direccion')
     elif variable in parametrosA.keys():
-        print("ELIF 5", parametrosA)
+        #print("ELIF 5", parametrosA)
         return parametrosA[variable].get('Direccion')
     elif variable in dirConstantes.keys():
         return dirConstantes[variable].get('Direccion')
-    elif variable >= 16000 and variable < 21000:
-        return variable
     else:
-        print("VARIABLE", variable)
-        print("ELSE TRANSLATE", procDirectory)
-        return -1
+        return variable
 
 def getBaseFuncDirection(type):
     if type == 1:
@@ -1184,13 +1180,15 @@ def p_paso23(p):
     res = pOperandos.pop()
     tipoRes = pTipos.pop()
     #print(tipoRes)
-    print((procDirectory[funcActual]['Tipo']))
+    print("Q U E  P A S A")
+    print((procDirectory[funcActual]))
     if tipoRes == translate(procDirectory[funcActual]['Tipo']) :
         print("VOY A ENTRAR")
         cuadruplos[contCuadruplos] = [RETURN, "", "", translateToDirection(res)]
         procDirectory[funcActual]['Retorno'] = translateToDirection(res)
         contCuadruplos += 1
         print(cuadruplos)
+        print("PROC DIRECTORY", procDirectory[funcActual])
     else :
         print("Tipo de retorno invalido")
         exit()
@@ -1205,12 +1203,18 @@ def p_paso24(p):
     funcActual = p[-1]
     if p[-1] in procDirectory :
         print("La funcion existe en procDirectory")
-        cuadruplos[contCuadruplos] = [ERA, funcActual, "", ""]
+        cuadruplos[contCuadruplos] = [ERA, procDirectory[funcActual]['# Parametros'] + procDirectory[funcActual]['Locales'], "", ""]
         contCuadruplos += 1
         numArgumento = 1
     else:
         print("No existe la funcion")
         exit()
+
+def translateParameterToDirection(variable):
+    if variable in procDirectory[funcActual]['Parametros'].keys():
+        return procDirectory[funcActual]['Parametros'][variable]['Direccion']
+    else:
+        return -1
 
 def p_paso25(p):
     '''paso25 : '''
@@ -1225,7 +1229,7 @@ def p_paso25(p):
         if numPar == numArgumento :
             tipoParam = translate(procDirectory[funcActual]['Parametros'][res]['Tipo'])
             if tipo == tipoParam :
-                cuadruplos[contCuadruplos] = [PARAM, res, "", numArgumento]
+                cuadruplos[contCuadruplos] = [PARAM, translateParameterToDirection(res), "", numArgumento]
                 numArgumento += 1
                 contCuadruplos += 1
             else :
@@ -1243,7 +1247,7 @@ def p_paso26(p):
     global cuadruplos
     global contCuadruplos
     global funcActual
-    cuadruplos[contCuadruplos] = [GOSUB, funcActual, "", ""]
+    cuadruplos[contCuadruplos] = [GOSUB, procDirectory[funcActual]['Inicio'], "", ""]
     contCuadruplos += 1 
 
 
