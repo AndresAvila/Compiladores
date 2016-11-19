@@ -58,7 +58,7 @@ tokens = [
 t_CTEINT    = r'[\+-]?\d+'
 t_CTEFLOAT  = r'[\+-]?\d+\.\d+'
 t_CTECHAR      = r'.'
-t_CTEBOOL      = r'true|false'
+t_CTEBOOL      = r'_true|_false'
 t_CTESTRING    = r'\'.*\''
 t_PLUS      = r'\+'
 t_MINUS     = r'-'
@@ -104,27 +104,4 @@ def t_error(t):
 # Build the lexer
 lexer = lex.lex()
 
-# Test it out
-data = '''
-    program gg;
-var a:int[1];
-var b:int;
-function abuela(int debatman, char lolwe)
-{
-  b = 2 + 1;
-  || 
-  &&
-}
-{
-}
-    '''
 
-# Give the lexer some input
-lexer.input(data)
-
-# Tokenize
-while True:
-    tok = lexer.token()
-    if not tok:
-        break      # No more input
-    print(tok)

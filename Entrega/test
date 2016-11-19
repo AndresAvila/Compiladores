@@ -1,13 +1,16 @@
 program gg;
-var enteroglobal,sehada,asdda,asdadadad,apapsdaod: int;
-function int test(int a){
-	var x,y:int;
-	return a;
-}
 main {
+	var test: int;
+	var a: int;
 	var b: int;
+	var c: bool;
+	a = 3 ;
+	b = 4 ;
 
-	enteroglobal = call:test(a) + call:test(a);
+	if(a <> b)
+	{
+		test = 5;
+	}
 	
 }
 

@@ -3,7 +3,7 @@ Created by PLY version 3.9 (http://www.dabeaz.com/ply)
 Grammar
 
 Rule 0     S' -> programa
-Rule 1     programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque
+Rule 1     programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque pasoFinal
 Rule 2     addProcedureDir -> <empty>
 Rule 3     cicloVars -> vars cicloVars
 Rule 4     cicloVars -> <empty>
@@ -160,19 +160,20 @@ Rule 154   paso23 -> <empty>
 Rule 155   paso24 -> <empty>
 Rule 156   paso25 -> <empty>
 Rule 157   paso26 -> <empty>
-Rule 158   cteInt -> <empty>
-Rule 159   cteFloat -> <empty>
-Rule 160   cteChar -> <empty>
-Rule 161   cteBool -> <empty>
-Rule 162   cteString -> <empty>
-Rule 163   cteLlamada -> <empty>
-Rule 164   mayor -> <empty>
-Rule 165   menor -> <empty>
-Rule 166   mayorIg -> <empty>
-Rule 167   menorIg -> <empty>
-Rule 168   igual -> <empty>
-Rule 169   diferente -> <empty>
-Rule 170   asig -> <empty>
+Rule 158   pasoFinal -> <empty>
+Rule 159   cteInt -> <empty>
+Rule 160   cteFloat -> <empty>
+Rule 161   cteChar -> <empty>
+Rule 162   cteBool -> <empty>
+Rule 163   cteString -> <empty>
+Rule 164   cteLlamada -> <empty>
+Rule 165   mayor -> <empty>
+Rule 166   menor -> <empty>
+Rule 167   mayorIg -> <empty>
+Rule 168   menorIg -> <empty>
+Rule 169   igual -> <empty>
+Rule 170   diferente -> <empty>
+Rule 171   asig -> <empty>
 
 Terminals, with rules where they appear
 
@@ -339,6 +340,7 @@ paso7                : 87
 paso8_and            : 60
 paso8_or             : 61
 paso9                : 60 61
+pasoFinal            : 1
 programa             : 0
 termino              : 76
 tipo                 : 7 24 40 109 115
@@ -352,7 +354,7 @@ Parsing method: LALR
 state 0
 
     (0) S' -> . programa
-    (1) programa -> . PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque
+    (1) programa -> . PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque pasoFinal
 
     PROGRAM         shift and go to state 1
 
@@ -360,7 +362,7 @@ state 0
 
 state 1
 
-    (1) programa -> PROGRAM . ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque
+    (1) programa -> PROGRAM . ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque pasoFinal
 
     ID              shift and go to state 3
 
@@ -373,7 +375,7 @@ state 2
 
 state 3
 
-    (1) programa -> PROGRAM ID . addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque
+    (1) programa -> PROGRAM ID . addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque pasoFinal
     (2) addProcedureDir -> .
 
     SEMICOLON       reduce using rule 2 (addProcedureDir -> .)
@@ -382,14 +384,14 @@ state 3
 
 state 4
 
-    (1) programa -> PROGRAM ID addProcedureDir . SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque
+    (1) programa -> PROGRAM ID addProcedureDir . SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque pasoFinal
 
     SEMICOLON       shift and go to state 5
 
 
 state 5
 
-    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON . paso19 cicloVars cicloFuncion MAIN paso20 bloque
+    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON . paso19 cicloVars cicloFuncion MAIN paso20 bloque pasoFinal
     (150) paso19 -> .
 
     FUNCTION        reduce using rule 150 (paso19 -> .)
@@ -400,7 +402,7 @@ state 5
 
 state 6
 
-    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 . cicloVars cicloFuncion MAIN paso20 bloque
+    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 . cicloVars cicloFuncion MAIN paso20 bloque pasoFinal
     (3) cicloVars -> . vars cicloVars
     (4) cicloVars -> .
     (5) vars -> . createVariableDir VAR auxVar1
@@ -416,16 +418,16 @@ state 6
 
 state 7
 
-    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars . cicloFuncion MAIN paso20 bloque
+    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars . cicloFuncion MAIN paso20 bloque pasoFinal
     (107) cicloFuncion -> . funcion cicloFuncion
     (108) cicloFuncion -> .
     (109) funcion -> . FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
 
     MAIN            reduce using rule 108 (cicloFuncion -> .)
-    FUNCTION        shift and go to state 10
+    FUNCTION        shift and go to state 11
 
-    cicloFuncion                   shift and go to state 11
-    funcion                        shift and go to state 12
+    cicloFuncion                   shift and go to state 12
+    funcion                        shift and go to state 10
 
 state 8
 
@@ -452,6 +454,19 @@ state 9
 
 state 10
 
+    (107) cicloFuncion -> funcion . cicloFuncion
+    (107) cicloFuncion -> . funcion cicloFuncion
+    (108) cicloFuncion -> .
+    (109) funcion -> . FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
+
+    MAIN            reduce using rule 108 (cicloFuncion -> .)
+    FUNCTION        shift and go to state 11
+
+    cicloFuncion                   shift and go to state 15
+    funcion                        shift and go to state 10
+
+state 11
+
     (109) funcion -> FUNCTION . tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
     (13) tipo -> . INT ambAuxTipo1
     (14) tipo -> . BOOL ambAuxTipo1
@@ -459,33 +474,20 @@ state 10
     (16) tipo -> . FLOAT ambAuxTipo1
     (17) tipo -> . CHAR ambAuxTipo1
 
-    INT             shift and go to state 19
-    BOOL            shift and go to state 20
-    STRING          shift and go to state 16
-    FLOAT           shift and go to state 15
-    CHAR            shift and go to state 18
+    INT             shift and go to state 20
+    BOOL            shift and go to state 21
+    STRING          shift and go to state 17
+    FLOAT           shift and go to state 16
+    CHAR            shift and go to state 19
 
-    tipo                           shift and go to state 17
-
-state 11
-
-    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion . MAIN paso20 bloque
-
-    MAIN            shift and go to state 21
-
+    tipo                           shift and go to state 18
 
 state 12
 
-    (107) cicloFuncion -> funcion . cicloFuncion
-    (107) cicloFuncion -> . funcion cicloFuncion
-    (108) cicloFuncion -> .
-    (109) funcion -> . FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
+    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion . MAIN paso20 bloque pasoFinal
 
-    MAIN            reduce using rule 108 (cicloFuncion -> .)
-    FUNCTION        shift and go to state 10
+    MAIN            shift and go to state 22
 
-    cicloFuncion                   shift and go to state 22
-    funcion                        shift and go to state 12
 
 state 13
 
@@ -508,6 +510,13 @@ state 14
 
 state 15
 
+    (107) cicloFuncion -> funcion cicloFuncion .
+
+    MAIN            reduce using rule 107 (cicloFuncion -> funcion cicloFuncion .)
+
+
+state 16
+
     (16) tipo -> FLOAT . ambAuxTipo1
     (18) ambAuxTipo1 -> . LBRACKET CTEINT RBRACKET
     (19) ambAuxTipo1 -> .
@@ -518,7 +527,7 @@ state 15
 
     ambAuxTipo1                    shift and go to state 27
 
-state 16
+state 17
 
     (15) tipo -> STRING . ambAuxTipo1
     (18) ambAuxTipo1 -> . LBRACKET CTEINT RBRACKET
@@ -530,14 +539,14 @@ state 16
 
     ambAuxTipo1                    shift and go to state 28
 
-state 17
+state 18
 
     (109) funcion -> FUNCTION tipo . ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
 
     ID              shift and go to state 29
 
 
-state 18
+state 19
 
     (17) tipo -> CHAR . ambAuxTipo1
     (18) ambAuxTipo1 -> . LBRACKET CTEINT RBRACKET
@@ -549,7 +558,7 @@ state 18
 
     ambAuxTipo1                    shift and go to state 30
 
-state 19
+state 20
 
     (13) tipo -> INT . ambAuxTipo1
     (18) ambAuxTipo1 -> . LBRACKET CTEINT RBRACKET
@@ -561,7 +570,7 @@ state 19
 
     ambAuxTipo1                    shift and go to state 31
 
-state 20
+state 21
 
     (14) tipo -> BOOL . ambAuxTipo1
     (18) ambAuxTipo1 -> . LBRACKET CTEINT RBRACKET
@@ -573,21 +582,14 @@ state 20
 
     ambAuxTipo1                    shift and go to state 32
 
-state 21
+state 22
 
-    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN . paso20 bloque
+    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN . paso20 bloque pasoFinal
     (151) paso20 -> .
 
     LBRACE          reduce using rule 151 (paso20 -> .)
 
     paso20                         shift and go to state 33
-
-state 22
-
-    (107) cicloFuncion -> funcion cicloFuncion .
-
-    MAIN            reduce using rule 107 (cicloFuncion -> funcion cicloFuncion .)
-
 
 state 23
 
@@ -673,7 +675,7 @@ state 32
 
 state 33
 
-    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 . bloque
+    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 . bloque pasoFinal
     (30) bloque -> . LBRACE cicloVarsMain cicloBloque RBRACE
 
     LBRACE          shift and go to state 38
@@ -689,11 +691,11 @@ state 34
     (16) tipo -> . FLOAT ambAuxTipo1
     (17) tipo -> . CHAR ambAuxTipo1
 
-    INT             shift and go to state 19
-    BOOL            shift and go to state 20
-    STRING          shift and go to state 16
-    FLOAT           shift and go to state 15
-    CHAR            shift and go to state 18
+    INT             shift and go to state 20
+    BOOL            shift and go to state 21
+    STRING          shift and go to state 17
+    FLOAT           shift and go to state 16
+    CHAR            shift and go to state 19
 
     tipo                           shift and go to state 40
 
@@ -743,10 +745,12 @@ state 38
 
 state 39
 
-    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque .
+    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque . pasoFinal
+    (158) pasoFinal -> .
 
-    $end            reduce using rule 1 (programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque .)
+    $end            reduce using rule 158 (pasoFinal -> .)
 
+    pasoFinal                      shift and go to state 48
 
 state 40
 
@@ -755,7 +759,7 @@ state 40
 
     SEMICOLON       reduce using rule 8 (addTypeGlobal -> .)
 
-    addTypeGlobal                  shift and go to state 48
+    addTypeGlobal                  shift and go to state 49
 
 state 41
 
@@ -771,7 +775,7 @@ state 42
 
     ID              shift and go to state 25
 
-    idVars                         shift and go to state 49
+    idVars                         shift and go to state 50
 
 state 43
 
@@ -795,22 +799,22 @@ state 44
     (17) tipo -> . CHAR ambAuxTipo1
 
     RPAREN          reduce using rule 113 (auxFunction -> .)
-    INT             shift and go to state 19
-    BOOL            shift and go to state 20
-    STRING          shift and go to state 16
-    FLOAT           shift and go to state 15
-    CHAR            shift and go to state 18
+    INT             shift and go to state 20
+    BOOL            shift and go to state 21
+    STRING          shift and go to state 17
+    FLOAT           shift and go to state 16
+    CHAR            shift and go to state 19
 
-    tipo                           shift and go to state 50
-    auxFunction                    shift and go to state 51
-    auxParametros                  shift and go to state 52
-    parametros                     shift and go to state 53
+    tipo                           shift and go to state 51
+    auxFunction                    shift and go to state 52
+    auxParametros                  shift and go to state 53
+    parametros                     shift and go to state 54
 
 state 45
 
     (22) varsMain -> createVariableDirMain . VAR auxVar1Main
 
-    VAR             shift and go to state 54
+    VAR             shift and go to state 55
 
 
 state 46
@@ -828,17 +832,17 @@ state 46
     (119) ciclo -> . WHILE paso15 LPAREN expAndOr RPAREN paso16 bloque paso17
 
     RBRACE          reduce using rule 32 (cicloBloque -> .)
-    ID              shift and go to state 61
-    IF              shift and go to state 62
-    PRINT           shift and go to state 55
-    WHILE           shift and go to state 56
+    ID              shift and go to state 62
+    IF              shift and go to state 63
+    PRINT           shift and go to state 56
+    WHILE           shift and go to state 57
 
-    ciclo                          shift and go to state 57
-    estatuto                       shift and go to state 58
-    condicion                      shift and go to state 59
-    cicloBloque                    shift and go to state 60
-    asignacion                     shift and go to state 63
-    escritura                      shift and go to state 64
+    ciclo                          shift and go to state 58
+    estatuto                       shift and go to state 59
+    condicion                      shift and go to state 60
+    cicloBloque                    shift and go to state 61
+    asignacion                     shift and go to state 64
+    escritura                      shift and go to state 65
 
 state 47
 
@@ -855,80 +859,87 @@ state 47
     RBRACE          reduce using rule 21 (cicloVarsMain -> .)
     VAR             reduce using rule 23 (createVariableDirMain -> .)
 
-    cicloVarsMain                  shift and go to state 65
+    cicloVarsMain                  shift and go to state 66
     createVariableDirMain          shift and go to state 45
     varsMain                       shift and go to state 47
 
 state 48
 
-    (7) auxVar1 -> idVars COLON tipo addTypeGlobal . SEMICOLON
+    (1) programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque pasoFinal .
 
-    SEMICOLON       shift and go to state 66
+    $end            reduce using rule 1 (programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque pasoFinal .)
 
 
 state 49
+
+    (7) auxVar1 -> idVars COLON tipo addTypeGlobal . SEMICOLON
+
+    SEMICOLON       shift and go to state 67
+
+
+state 50
 
     (11) ambIdVars -> COMMA idVars .
 
     COLON           reduce using rule 11 (ambIdVars -> COMMA idVars .)
 
 
-state 50
+state 51
 
     (115) auxParametros -> tipo . ID addParameters ambAuxParametros
 
-    ID              shift and go to state 67
-
-
-state 51
-
-    (109) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction . RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
-
-    RPAREN          shift and go to state 68
+    ID              shift and go to state 68
 
 
 state 52
+
+    (109) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction . RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
+
+    RPAREN          shift and go to state 69
+
+
+state 53
 
     (114) parametros -> auxParametros .
 
     RPAREN          reduce using rule 114 (parametros -> auxParametros .)
 
 
-state 53
+state 54
 
     (112) auxFunction -> parametros .
 
     RPAREN          reduce using rule 112 (auxFunction -> parametros .)
 
 
-state 54
+state 55
 
     (22) varsMain -> createVariableDirMain VAR . auxVar1Main
     (24) auxVar1Main -> . idVarsMain COLON tipo addTypeMain SEMICOLON
     (26) idVarsMain -> . ID addVariableDirMain ambIdVarsMain
 
-    ID              shift and go to state 71
+    ID              shift and go to state 72
 
-    auxVar1Main                    shift and go to state 69
-    idVarsMain                     shift and go to state 70
+    auxVar1Main                    shift and go to state 70
+    idVarsMain                     shift and go to state 71
 
-state 55
+state 56
 
     (53) escritura -> PRINT . LPAREN auxEscritura1 RPAREN SEMICOLON
 
-    LPAREN          shift and go to state 72
+    LPAREN          shift and go to state 73
 
 
-state 56
+state 57
 
     (119) ciclo -> WHILE . paso15 LPAREN expAndOr RPAREN paso16 bloque paso17
     (146) paso15 -> .
 
     LPAREN          reduce using rule 146 (paso15 -> .)
 
-    paso15                         shift and go to state 73
+    paso15                         shift and go to state 74
 
-state 57
+state 58
 
     (49) estatuto -> ciclo .
 
@@ -936,11 +947,11 @@ state 57
     IF              reduce using rule 49 (estatuto -> ciclo .)
     PRINT           reduce using rule 49 (estatuto -> ciclo .)
     WHILE           reduce using rule 49 (estatuto -> ciclo .)
-    RETURN          reduce using rule 49 (estatuto -> ciclo .)
     RBRACE          reduce using rule 49 (estatuto -> ciclo .)
+    RETURN          reduce using rule 49 (estatuto -> ciclo .)
 
 
-state 58
+state 59
 
     (31) cicloBloque -> estatuto . cicloBloque
     (31) cicloBloque -> . estatuto cicloBloque
@@ -955,19 +966,19 @@ state 58
     (119) ciclo -> . WHILE paso15 LPAREN expAndOr RPAREN paso16 bloque paso17
 
     RBRACE          reduce using rule 32 (cicloBloque -> .)
-    ID              shift and go to state 61
-    IF              shift and go to state 62
-    PRINT           shift and go to state 55
-    WHILE           shift and go to state 56
+    ID              shift and go to state 62
+    IF              shift and go to state 63
+    PRINT           shift and go to state 56
+    WHILE           shift and go to state 57
 
-    ciclo                          shift and go to state 57
-    asignacion                     shift and go to state 63
-    estatuto                       shift and go to state 58
-    condicion                      shift and go to state 59
-    cicloBloque                    shift and go to state 74
-    escritura                      shift and go to state 64
+    ciclo                          shift and go to state 58
+    asignacion                     shift and go to state 64
+    estatuto                       shift and go to state 59
+    condicion                      shift and go to state 60
+    cicloBloque                    shift and go to state 75
+    escritura                      shift and go to state 65
 
-state 59
+state 60
 
     (47) estatuto -> condicion .
 
@@ -975,18 +986,18 @@ state 59
     IF              reduce using rule 47 (estatuto -> condicion .)
     PRINT           reduce using rule 47 (estatuto -> condicion .)
     WHILE           reduce using rule 47 (estatuto -> condicion .)
-    RETURN          reduce using rule 47 (estatuto -> condicion .)
     RBRACE          reduce using rule 47 (estatuto -> condicion .)
-
-
-state 60
-
-    (30) bloque -> LBRACE cicloVarsMain cicloBloque . RBRACE
-
-    RBRACE          shift and go to state 75
+    RETURN          reduce using rule 47 (estatuto -> condicion .)
 
 
 state 61
+
+    (30) bloque -> LBRACE cicloVarsMain cicloBloque . RBRACE
+
+    RBRACE          shift and go to state 76
+
+
+state 62
 
     (50) asignacion -> ID . paso1 addType auxAsignacion1 EQUALA asig exp paso11 SEMICOLON
     (129) paso1 -> .
@@ -994,16 +1005,16 @@ state 61
     LBRACKET        reduce using rule 129 (paso1 -> .)
     EQUALA          reduce using rule 129 (paso1 -> .)
 
-    paso1                          shift and go to state 76
+    paso1                          shift and go to state 77
 
-state 62
+state 63
 
     (72) condicion -> IF . LPAREN expAndOr paso12 RPAREN bloque auxCondicion paso14
 
-    LPAREN          shift and go to state 77
+    LPAREN          shift and go to state 78
 
 
-state 63
+state 64
 
     (46) estatuto -> asignacion .
 
@@ -1011,11 +1022,11 @@ state 63
     IF              reduce using rule 46 (estatuto -> asignacion .)
     PRINT           reduce using rule 46 (estatuto -> asignacion .)
     WHILE           reduce using rule 46 (estatuto -> asignacion .)
-    RETURN          reduce using rule 46 (estatuto -> asignacion .)
     RBRACE          reduce using rule 46 (estatuto -> asignacion .)
+    RETURN          reduce using rule 46 (estatuto -> asignacion .)
 
 
-state 64
+state 65
 
     (48) estatuto -> escritura .
 
@@ -1023,11 +1034,11 @@ state 64
     IF              reduce using rule 48 (estatuto -> escritura .)
     PRINT           reduce using rule 48 (estatuto -> escritura .)
     WHILE           reduce using rule 48 (estatuto -> escritura .)
-    RETURN          reduce using rule 48 (estatuto -> escritura .)
     RBRACE          reduce using rule 48 (estatuto -> escritura .)
+    RETURN          reduce using rule 48 (estatuto -> escritura .)
 
 
-state 65
+state 66
 
     (20) cicloVarsMain -> varsMain cicloVarsMain .
 
@@ -1038,7 +1049,7 @@ state 65
     RBRACE          reduce using rule 20 (cicloVarsMain -> varsMain cicloVarsMain .)
 
 
-state 66
+state 67
 
     (7) auxVar1 -> idVars COLON tipo addTypeGlobal SEMICOLON .
 
@@ -1047,7 +1058,7 @@ state 66
     MAIN            reduce using rule 7 (auxVar1 -> idVars COLON tipo addTypeGlobal SEMICOLON .)
 
 
-state 67
+state 68
 
     (115) auxParametros -> tipo ID . addParameters ambAuxParametros
     (116) addParameters -> .
@@ -1055,18 +1066,18 @@ state 67
     COMMA           reduce using rule 116 (addParameters -> .)
     RPAREN          reduce using rule 116 (addParameters -> .)
 
-    addParameters                  shift and go to state 78
+    addParameters                  shift and go to state 79
 
-state 68
+state 69
 
     (109) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN . bloqueFuncion addProcDirectoryFunc paso22 paso23
     (33) bloqueFuncion -> . LBRACE cicloVarsFuncion paso21 cicloBloqueFuncion RETURN expresion SEMICOLON RBRACE
 
-    LBRACE          shift and go to state 79
+    LBRACE          shift and go to state 80
 
-    bloqueFuncion                  shift and go to state 80
+    bloqueFuncion                  shift and go to state 81
 
-state 69
+state 70
 
     (22) varsMain -> createVariableDirMain VAR auxVar1Main .
 
@@ -1078,14 +1089,14 @@ state 69
     RBRACE          reduce using rule 22 (varsMain -> createVariableDirMain VAR auxVar1Main .)
 
 
-state 70
+state 71
 
     (24) auxVar1Main -> idVarsMain . COLON tipo addTypeMain SEMICOLON
 
-    COLON           shift and go to state 81
+    COLON           shift and go to state 82
 
 
-state 71
+state 72
 
     (26) idVarsMain -> ID . addVariableDirMain ambIdVarsMain
     (27) addVariableDirMain -> .
@@ -1093,9 +1104,9 @@ state 71
     COMMA           reduce using rule 27 (addVariableDirMain -> .)
     COLON           reduce using rule 27 (addVariableDirMain -> .)
 
-    addVariableDirMain             shift and go to state 82
+    addVariableDirMain             shift and go to state 83
 
-state 72
+state 73
 
     (53) escritura -> PRINT LPAREN . auxEscritura1 RPAREN SEMICOLON
     (54) auxEscritura1 -> . auxEscritura2 paso18 ambAuxEscritura1
@@ -1113,44 +1124,44 @@ state 72
     (80) auxExp -> . MINUS paso3_resta
 
   ! shift/reduce conflict for CTESTRING resolved as shift
-    CTESTRING       shift and go to state 83
-    LPAREN          shift and go to state 93
+    CTESTRING       shift and go to state 84
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
     CTECHAR         reduce using rule 90 (auxFactor -> .)
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
   ! CTESTRING       [ reduce using rule 90 (auxFactor -> .) ]
 
-    auxExp                         shift and go to state 86
-    auxEscritura1                  shift and go to state 91
-    auxEscritura2                  shift and go to state 92
-    termino                        shift and go to state 84
-    exp                            shift and go to state 95
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    cicloExp                       shift and go to state 90
-    cicloTermino                   shift and go to state 88
+    auxExp                         shift and go to state 87
+    auxEscritura1                  shift and go to state 92
+    auxEscritura2                  shift and go to state 93
+    termino                        shift and go to state 85
+    exp                            shift and go to state 96
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    cicloExp                       shift and go to state 91
+    cicloTermino                   shift and go to state 89
 
-state 73
+state 74
 
     (119) ciclo -> WHILE paso15 . LPAREN expAndOr RPAREN paso16 bloque paso17
 
-    LPAREN          shift and go to state 96
+    LPAREN          shift and go to state 97
 
 
-state 74
+state 75
 
     (31) cicloBloque -> estatuto cicloBloque .
 
     RBRACE          reduce using rule 31 (cicloBloque -> estatuto cicloBloque .)
 
 
-state 75
+state 76
 
     (30) bloque -> LBRACE cicloVarsMain cicloBloque RBRACE .
 
@@ -1160,11 +1171,11 @@ state 75
     WHILE           reduce using rule 30 (bloque -> LBRACE cicloVarsMain cicloBloque RBRACE .)
     RBRACE          reduce using rule 30 (bloque -> LBRACE cicloVarsMain cicloBloque RBRACE .)
     RETURN          reduce using rule 30 (bloque -> LBRACE cicloVarsMain cicloBloque RBRACE .)
-    $end            reduce using rule 30 (bloque -> LBRACE cicloVarsMain cicloBloque RBRACE .)
     ELSE            reduce using rule 30 (bloque -> LBRACE cicloVarsMain cicloBloque RBRACE .)
+    $end            reduce using rule 30 (bloque -> LBRACE cicloVarsMain cicloBloque RBRACE .)
 
 
-state 76
+state 77
 
     (50) asignacion -> ID paso1 . addType auxAsignacion1 EQUALA asig exp paso11 SEMICOLON
     (103) addType -> .
@@ -1172,9 +1183,9 @@ state 76
     LBRACKET        reduce using rule 103 (addType -> .)
     EQUALA          reduce using rule 103 (addType -> .)
 
-    addType                        shift and go to state 97
+    addType                        shift and go to state 98
 
-state 77
+state 78
 
     (72) condicion -> IF LPAREN . expAndOr paso12 RPAREN bloque auxCondicion paso14
     (71) expAndOr -> . cicloExpresion auxCicloExpresion
@@ -1191,7 +1202,7 @@ state 77
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -1199,32 +1210,32 @@ state 77
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    expAndOr                       shift and go to state 98
-    termino                        shift and go to state 84
-    cicloExpresion                 shift and go to state 99
-    auxExp                         shift and go to state 86
-    cicloTermino                   shift and go to state 88
-    factor                         shift and go to state 89
-    cicloExp                       shift and go to state 90
-    auxFactor                      shift and go to state 94
-    expresion                      shift and go to state 100
-    exp                            shift and go to state 101
+    expAndOr                       shift and go to state 99
+    termino                        shift and go to state 85
+    cicloExpresion                 shift and go to state 100
+    auxExp                         shift and go to state 87
+    cicloTermino                   shift and go to state 89
+    factor                         shift and go to state 90
+    cicloExp                       shift and go to state 91
+    auxFactor                      shift and go to state 95
+    expresion                      shift and go to state 101
+    exp                            shift and go to state 102
 
-state 78
+state 79
 
     (115) auxParametros -> tipo ID addParameters . ambAuxParametros
     (117) ambAuxParametros -> . COMMA auxParametros
     (118) ambAuxParametros -> .
 
-    COMMA           shift and go to state 102
+    COMMA           shift and go to state 103
     RPAREN          reduce using rule 118 (ambAuxParametros -> .)
 
-    ambAuxParametros               shift and go to state 103
+    ambAuxParametros               shift and go to state 104
 
-state 79
+state 80
 
     (33) bloqueFuncion -> LBRACE . cicloVarsFuncion paso21 cicloBloqueFuncion RETURN expresion SEMICOLON RBRACE
     (36) cicloVarsFuncion -> . varsFuncion cicloVarsFuncion
@@ -1239,11 +1250,11 @@ state 79
     RETURN          reduce using rule 37 (cicloVarsFuncion -> .)
     VAR             reduce using rule 39 (createVariableDirFuncion -> .)
 
-    varsFuncion                    shift and go to state 104
-    cicloVarsFuncion               shift and go to state 105
-    createVariableDirFuncion       shift and go to state 106
+    varsFuncion                    shift and go to state 105
+    cicloVarsFuncion               shift and go to state 106
+    createVariableDirFuncion       shift and go to state 107
 
-state 80
+state 81
 
     (109) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion . addProcDirectoryFunc paso22 paso23
     (110) addProcDirectoryFunc -> .
@@ -1251,9 +1262,9 @@ state 80
     FUNCTION        reduce using rule 110 (addProcDirectoryFunc -> .)
     MAIN            reduce using rule 110 (addProcDirectoryFunc -> .)
 
-    addProcDirectoryFunc           shift and go to state 107
+    addProcDirectoryFunc           shift and go to state 108
 
-state 81
+state 82
 
     (24) auxVar1Main -> idVarsMain COLON . tipo addTypeMain SEMICOLON
     (13) tipo -> . INT ambAuxTipo1
@@ -1262,26 +1273,26 @@ state 81
     (16) tipo -> . FLOAT ambAuxTipo1
     (17) tipo -> . CHAR ambAuxTipo1
 
-    INT             shift and go to state 19
-    BOOL            shift and go to state 20
-    STRING          shift and go to state 16
-    FLOAT           shift and go to state 15
-    CHAR            shift and go to state 18
+    INT             shift and go to state 20
+    BOOL            shift and go to state 21
+    STRING          shift and go to state 17
+    FLOAT           shift and go to state 16
+    CHAR            shift and go to state 19
 
-    tipo                           shift and go to state 108
+    tipo                           shift and go to state 109
 
-state 82
+state 83
 
     (26) idVarsMain -> ID addVariableDirMain . ambIdVarsMain
     (28) ambIdVarsMain -> . COMMA idVarsMain
     (29) ambIdVarsMain -> .
 
-    COMMA           shift and go to state 110
+    COMMA           shift and go to state 111
     COLON           reduce using rule 29 (ambIdVarsMain -> .)
 
-    ambIdVarsMain                  shift and go to state 109
+    ambIdVarsMain                  shift and go to state 110
 
-state 83
+state 84
 
     (58) auxEscritura2 -> CTESTRING . paso1
     (129) paso1 -> .
@@ -1289,9 +1300,9 @@ state 83
     COMMA           reduce using rule 129 (paso1 -> .)
     RPAREN          reduce using rule 129 (paso1 -> .)
 
-    paso1                          shift and go to state 111
+    paso1                          shift and go to state 112
 
-state 84
+state 85
 
     (76) cicloExp -> termino . paso4 ambExp
     (134) paso4 -> .
@@ -1312,9 +1323,9 @@ state 84
     SEMICOLON       reduce using rule 134 (paso4 -> .)
     LBRACKET        reduce using rule 134 (paso4 -> .)
 
-    paso4                          shift and go to state 112
+    paso4                          shift and go to state 113
 
-state 85
+state 86
 
     (80) auxExp -> MINUS . paso3_resta
     (133) paso3_resta -> .
@@ -1330,9 +1341,9 @@ state 85
     PLUS            reduce using rule 133 (paso3_resta -> .)
     MINUS           reduce using rule 133 (paso3_resta -> .)
 
-    paso3_resta                    shift and go to state 113
+    paso3_resta                    shift and go to state 114
 
-state 86
+state 87
 
     (89) auxFactor -> auxExp .
 
@@ -1345,7 +1356,7 @@ state 86
     CALL            reduce using rule 89 (auxFactor -> auxExp .)
 
 
-state 87
+state 88
 
     (79) auxExp -> PLUS . paso3_suma
     (132) paso3_suma -> .
@@ -1361,14 +1372,16 @@ state 87
     PLUS            reduce using rule 132 (paso3_suma -> .)
     MINUS           reduce using rule 132 (paso3_suma -> .)
 
-    paso3_suma                     shift and go to state 114
+    paso3_suma                     shift and go to state 115
 
-state 88
+state 89
 
     (81) termino -> cicloTermino .
 
     PLUS            reduce using rule 81 (termino -> cicloTermino .)
     MINUS           reduce using rule 81 (termino -> cicloTermino .)
+    COMMA           reduce using rule 81 (termino -> cicloTermino .)
+    RPAREN          reduce using rule 81 (termino -> cicloTermino .)
     GTHAN           reduce using rule 81 (termino -> cicloTermino .)
     LTHAN           reduce using rule 81 (termino -> cicloTermino .)
     NOTEQUAL        reduce using rule 81 (termino -> cicloTermino .)
@@ -1377,14 +1390,12 @@ state 88
     EQUAL           reduce using rule 81 (termino -> cicloTermino .)
     AND             reduce using rule 81 (termino -> cicloTermino .)
     OR              reduce using rule 81 (termino -> cicloTermino .)
-    RPAREN          reduce using rule 81 (termino -> cicloTermino .)
-    COMMA           reduce using rule 81 (termino -> cicloTermino .)
     RBRACKET        reduce using rule 81 (termino -> cicloTermino .)
     SEMICOLON       reduce using rule 81 (termino -> cicloTermino .)
     LBRACKET        reduce using rule 81 (termino -> cicloTermino .)
 
 
-state 89
+state 90
 
     (82) cicloTermino -> factor . paso5 ambCicloTermino
     (135) paso5 -> .
@@ -1407,35 +1418,35 @@ state 89
     SEMICOLON       reduce using rule 135 (paso5 -> .)
     LBRACKET        reduce using rule 135 (paso5 -> .)
 
-    paso5                          shift and go to state 115
+    paso5                          shift and go to state 116
 
-state 90
+state 91
 
     (75) exp -> cicloExp .
 
-    COMMA           reduce using rule 75 (exp -> cicloExp .)
     RPAREN          reduce using rule 75 (exp -> cicloExp .)
-    LBRACKET        reduce using rule 75 (exp -> cicloExp .)
+    AND             reduce using rule 75 (exp -> cicloExp .)
+    OR              reduce using rule 75 (exp -> cicloExp .)
+    SEMICOLON       reduce using rule 75 (exp -> cicloExp .)
+    COMMA           reduce using rule 75 (exp -> cicloExp .)
     GTHAN           reduce using rule 75 (exp -> cicloExp .)
     LTHAN           reduce using rule 75 (exp -> cicloExp .)
     NOTEQUAL        reduce using rule 75 (exp -> cicloExp .)
     GETHAN          reduce using rule 75 (exp -> cicloExp .)
     LETHAN          reduce using rule 75 (exp -> cicloExp .)
     EQUAL           reduce using rule 75 (exp -> cicloExp .)
-    AND             reduce using rule 75 (exp -> cicloExp .)
-    OR              reduce using rule 75 (exp -> cicloExp .)
+    LBRACKET        reduce using rule 75 (exp -> cicloExp .)
     RBRACKET        reduce using rule 75 (exp -> cicloExp .)
-    SEMICOLON       reduce using rule 75 (exp -> cicloExp .)
-
-
-state 91
-
-    (53) escritura -> PRINT LPAREN auxEscritura1 . RPAREN SEMICOLON
-
-    RPAREN          shift and go to state 116
 
 
 state 92
+
+    (53) escritura -> PRINT LPAREN auxEscritura1 . RPAREN SEMICOLON
+
+    RPAREN          shift and go to state 117
+
+
+state 93
 
     (54) auxEscritura1 -> auxEscritura2 . paso18 ambAuxEscritura1
     (149) paso18 -> .
@@ -1443,9 +1454,9 @@ state 92
     COMMA           reduce using rule 149 (paso18 -> .)
     RPAREN          reduce using rule 149 (paso18 -> .)
 
-    paso18                         shift and go to state 117
+    paso18                         shift and go to state 118
 
-state 93
+state 94
 
     (87) factor -> LPAREN . paso6 exp RPAREN paso7
     (136) paso6 -> .
@@ -1461,9 +1472,9 @@ state 93
     CTESTRING       reduce using rule 136 (paso6 -> .)
     CALL            reduce using rule 136 (paso6 -> .)
 
-    paso6                          shift and go to state 118
+    paso6                          shift and go to state 119
 
-state 94
+state 95
 
     (88) factor -> auxFactor . varcte
     (91) varcte -> . ID paso1 addType auxVarcte
@@ -1475,18 +1486,18 @@ state 94
     (97) varcte -> . llamada
     (120) llamada -> . CALL COLON ID paso24 cteLlamada LPAREN auxLlamada RPAREN paso26
 
-    ID              shift and go to state 125
-    CTEINT          shift and go to state 124
-    CTEFLOAT        shift and go to state 122
-    CTECHAR         shift and go to state 120
-    CTEBOOL         shift and go to state 127
-    CTESTRING       shift and go to state 119
-    CALL            shift and go to state 126
+    ID              shift and go to state 126
+    CTEINT          shift and go to state 125
+    CTEFLOAT        shift and go to state 123
+    CTECHAR         shift and go to state 121
+    CTEBOOL         shift and go to state 128
+    CTESTRING       shift and go to state 120
+    CALL            shift and go to state 127
 
-    varcte                         shift and go to state 121
-    llamada                        shift and go to state 123
+    varcte                         shift and go to state 122
+    llamada                        shift and go to state 124
 
-state 95
+state 96
 
     (57) auxEscritura2 -> exp .
 
@@ -1494,7 +1505,7 @@ state 95
     RPAREN          reduce using rule 57 (auxEscritura2 -> exp .)
 
 
-state 96
+state 97
 
     (119) ciclo -> WHILE paso15 LPAREN . expAndOr RPAREN paso16 bloque paso17
     (71) expAndOr -> . cicloExpresion auxCicloExpresion
@@ -1511,7 +1522,7 @@ state 96
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -1519,54 +1530,54 @@ state 96
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    expAndOr                       shift and go to state 128
-    termino                        shift and go to state 84
-    cicloExpresion                 shift and go to state 99
-    auxExp                         shift and go to state 86
-    cicloTermino                   shift and go to state 88
-    factor                         shift and go to state 89
-    cicloExp                       shift and go to state 90
-    auxFactor                      shift and go to state 94
-    expresion                      shift and go to state 100
-    exp                            shift and go to state 101
+    expAndOr                       shift and go to state 129
+    termino                        shift and go to state 85
+    cicloExpresion                 shift and go to state 100
+    auxExp                         shift and go to state 87
+    cicloTermino                   shift and go to state 89
+    factor                         shift and go to state 90
+    cicloExp                       shift and go to state 91
+    auxFactor                      shift and go to state 95
+    expresion                      shift and go to state 101
+    exp                            shift and go to state 102
 
-state 97
+state 98
 
     (50) asignacion -> ID paso1 addType . auxAsignacion1 EQUALA asig exp paso11 SEMICOLON
     (51) auxAsignacion1 -> . LBRACKET exp RBRACKET
     (52) auxAsignacion1 -> .
 
-    LBRACKET        shift and go to state 130
+    LBRACKET        shift and go to state 131
     EQUALA          reduce using rule 52 (auxAsignacion1 -> .)
 
-    auxAsignacion1                 shift and go to state 129
+    auxAsignacion1                 shift and go to state 130
 
-state 98
+state 99
 
     (72) condicion -> IF LPAREN expAndOr . paso12 RPAREN bloque auxCondicion paso14
     (143) paso12 -> .
 
     RPAREN          reduce using rule 143 (paso12 -> .)
 
-    paso12                         shift and go to state 131
+    paso12                         shift and go to state 132
 
-state 99
+state 100
 
     (71) expAndOr -> cicloExpresion . auxCicloExpresion
     (60) auxCicloExpresion -> . AND paso8_and cicloExpresion paso9 auxCicloExpresion
     (61) auxCicloExpresion -> . OR paso8_or cicloExpresion paso9 auxCicloExpresion
     (62) auxCicloExpresion -> .
 
-    AND             shift and go to state 132
-    OR              shift and go to state 134
+    AND             shift and go to state 133
+    OR              shift and go to state 135
     RPAREN          reduce using rule 62 (auxCicloExpresion -> .)
 
-    auxCicloExpresion              shift and go to state 133
+    auxCicloExpresion              shift and go to state 134
 
-state 100
+state 101
 
     (59) cicloExpresion -> expresion . paso10
     (141) paso10 -> .
@@ -1575,9 +1586,9 @@ state 100
     OR              reduce using rule 141 (paso10 -> .)
     RPAREN          reduce using rule 141 (paso10 -> .)
 
-    paso10                         shift and go to state 135
+    paso10                         shift and go to state 136
 
-state 101
+state 102
 
     (63) expresion -> exp . auxExpresion
     (64) auxExpresion -> . GTHAN mayor exp
@@ -1588,20 +1599,20 @@ state 101
     (69) auxExpresion -> . EQUAL igual exp
     (70) auxExpresion -> .
 
-    GTHAN           shift and go to state 138
-    LTHAN           shift and go to state 141
-    NOTEQUAL        shift and go to state 136
-    GETHAN          shift and go to state 140
-    LETHAN          shift and go to state 142
-    EQUAL           shift and go to state 139
+    GTHAN           shift and go to state 139
+    LTHAN           shift and go to state 142
+    NOTEQUAL        shift and go to state 137
+    GETHAN          shift and go to state 141
+    LETHAN          shift and go to state 143
+    EQUAL           shift and go to state 140
     AND             reduce using rule 70 (auxExpresion -> .)
     OR              reduce using rule 70 (auxExpresion -> .)
     RPAREN          reduce using rule 70 (auxExpresion -> .)
     SEMICOLON       reduce using rule 70 (auxExpresion -> .)
 
-    auxExpresion                   shift and go to state 137
+    auxExpresion                   shift and go to state 138
 
-state 102
+state 103
 
     (117) ambAuxParametros -> COMMA . auxParametros
     (115) auxParametros -> . tipo ID addParameters ambAuxParametros
@@ -1611,23 +1622,23 @@ state 102
     (16) tipo -> . FLOAT ambAuxTipo1
     (17) tipo -> . CHAR ambAuxTipo1
 
-    INT             shift and go to state 19
-    BOOL            shift and go to state 20
-    STRING          shift and go to state 16
-    FLOAT           shift and go to state 15
-    CHAR            shift and go to state 18
+    INT             shift and go to state 20
+    BOOL            shift and go to state 21
+    STRING          shift and go to state 17
+    FLOAT           shift and go to state 16
+    CHAR            shift and go to state 19
 
-    tipo                           shift and go to state 50
-    auxParametros                  shift and go to state 143
+    tipo                           shift and go to state 51
+    auxParametros                  shift and go to state 144
 
-state 103
+state 104
 
     (115) auxParametros -> tipo ID addParameters ambAuxParametros .
 
     RPAREN          reduce using rule 115 (auxParametros -> tipo ID addParameters ambAuxParametros .)
 
 
-state 104
+state 105
 
     (36) cicloVarsFuncion -> varsFuncion . cicloVarsFuncion
     (36) cicloVarsFuncion -> . varsFuncion cicloVarsFuncion
@@ -1642,11 +1653,11 @@ state 104
     RETURN          reduce using rule 37 (cicloVarsFuncion -> .)
     VAR             reduce using rule 39 (createVariableDirFuncion -> .)
 
-    varsFuncion                    shift and go to state 104
-    cicloVarsFuncion               shift and go to state 144
-    createVariableDirFuncion       shift and go to state 106
+    varsFuncion                    shift and go to state 105
+    cicloVarsFuncion               shift and go to state 145
+    createVariableDirFuncion       shift and go to state 107
 
-state 105
+state 106
 
     (33) bloqueFuncion -> LBRACE cicloVarsFuncion . paso21 cicloBloqueFuncion RETURN expresion SEMICOLON RBRACE
     (152) paso21 -> .
@@ -1657,16 +1668,16 @@ state 105
     WHILE           reduce using rule 152 (paso21 -> .)
     RETURN          reduce using rule 152 (paso21 -> .)
 
-    paso21                         shift and go to state 145
+    paso21                         shift and go to state 146
 
-state 106
+state 107
 
     (38) varsFuncion -> createVariableDirFuncion . VAR auxVar1Funcion
 
-    VAR             shift and go to state 146
+    VAR             shift and go to state 147
 
 
-state 107
+state 108
 
     (109) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc . paso22 paso23
     (153) paso22 -> .
@@ -1674,34 +1685,34 @@ state 107
     FUNCTION        reduce using rule 153 (paso22 -> .)
     MAIN            reduce using rule 153 (paso22 -> .)
 
-    paso22                         shift and go to state 147
+    paso22                         shift and go to state 148
 
-state 108
+state 109
 
     (24) auxVar1Main -> idVarsMain COLON tipo . addTypeMain SEMICOLON
     (25) addTypeMain -> .
 
     SEMICOLON       reduce using rule 25 (addTypeMain -> .)
 
-    addTypeMain                    shift and go to state 148
+    addTypeMain                    shift and go to state 149
 
-state 109
+state 110
 
     (26) idVarsMain -> ID addVariableDirMain ambIdVarsMain .
 
     COLON           reduce using rule 26 (idVarsMain -> ID addVariableDirMain ambIdVarsMain .)
 
 
-state 110
+state 111
 
     (28) ambIdVarsMain -> COMMA . idVarsMain
     (26) idVarsMain -> . ID addVariableDirMain ambIdVarsMain
 
-    ID              shift and go to state 71
+    ID              shift and go to state 72
 
-    idVarsMain                     shift and go to state 149
+    idVarsMain                     shift and go to state 150
 
-state 111
+state 112
 
     (58) auxEscritura2 -> CTESTRING paso1 .
 
@@ -1709,7 +1720,7 @@ state 111
     RPAREN          reduce using rule 58 (auxEscritura2 -> CTESTRING paso1 .)
 
 
-state 112
+state 113
 
     (76) cicloExp -> termino paso4 . ambExp
     (77) ambExp -> . auxExp cicloExp
@@ -1730,13 +1741,13 @@ state 112
     RBRACKET        reduce using rule 78 (ambExp -> .)
     SEMICOLON       reduce using rule 78 (ambExp -> .)
     LBRACKET        reduce using rule 78 (ambExp -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    auxExp                         shift and go to state 150
-    ambExp                         shift and go to state 151
+    auxExp                         shift and go to state 151
+    ambExp                         shift and go to state 152
 
-state 113
+state 114
 
     (80) auxExp -> MINUS paso3_resta .
 
@@ -1752,7 +1763,7 @@ state 113
     MINUS           reduce using rule 80 (auxExp -> MINUS paso3_resta .)
 
 
-state 114
+state 115
 
     (79) auxExp -> PLUS paso3_suma .
 
@@ -1768,7 +1779,7 @@ state 114
     MINUS           reduce using rule 79 (auxExp -> PLUS paso3_suma .)
 
 
-state 115
+state 116
 
     (82) cicloTermino -> factor paso5 . ambCicloTermino
     (83) ambCicloTermino -> . auxTermino cicloTermino
@@ -1791,31 +1802,31 @@ state 115
     RBRACKET        reduce using rule 84 (ambCicloTermino -> .)
     SEMICOLON       reduce using rule 84 (ambCicloTermino -> .)
     LBRACKET        reduce using rule 84 (ambCicloTermino -> .)
-    MULTI           shift and go to state 152
-    DIVIDE          shift and go to state 155
+    MULTI           shift and go to state 153
+    DIVIDE          shift and go to state 156
 
-    ambCicloTermino                shift and go to state 153
-    auxTermino                     shift and go to state 154
+    ambCicloTermino                shift and go to state 154
+    auxTermino                     shift and go to state 155
 
-state 116
+state 117
 
     (53) escritura -> PRINT LPAREN auxEscritura1 RPAREN . SEMICOLON
 
-    SEMICOLON       shift and go to state 156
+    SEMICOLON       shift and go to state 157
 
 
-state 117
+state 118
 
     (54) auxEscritura1 -> auxEscritura2 paso18 . ambAuxEscritura1
     (55) ambAuxEscritura1 -> . COMMA auxEscritura1
     (56) ambAuxEscritura1 -> .
 
-    COMMA           shift and go to state 157
+    COMMA           shift and go to state 158
     RPAREN          reduce using rule 56 (ambAuxEscritura1 -> .)
 
-    ambAuxEscritura1               shift and go to state 158
+    ambAuxEscritura1               shift and go to state 159
 
-state 118
+state 119
 
     (87) factor -> LPAREN paso6 . exp RPAREN paso7
     (75) exp -> . cicloExp
@@ -1829,7 +1840,7 @@ state 118
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -1837,45 +1848,20 @@ state 118
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    auxExp                         shift and go to state 86
-    termino                        shift and go to state 84
-    exp                            shift and go to state 159
-    factor                         shift and go to state 89
-    cicloTermino                   shift and go to state 88
-    auxFactor                      shift and go to state 94
-    cicloExp                       shift and go to state 90
-
-state 119
-
-    (96) varcte -> CTESTRING . paso1 cteString assignDirectionCteString
-    (129) paso1 -> .
-
-    MULTI           reduce using rule 129 (paso1 -> .)
-    DIVIDE          reduce using rule 129 (paso1 -> .)
-    PLUS            reduce using rule 129 (paso1 -> .)
-    MINUS           reduce using rule 129 (paso1 -> .)
-    COMMA           reduce using rule 129 (paso1 -> .)
-    RPAREN          reduce using rule 129 (paso1 -> .)
-    GTHAN           reduce using rule 129 (paso1 -> .)
-    LTHAN           reduce using rule 129 (paso1 -> .)
-    NOTEQUAL        reduce using rule 129 (paso1 -> .)
-    GETHAN          reduce using rule 129 (paso1 -> .)
-    LETHAN          reduce using rule 129 (paso1 -> .)
-    EQUAL           reduce using rule 129 (paso1 -> .)
-    AND             reduce using rule 129 (paso1 -> .)
-    OR              reduce using rule 129 (paso1 -> .)
-    RBRACKET        reduce using rule 129 (paso1 -> .)
-    SEMICOLON       reduce using rule 129 (paso1 -> .)
-    LBRACKET        reduce using rule 129 (paso1 -> .)
-
-    paso1                          shift and go to state 160
+    auxExp                         shift and go to state 87
+    termino                        shift and go to state 85
+    exp                            shift and go to state 160
+    factor                         shift and go to state 90
+    cicloTermino                   shift and go to state 89
+    auxFactor                      shift and go to state 95
+    cicloExp                       shift and go to state 91
 
 state 120
 
-    (94) varcte -> CTECHAR . paso1 cteChar assignDirectionCteChar
+    (96) varcte -> CTESTRING . paso1 cteString assignDirectionCteString
     (129) paso1 -> .
 
     MULTI           reduce using rule 129 (paso1 -> .)
@@ -1900,30 +1886,7 @@ state 120
 
 state 121
 
-    (88) factor -> auxFactor varcte .
-
-    MULTI           reduce using rule 88 (factor -> auxFactor varcte .)
-    DIVIDE          reduce using rule 88 (factor -> auxFactor varcte .)
-    PLUS            reduce using rule 88 (factor -> auxFactor varcte .)
-    MINUS           reduce using rule 88 (factor -> auxFactor varcte .)
-    COMMA           reduce using rule 88 (factor -> auxFactor varcte .)
-    RPAREN          reduce using rule 88 (factor -> auxFactor varcte .)
-    GTHAN           reduce using rule 88 (factor -> auxFactor varcte .)
-    LTHAN           reduce using rule 88 (factor -> auxFactor varcte .)
-    NOTEQUAL        reduce using rule 88 (factor -> auxFactor varcte .)
-    GETHAN          reduce using rule 88 (factor -> auxFactor varcte .)
-    LETHAN          reduce using rule 88 (factor -> auxFactor varcte .)
-    EQUAL           reduce using rule 88 (factor -> auxFactor varcte .)
-    AND             reduce using rule 88 (factor -> auxFactor varcte .)
-    OR              reduce using rule 88 (factor -> auxFactor varcte .)
-    SEMICOLON       reduce using rule 88 (factor -> auxFactor varcte .)
-    RBRACKET        reduce using rule 88 (factor -> auxFactor varcte .)
-    LBRACKET        reduce using rule 88 (factor -> auxFactor varcte .)
-
-
-state 122
-
-    (93) varcte -> CTEFLOAT . paso1 cteFloat assignDirectionCteFloat
+    (94) varcte -> CTECHAR . paso1 cteChar assignDirectionCteChar
     (129) paso1 -> .
 
     MULTI           reduce using rule 129 (paso1 -> .)
@@ -1946,32 +1909,32 @@ state 122
 
     paso1                          shift and go to state 162
 
+state 122
+
+    (88) factor -> auxFactor varcte .
+
+    MULTI           reduce using rule 88 (factor -> auxFactor varcte .)
+    DIVIDE          reduce using rule 88 (factor -> auxFactor varcte .)
+    PLUS            reduce using rule 88 (factor -> auxFactor varcte .)
+    MINUS           reduce using rule 88 (factor -> auxFactor varcte .)
+    COMMA           reduce using rule 88 (factor -> auxFactor varcte .)
+    RPAREN          reduce using rule 88 (factor -> auxFactor varcte .)
+    GTHAN           reduce using rule 88 (factor -> auxFactor varcte .)
+    LTHAN           reduce using rule 88 (factor -> auxFactor varcte .)
+    NOTEQUAL        reduce using rule 88 (factor -> auxFactor varcte .)
+    GETHAN          reduce using rule 88 (factor -> auxFactor varcte .)
+    LETHAN          reduce using rule 88 (factor -> auxFactor varcte .)
+    EQUAL           reduce using rule 88 (factor -> auxFactor varcte .)
+    AND             reduce using rule 88 (factor -> auxFactor varcte .)
+    OR              reduce using rule 88 (factor -> auxFactor varcte .)
+    LBRACKET        reduce using rule 88 (factor -> auxFactor varcte .)
+    RBRACKET        reduce using rule 88 (factor -> auxFactor varcte .)
+    SEMICOLON       reduce using rule 88 (factor -> auxFactor varcte .)
+
+
 state 123
 
-    (97) varcte -> llamada .
-
-    MULTI           reduce using rule 97 (varcte -> llamada .)
-    DIVIDE          reduce using rule 97 (varcte -> llamada .)
-    PLUS            reduce using rule 97 (varcte -> llamada .)
-    MINUS           reduce using rule 97 (varcte -> llamada .)
-    COMMA           reduce using rule 97 (varcte -> llamada .)
-    RPAREN          reduce using rule 97 (varcte -> llamada .)
-    GTHAN           reduce using rule 97 (varcte -> llamada .)
-    LTHAN           reduce using rule 97 (varcte -> llamada .)
-    NOTEQUAL        reduce using rule 97 (varcte -> llamada .)
-    GETHAN          reduce using rule 97 (varcte -> llamada .)
-    LETHAN          reduce using rule 97 (varcte -> llamada .)
-    EQUAL           reduce using rule 97 (varcte -> llamada .)
-    AND             reduce using rule 97 (varcte -> llamada .)
-    OR              reduce using rule 97 (varcte -> llamada .)
-    RBRACKET        reduce using rule 97 (varcte -> llamada .)
-    SEMICOLON       reduce using rule 97 (varcte -> llamada .)
-    LBRACKET        reduce using rule 97 (varcte -> llamada .)
-
-
-state 124
-
-    (92) varcte -> CTEINT . paso1 cteInt assignDirectionCteInt
+    (93) varcte -> CTEFLOAT . paso1 cteFloat assignDirectionCteFloat
     (129) paso1 -> .
 
     MULTI           reduce using rule 129 (paso1 -> .)
@@ -1994,7 +1957,55 @@ state 124
 
     paso1                          shift and go to state 163
 
+state 124
+
+    (97) varcte -> llamada .
+
+    MULTI           reduce using rule 97 (varcte -> llamada .)
+    DIVIDE          reduce using rule 97 (varcte -> llamada .)
+    PLUS            reduce using rule 97 (varcte -> llamada .)
+    MINUS           reduce using rule 97 (varcte -> llamada .)
+    COMMA           reduce using rule 97 (varcte -> llamada .)
+    RPAREN          reduce using rule 97 (varcte -> llamada .)
+    GTHAN           reduce using rule 97 (varcte -> llamada .)
+    LTHAN           reduce using rule 97 (varcte -> llamada .)
+    NOTEQUAL        reduce using rule 97 (varcte -> llamada .)
+    GETHAN          reduce using rule 97 (varcte -> llamada .)
+    LETHAN          reduce using rule 97 (varcte -> llamada .)
+    EQUAL           reduce using rule 97 (varcte -> llamada .)
+    AND             reduce using rule 97 (varcte -> llamada .)
+    OR              reduce using rule 97 (varcte -> llamada .)
+    RBRACKET        reduce using rule 97 (varcte -> llamada .)
+    SEMICOLON       reduce using rule 97 (varcte -> llamada .)
+    LBRACKET        reduce using rule 97 (varcte -> llamada .)
+
+
 state 125
+
+    (92) varcte -> CTEINT . paso1 cteInt assignDirectionCteInt
+    (129) paso1 -> .
+
+    MULTI           reduce using rule 129 (paso1 -> .)
+    DIVIDE          reduce using rule 129 (paso1 -> .)
+    PLUS            reduce using rule 129 (paso1 -> .)
+    MINUS           reduce using rule 129 (paso1 -> .)
+    COMMA           reduce using rule 129 (paso1 -> .)
+    RPAREN          reduce using rule 129 (paso1 -> .)
+    GTHAN           reduce using rule 129 (paso1 -> .)
+    LTHAN           reduce using rule 129 (paso1 -> .)
+    NOTEQUAL        reduce using rule 129 (paso1 -> .)
+    GETHAN          reduce using rule 129 (paso1 -> .)
+    LETHAN          reduce using rule 129 (paso1 -> .)
+    EQUAL           reduce using rule 129 (paso1 -> .)
+    AND             reduce using rule 129 (paso1 -> .)
+    OR              reduce using rule 129 (paso1 -> .)
+    RBRACKET        reduce using rule 129 (paso1 -> .)
+    SEMICOLON       reduce using rule 129 (paso1 -> .)
+    LBRACKET        reduce using rule 129 (paso1 -> .)
+
+    paso1                          shift and go to state 164
+
+state 126
 
     (91) varcte -> ID . paso1 addType auxVarcte
     (129) paso1 -> .
@@ -2018,16 +2029,16 @@ state 125
     RBRACKET        reduce using rule 129 (paso1 -> .)
     SEMICOLON       reduce using rule 129 (paso1 -> .)
 
-    paso1                          shift and go to state 164
+    paso1                          shift and go to state 165
 
-state 126
+state 127
 
     (120) llamada -> CALL . COLON ID paso24 cteLlamada LPAREN auxLlamada RPAREN paso26
 
-    COLON           shift and go to state 165
+    COLON           shift and go to state 166
 
 
-state 127
+state 128
 
     (95) varcte -> CTEBOOL . paso1 cteBool assignDirectionCteBool
     (129) paso1 -> .
@@ -2050,23 +2061,23 @@ state 127
     SEMICOLON       reduce using rule 129 (paso1 -> .)
     LBRACKET        reduce using rule 129 (paso1 -> .)
 
-    paso1                          shift and go to state 166
-
-state 128
-
-    (119) ciclo -> WHILE paso15 LPAREN expAndOr . RPAREN paso16 bloque paso17
-
-    RPAREN          shift and go to state 167
-
+    paso1                          shift and go to state 167
 
 state 129
 
-    (50) asignacion -> ID paso1 addType auxAsignacion1 . EQUALA asig exp paso11 SEMICOLON
+    (119) ciclo -> WHILE paso15 LPAREN expAndOr . RPAREN paso16 bloque paso17
 
-    EQUALA          shift and go to state 168
+    RPAREN          shift and go to state 168
 
 
 state 130
+
+    (50) asignacion -> ID paso1 addType auxAsignacion1 . EQUALA asig exp paso11 SEMICOLON
+
+    EQUALA          shift and go to state 169
+
+
+state 131
 
     (51) auxAsignacion1 -> LBRACKET . exp RBRACKET
     (75) exp -> . cicloExp
@@ -2080,7 +2091,7 @@ state 130
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -2088,25 +2099,25 @@ state 130
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    auxExp                         shift and go to state 86
-    termino                        shift and go to state 84
-    exp                            shift and go to state 169
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    cicloExp                       shift and go to state 90
-    cicloTermino                   shift and go to state 88
+    auxExp                         shift and go to state 87
+    termino                        shift and go to state 85
+    exp                            shift and go to state 170
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    cicloExp                       shift and go to state 91
+    cicloTermino                   shift and go to state 89
 
-state 131
+state 132
 
     (72) condicion -> IF LPAREN expAndOr paso12 . RPAREN bloque auxCondicion paso14
 
-    RPAREN          shift and go to state 170
+    RPAREN          shift and go to state 171
 
 
-state 132
+state 133
 
     (60) auxCicloExpresion -> AND . paso8_and cicloExpresion paso9 auxCicloExpresion
     (138) paso8_and -> .
@@ -2122,16 +2133,16 @@ state 132
     CTESTRING       reduce using rule 138 (paso8_and -> .)
     CALL            reduce using rule 138 (paso8_and -> .)
 
-    paso8_and                      shift and go to state 171
+    paso8_and                      shift and go to state 172
 
-state 133
+state 134
 
     (71) expAndOr -> cicloExpresion auxCicloExpresion .
 
     RPAREN          reduce using rule 71 (expAndOr -> cicloExpresion auxCicloExpresion .)
 
 
-state 134
+state 135
 
     (61) auxCicloExpresion -> OR . paso8_or cicloExpresion paso9 auxCicloExpresion
     (139) paso8_or -> .
@@ -2147,9 +2158,9 @@ state 134
     CTESTRING       reduce using rule 139 (paso8_or -> .)
     CALL            reduce using rule 139 (paso8_or -> .)
 
-    paso8_or                       shift and go to state 172
+    paso8_or                       shift and go to state 173
 
-state 135
+state 136
 
     (59) cicloExpresion -> expresion paso10 .
 
@@ -2158,132 +2169,132 @@ state 135
     RPAREN          reduce using rule 59 (cicloExpresion -> expresion paso10 .)
 
 
-state 136
-
-    (66) auxExpresion -> NOTEQUAL . diferente exp
-    (169) diferente -> .
-
-    LPAREN          reduce using rule 169 (diferente -> .)
-    PLUS            reduce using rule 169 (diferente -> .)
-    MINUS           reduce using rule 169 (diferente -> .)
-    ID              reduce using rule 169 (diferente -> .)
-    CTEINT          reduce using rule 169 (diferente -> .)
-    CTEFLOAT        reduce using rule 169 (diferente -> .)
-    CTECHAR         reduce using rule 169 (diferente -> .)
-    CTEBOOL         reduce using rule 169 (diferente -> .)
-    CTESTRING       reduce using rule 169 (diferente -> .)
-    CALL            reduce using rule 169 (diferente -> .)
-
-    diferente                      shift and go to state 173
-
 state 137
 
-    (63) expresion -> exp auxExpresion .
+    (66) auxExpresion -> NOTEQUAL . diferente exp
+    (170) diferente -> .
 
-    AND             reduce using rule 63 (expresion -> exp auxExpresion .)
-    OR              reduce using rule 63 (expresion -> exp auxExpresion .)
-    RPAREN          reduce using rule 63 (expresion -> exp auxExpresion .)
-    SEMICOLON       reduce using rule 63 (expresion -> exp auxExpresion .)
+    LPAREN          reduce using rule 170 (diferente -> .)
+    PLUS            reduce using rule 170 (diferente -> .)
+    MINUS           reduce using rule 170 (diferente -> .)
+    ID              reduce using rule 170 (diferente -> .)
+    CTEINT          reduce using rule 170 (diferente -> .)
+    CTEFLOAT        reduce using rule 170 (diferente -> .)
+    CTECHAR         reduce using rule 170 (diferente -> .)
+    CTEBOOL         reduce using rule 170 (diferente -> .)
+    CTESTRING       reduce using rule 170 (diferente -> .)
+    CALL            reduce using rule 170 (diferente -> .)
 
+    diferente                      shift and go to state 174
 
 state 138
 
-    (64) auxExpresion -> GTHAN . mayor exp
-    (164) mayor -> .
+    (63) expresion -> exp auxExpresion .
 
-    LPAREN          reduce using rule 164 (mayor -> .)
-    PLUS            reduce using rule 164 (mayor -> .)
-    MINUS           reduce using rule 164 (mayor -> .)
-    ID              reduce using rule 164 (mayor -> .)
-    CTEINT          reduce using rule 164 (mayor -> .)
-    CTEFLOAT        reduce using rule 164 (mayor -> .)
-    CTECHAR         reduce using rule 164 (mayor -> .)
-    CTEBOOL         reduce using rule 164 (mayor -> .)
-    CTESTRING       reduce using rule 164 (mayor -> .)
-    CALL            reduce using rule 164 (mayor -> .)
+    SEMICOLON       reduce using rule 63 (expresion -> exp auxExpresion .)
+    AND             reduce using rule 63 (expresion -> exp auxExpresion .)
+    OR              reduce using rule 63 (expresion -> exp auxExpresion .)
+    RPAREN          reduce using rule 63 (expresion -> exp auxExpresion .)
 
-    mayor                          shift and go to state 174
 
 state 139
 
-    (69) auxExpresion -> EQUAL . igual exp
-    (168) igual -> .
+    (64) auxExpresion -> GTHAN . mayor exp
+    (165) mayor -> .
 
-    LPAREN          reduce using rule 168 (igual -> .)
-    PLUS            reduce using rule 168 (igual -> .)
-    MINUS           reduce using rule 168 (igual -> .)
-    ID              reduce using rule 168 (igual -> .)
-    CTEINT          reduce using rule 168 (igual -> .)
-    CTEFLOAT        reduce using rule 168 (igual -> .)
-    CTECHAR         reduce using rule 168 (igual -> .)
-    CTEBOOL         reduce using rule 168 (igual -> .)
-    CTESTRING       reduce using rule 168 (igual -> .)
-    CALL            reduce using rule 168 (igual -> .)
+    LPAREN          reduce using rule 165 (mayor -> .)
+    PLUS            reduce using rule 165 (mayor -> .)
+    MINUS           reduce using rule 165 (mayor -> .)
+    ID              reduce using rule 165 (mayor -> .)
+    CTEINT          reduce using rule 165 (mayor -> .)
+    CTEFLOAT        reduce using rule 165 (mayor -> .)
+    CTECHAR         reduce using rule 165 (mayor -> .)
+    CTEBOOL         reduce using rule 165 (mayor -> .)
+    CTESTRING       reduce using rule 165 (mayor -> .)
+    CALL            reduce using rule 165 (mayor -> .)
 
-    igual                          shift and go to state 175
+    mayor                          shift and go to state 175
 
 state 140
 
-    (67) auxExpresion -> GETHAN . mayorIg exp
-    (166) mayorIg -> .
+    (69) auxExpresion -> EQUAL . igual exp
+    (169) igual -> .
 
-    LPAREN          reduce using rule 166 (mayorIg -> .)
-    PLUS            reduce using rule 166 (mayorIg -> .)
-    MINUS           reduce using rule 166 (mayorIg -> .)
-    ID              reduce using rule 166 (mayorIg -> .)
-    CTEINT          reduce using rule 166 (mayorIg -> .)
-    CTEFLOAT        reduce using rule 166 (mayorIg -> .)
-    CTECHAR         reduce using rule 166 (mayorIg -> .)
-    CTEBOOL         reduce using rule 166 (mayorIg -> .)
-    CTESTRING       reduce using rule 166 (mayorIg -> .)
-    CALL            reduce using rule 166 (mayorIg -> .)
+    LPAREN          reduce using rule 169 (igual -> .)
+    PLUS            reduce using rule 169 (igual -> .)
+    MINUS           reduce using rule 169 (igual -> .)
+    ID              reduce using rule 169 (igual -> .)
+    CTEINT          reduce using rule 169 (igual -> .)
+    CTEFLOAT        reduce using rule 169 (igual -> .)
+    CTECHAR         reduce using rule 169 (igual -> .)
+    CTEBOOL         reduce using rule 169 (igual -> .)
+    CTESTRING       reduce using rule 169 (igual -> .)
+    CALL            reduce using rule 169 (igual -> .)
 
-    mayorIg                        shift and go to state 176
+    igual                          shift and go to state 176
 
 state 141
 
-    (65) auxExpresion -> LTHAN . menor exp
-    (165) menor -> .
+    (67) auxExpresion -> GETHAN . mayorIg exp
+    (167) mayorIg -> .
 
-    LPAREN          reduce using rule 165 (menor -> .)
-    PLUS            reduce using rule 165 (menor -> .)
-    MINUS           reduce using rule 165 (menor -> .)
-    ID              reduce using rule 165 (menor -> .)
-    CTEINT          reduce using rule 165 (menor -> .)
-    CTEFLOAT        reduce using rule 165 (menor -> .)
-    CTECHAR         reduce using rule 165 (menor -> .)
-    CTEBOOL         reduce using rule 165 (menor -> .)
-    CTESTRING       reduce using rule 165 (menor -> .)
-    CALL            reduce using rule 165 (menor -> .)
+    LPAREN          reduce using rule 167 (mayorIg -> .)
+    PLUS            reduce using rule 167 (mayorIg -> .)
+    MINUS           reduce using rule 167 (mayorIg -> .)
+    ID              reduce using rule 167 (mayorIg -> .)
+    CTEINT          reduce using rule 167 (mayorIg -> .)
+    CTEFLOAT        reduce using rule 167 (mayorIg -> .)
+    CTECHAR         reduce using rule 167 (mayorIg -> .)
+    CTEBOOL         reduce using rule 167 (mayorIg -> .)
+    CTESTRING       reduce using rule 167 (mayorIg -> .)
+    CALL            reduce using rule 167 (mayorIg -> .)
 
-    menor                          shift and go to state 177
+    mayorIg                        shift and go to state 177
 
 state 142
 
-    (68) auxExpresion -> LETHAN . menorIg exp
-    (167) menorIg -> .
+    (65) auxExpresion -> LTHAN . menor exp
+    (166) menor -> .
 
-    LPAREN          reduce using rule 167 (menorIg -> .)
-    PLUS            reduce using rule 167 (menorIg -> .)
-    MINUS           reduce using rule 167 (menorIg -> .)
-    ID              reduce using rule 167 (menorIg -> .)
-    CTEINT          reduce using rule 167 (menorIg -> .)
-    CTEFLOAT        reduce using rule 167 (menorIg -> .)
-    CTECHAR         reduce using rule 167 (menorIg -> .)
-    CTEBOOL         reduce using rule 167 (menorIg -> .)
-    CTESTRING       reduce using rule 167 (menorIg -> .)
-    CALL            reduce using rule 167 (menorIg -> .)
+    LPAREN          reduce using rule 166 (menor -> .)
+    PLUS            reduce using rule 166 (menor -> .)
+    MINUS           reduce using rule 166 (menor -> .)
+    ID              reduce using rule 166 (menor -> .)
+    CTEINT          reduce using rule 166 (menor -> .)
+    CTEFLOAT        reduce using rule 166 (menor -> .)
+    CTECHAR         reduce using rule 166 (menor -> .)
+    CTEBOOL         reduce using rule 166 (menor -> .)
+    CTESTRING       reduce using rule 166 (menor -> .)
+    CALL            reduce using rule 166 (menor -> .)
 
-    menorIg                        shift and go to state 178
+    menor                          shift and go to state 178
 
 state 143
+
+    (68) auxExpresion -> LETHAN . menorIg exp
+    (168) menorIg -> .
+
+    LPAREN          reduce using rule 168 (menorIg -> .)
+    PLUS            reduce using rule 168 (menorIg -> .)
+    MINUS           reduce using rule 168 (menorIg -> .)
+    ID              reduce using rule 168 (menorIg -> .)
+    CTEINT          reduce using rule 168 (menorIg -> .)
+    CTEFLOAT        reduce using rule 168 (menorIg -> .)
+    CTECHAR         reduce using rule 168 (menorIg -> .)
+    CTEBOOL         reduce using rule 168 (menorIg -> .)
+    CTESTRING       reduce using rule 168 (menorIg -> .)
+    CALL            reduce using rule 168 (menorIg -> .)
+
+    menorIg                        shift and go to state 179
+
+state 144
 
     (117) ambAuxParametros -> COMMA auxParametros .
 
     RPAREN          reduce using rule 117 (ambAuxParametros -> COMMA auxParametros .)
 
 
-state 144
+state 145
 
     (36) cicloVarsFuncion -> varsFuncion cicloVarsFuncion .
 
@@ -2294,7 +2305,7 @@ state 144
     RETURN          reduce using rule 36 (cicloVarsFuncion -> varsFuncion cicloVarsFuncion .)
 
 
-state 145
+state 146
 
     (33) bloqueFuncion -> LBRACE cicloVarsFuncion paso21 . cicloBloqueFuncion RETURN expresion SEMICOLON RBRACE
     (34) cicloBloqueFuncion -> . estatuto cicloBloqueFuncion
@@ -2309,30 +2320,30 @@ state 145
     (119) ciclo -> . WHILE paso15 LPAREN expAndOr RPAREN paso16 bloque paso17
 
     RETURN          reduce using rule 35 (cicloBloqueFuncion -> .)
-    ID              shift and go to state 61
-    IF              shift and go to state 62
-    PRINT           shift and go to state 55
-    WHILE           shift and go to state 56
+    ID              shift and go to state 62
+    IF              shift and go to state 63
+    PRINT           shift and go to state 56
+    WHILE           shift and go to state 57
 
-    ciclo                          shift and go to state 57
-    estatuto                       shift and go to state 179
-    condicion                      shift and go to state 59
-    cicloBloqueFuncion             shift and go to state 180
-    asignacion                     shift and go to state 63
-    escritura                      shift and go to state 64
+    ciclo                          shift and go to state 58
+    estatuto                       shift and go to state 180
+    condicion                      shift and go to state 60
+    cicloBloqueFuncion             shift and go to state 181
+    asignacion                     shift and go to state 64
+    escritura                      shift and go to state 65
 
-state 146
+state 147
 
     (38) varsFuncion -> createVariableDirFuncion VAR . auxVar1Funcion
     (40) auxVar1Funcion -> . idVarsFuncion COLON tipo addTypeFuncion SEMICOLON
     (42) idVarsFuncion -> . ID addVariableDirFuncion ambIdVarsFuncion
 
-    ID              shift and go to state 183
+    ID              shift and go to state 184
 
-    idVarsFuncion                  shift and go to state 181
-    auxVar1Funcion                 shift and go to state 182
+    idVarsFuncion                  shift and go to state 182
+    auxVar1Funcion                 shift and go to state 183
 
-state 147
+state 148
 
     (109) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 . paso23
     (154) paso23 -> .
@@ -2340,23 +2351,23 @@ state 147
     FUNCTION        reduce using rule 154 (paso23 -> .)
     MAIN            reduce using rule 154 (paso23 -> .)
 
-    paso23                         shift and go to state 184
+    paso23                         shift and go to state 185
 
-state 148
+state 149
 
     (24) auxVar1Main -> idVarsMain COLON tipo addTypeMain . SEMICOLON
 
-    SEMICOLON       shift and go to state 185
+    SEMICOLON       shift and go to state 186
 
 
-state 149
+state 150
 
     (28) ambIdVarsMain -> COMMA idVarsMain .
 
     COLON           reduce using rule 28 (ambIdVarsMain -> COMMA idVarsMain .)
 
 
-state 150
+state 151
 
     (77) ambExp -> auxExp . cicloExp
     (76) cicloExp -> . termino paso4 ambExp
@@ -2369,7 +2380,7 @@ state 150
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -2377,36 +2388,36 @@ state 150
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    cicloExp                       shift and go to state 186
-    termino                        shift and go to state 84
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    auxExp                         shift and go to state 86
-    cicloTermino                   shift and go to state 88
+    cicloExp                       shift and go to state 187
+    termino                        shift and go to state 85
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    auxExp                         shift and go to state 87
+    cicloTermino                   shift and go to state 89
 
-state 151
+state 152
 
     (76) cicloExp -> termino paso4 ambExp .
 
-    AND             reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
-    OR              reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
-    RPAREN          reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
-    SEMICOLON       reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
     GTHAN           reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
     LTHAN           reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
     NOTEQUAL        reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
     GETHAN          reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
     LETHAN          reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
     EQUAL           reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
+    AND             reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
+    OR              reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
+    RPAREN          reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
     COMMA           reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
     RBRACKET        reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
+    SEMICOLON       reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
     LBRACKET        reduce using rule 76 (cicloExp -> termino paso4 ambExp .)
 
 
-state 152
+state 153
 
     (85) auxTermino -> MULTI . paso2_mult
     (130) paso2_mult -> .
@@ -2422,14 +2433,15 @@ state 152
     CTESTRING       reduce using rule 130 (paso2_mult -> .)
     CALL            reduce using rule 130 (paso2_mult -> .)
 
-    paso2_mult                     shift and go to state 187
+    paso2_mult                     shift and go to state 188
 
-state 153
+state 154
 
     (82) cicloTermino -> factor paso5 ambCicloTermino .
 
     PLUS            reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
     MINUS           reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
+    COMMA           reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
     RPAREN          reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
     GTHAN           reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
     LTHAN           reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
@@ -2437,15 +2449,14 @@ state 153
     GETHAN          reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
     LETHAN          reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
     EQUAL           reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
-    SEMICOLON       reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
     AND             reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
     OR              reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
-    COMMA           reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
-    LBRACKET        reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
     RBRACKET        reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
+    SEMICOLON       reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
+    LBRACKET        reduce using rule 82 (cicloTermino -> factor paso5 ambCicloTermino .)
 
 
-state 154
+state 155
 
     (83) ambCicloTermino -> auxTermino . cicloTermino
     (82) cicloTermino -> . factor paso5 ambCicloTermino
@@ -2456,7 +2467,7 @@ state 154
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -2464,15 +2475,15 @@ state 154
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    auxExp                         shift and go to state 86
-    cicloTermino                   shift and go to state 188
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
+    auxExp                         shift and go to state 87
+    cicloTermino                   shift and go to state 189
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
 
-state 155
+state 156
 
     (86) auxTermino -> DIVIDE . paso2_div
     (131) paso2_div -> .
@@ -2488,9 +2499,9 @@ state 155
     CTESTRING       reduce using rule 131 (paso2_div -> .)
     CALL            reduce using rule 131 (paso2_div -> .)
 
-    paso2_div                      shift and go to state 189
+    paso2_div                      shift and go to state 190
 
-state 156
+state 157
 
     (53) escritura -> PRINT LPAREN auxEscritura1 RPAREN SEMICOLON .
 
@@ -2502,7 +2513,7 @@ state 156
     RBRACE          reduce using rule 53 (escritura -> PRINT LPAREN auxEscritura1 RPAREN SEMICOLON .)
 
 
-state 157
+state 158
 
     (55) ambAuxEscritura1 -> COMMA . auxEscritura1
     (54) auxEscritura1 -> . auxEscritura2 paso18 ambAuxEscritura1
@@ -2520,144 +2531,144 @@ state 157
     (80) auxExp -> . MINUS paso3_resta
 
   ! shift/reduce conflict for CTESTRING resolved as shift
-    CTESTRING       shift and go to state 83
-    LPAREN          shift and go to state 93
+    CTESTRING       shift and go to state 84
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
     CTECHAR         reduce using rule 90 (auxFactor -> .)
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
   ! CTESTRING       [ reduce using rule 90 (auxFactor -> .) ]
 
-    auxExp                         shift and go to state 86
-    auxEscritura1                  shift and go to state 190
-    auxEscritura2                  shift and go to state 92
-    termino                        shift and go to state 84
-    exp                            shift and go to state 95
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    cicloExp                       shift and go to state 90
-    cicloTermino                   shift and go to state 88
+    auxExp                         shift and go to state 87
+    auxEscritura1                  shift and go to state 191
+    auxEscritura2                  shift and go to state 93
+    termino                        shift and go to state 85
+    exp                            shift and go to state 96
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    cicloExp                       shift and go to state 91
+    cicloTermino                   shift and go to state 89
 
-state 158
+state 159
 
     (54) auxEscritura1 -> auxEscritura2 paso18 ambAuxEscritura1 .
 
     RPAREN          reduce using rule 54 (auxEscritura1 -> auxEscritura2 paso18 ambAuxEscritura1 .)
 
 
-state 159
+state 160
 
     (87) factor -> LPAREN paso6 exp . RPAREN paso7
 
-    RPAREN          shift and go to state 191
+    RPAREN          shift and go to state 192
 
-
-state 160
-
-    (96) varcte -> CTESTRING paso1 . cteString assignDirectionCteString
-    (162) cteString -> .
-
-    MULTI           reduce using rule 162 (cteString -> .)
-    DIVIDE          reduce using rule 162 (cteString -> .)
-    PLUS            reduce using rule 162 (cteString -> .)
-    MINUS           reduce using rule 162 (cteString -> .)
-    COMMA           reduce using rule 162 (cteString -> .)
-    RPAREN          reduce using rule 162 (cteString -> .)
-    GTHAN           reduce using rule 162 (cteString -> .)
-    LTHAN           reduce using rule 162 (cteString -> .)
-    NOTEQUAL        reduce using rule 162 (cteString -> .)
-    GETHAN          reduce using rule 162 (cteString -> .)
-    LETHAN          reduce using rule 162 (cteString -> .)
-    EQUAL           reduce using rule 162 (cteString -> .)
-    AND             reduce using rule 162 (cteString -> .)
-    OR              reduce using rule 162 (cteString -> .)
-    RBRACKET        reduce using rule 162 (cteString -> .)
-    SEMICOLON       reduce using rule 162 (cteString -> .)
-    LBRACKET        reduce using rule 162 (cteString -> .)
-
-    cteString                      shift and go to state 192
 
 state 161
 
-    (94) varcte -> CTECHAR paso1 . cteChar assignDirectionCteChar
-    (160) cteChar -> .
+    (96) varcte -> CTESTRING paso1 . cteString assignDirectionCteString
+    (163) cteString -> .
 
-    MULTI           reduce using rule 160 (cteChar -> .)
-    DIVIDE          reduce using rule 160 (cteChar -> .)
-    PLUS            reduce using rule 160 (cteChar -> .)
-    MINUS           reduce using rule 160 (cteChar -> .)
-    COMMA           reduce using rule 160 (cteChar -> .)
-    RPAREN          reduce using rule 160 (cteChar -> .)
-    GTHAN           reduce using rule 160 (cteChar -> .)
-    LTHAN           reduce using rule 160 (cteChar -> .)
-    NOTEQUAL        reduce using rule 160 (cteChar -> .)
-    GETHAN          reduce using rule 160 (cteChar -> .)
-    LETHAN          reduce using rule 160 (cteChar -> .)
-    EQUAL           reduce using rule 160 (cteChar -> .)
-    AND             reduce using rule 160 (cteChar -> .)
-    OR              reduce using rule 160 (cteChar -> .)
-    RBRACKET        reduce using rule 160 (cteChar -> .)
-    SEMICOLON       reduce using rule 160 (cteChar -> .)
-    LBRACKET        reduce using rule 160 (cteChar -> .)
+    MULTI           reduce using rule 163 (cteString -> .)
+    DIVIDE          reduce using rule 163 (cteString -> .)
+    PLUS            reduce using rule 163 (cteString -> .)
+    MINUS           reduce using rule 163 (cteString -> .)
+    COMMA           reduce using rule 163 (cteString -> .)
+    RPAREN          reduce using rule 163 (cteString -> .)
+    GTHAN           reduce using rule 163 (cteString -> .)
+    LTHAN           reduce using rule 163 (cteString -> .)
+    NOTEQUAL        reduce using rule 163 (cteString -> .)
+    GETHAN          reduce using rule 163 (cteString -> .)
+    LETHAN          reduce using rule 163 (cteString -> .)
+    EQUAL           reduce using rule 163 (cteString -> .)
+    AND             reduce using rule 163 (cteString -> .)
+    OR              reduce using rule 163 (cteString -> .)
+    RBRACKET        reduce using rule 163 (cteString -> .)
+    SEMICOLON       reduce using rule 163 (cteString -> .)
+    LBRACKET        reduce using rule 163 (cteString -> .)
 
-    cteChar                        shift and go to state 193
+    cteString                      shift and go to state 193
 
 state 162
 
-    (93) varcte -> CTEFLOAT paso1 . cteFloat assignDirectionCteFloat
-    (159) cteFloat -> .
+    (94) varcte -> CTECHAR paso1 . cteChar assignDirectionCteChar
+    (161) cteChar -> .
 
-    MULTI           reduce using rule 159 (cteFloat -> .)
-    DIVIDE          reduce using rule 159 (cteFloat -> .)
-    PLUS            reduce using rule 159 (cteFloat -> .)
-    MINUS           reduce using rule 159 (cteFloat -> .)
-    COMMA           reduce using rule 159 (cteFloat -> .)
-    RPAREN          reduce using rule 159 (cteFloat -> .)
-    GTHAN           reduce using rule 159 (cteFloat -> .)
-    LTHAN           reduce using rule 159 (cteFloat -> .)
-    NOTEQUAL        reduce using rule 159 (cteFloat -> .)
-    GETHAN          reduce using rule 159 (cteFloat -> .)
-    LETHAN          reduce using rule 159 (cteFloat -> .)
-    EQUAL           reduce using rule 159 (cteFloat -> .)
-    AND             reduce using rule 159 (cteFloat -> .)
-    OR              reduce using rule 159 (cteFloat -> .)
-    RBRACKET        reduce using rule 159 (cteFloat -> .)
-    SEMICOLON       reduce using rule 159 (cteFloat -> .)
-    LBRACKET        reduce using rule 159 (cteFloat -> .)
+    MULTI           reduce using rule 161 (cteChar -> .)
+    DIVIDE          reduce using rule 161 (cteChar -> .)
+    PLUS            reduce using rule 161 (cteChar -> .)
+    MINUS           reduce using rule 161 (cteChar -> .)
+    COMMA           reduce using rule 161 (cteChar -> .)
+    RPAREN          reduce using rule 161 (cteChar -> .)
+    GTHAN           reduce using rule 161 (cteChar -> .)
+    LTHAN           reduce using rule 161 (cteChar -> .)
+    NOTEQUAL        reduce using rule 161 (cteChar -> .)
+    GETHAN          reduce using rule 161 (cteChar -> .)
+    LETHAN          reduce using rule 161 (cteChar -> .)
+    EQUAL           reduce using rule 161 (cteChar -> .)
+    AND             reduce using rule 161 (cteChar -> .)
+    OR              reduce using rule 161 (cteChar -> .)
+    RBRACKET        reduce using rule 161 (cteChar -> .)
+    SEMICOLON       reduce using rule 161 (cteChar -> .)
+    LBRACKET        reduce using rule 161 (cteChar -> .)
 
-    cteFloat                       shift and go to state 194
+    cteChar                        shift and go to state 194
 
 state 163
 
-    (92) varcte -> CTEINT paso1 . cteInt assignDirectionCteInt
-    (158) cteInt -> .
+    (93) varcte -> CTEFLOAT paso1 . cteFloat assignDirectionCteFloat
+    (160) cteFloat -> .
 
-    MULTI           reduce using rule 158 (cteInt -> .)
-    DIVIDE          reduce using rule 158 (cteInt -> .)
-    PLUS            reduce using rule 158 (cteInt -> .)
-    MINUS           reduce using rule 158 (cteInt -> .)
-    COMMA           reduce using rule 158 (cteInt -> .)
-    RPAREN          reduce using rule 158 (cteInt -> .)
-    GTHAN           reduce using rule 158 (cteInt -> .)
-    LTHAN           reduce using rule 158 (cteInt -> .)
-    NOTEQUAL        reduce using rule 158 (cteInt -> .)
-    GETHAN          reduce using rule 158 (cteInt -> .)
-    LETHAN          reduce using rule 158 (cteInt -> .)
-    EQUAL           reduce using rule 158 (cteInt -> .)
-    AND             reduce using rule 158 (cteInt -> .)
-    OR              reduce using rule 158 (cteInt -> .)
-    RBRACKET        reduce using rule 158 (cteInt -> .)
-    SEMICOLON       reduce using rule 158 (cteInt -> .)
-    LBRACKET        reduce using rule 158 (cteInt -> .)
+    MULTI           reduce using rule 160 (cteFloat -> .)
+    DIVIDE          reduce using rule 160 (cteFloat -> .)
+    PLUS            reduce using rule 160 (cteFloat -> .)
+    MINUS           reduce using rule 160 (cteFloat -> .)
+    COMMA           reduce using rule 160 (cteFloat -> .)
+    RPAREN          reduce using rule 160 (cteFloat -> .)
+    GTHAN           reduce using rule 160 (cteFloat -> .)
+    LTHAN           reduce using rule 160 (cteFloat -> .)
+    NOTEQUAL        reduce using rule 160 (cteFloat -> .)
+    GETHAN          reduce using rule 160 (cteFloat -> .)
+    LETHAN          reduce using rule 160 (cteFloat -> .)
+    EQUAL           reduce using rule 160 (cteFloat -> .)
+    AND             reduce using rule 160 (cteFloat -> .)
+    OR              reduce using rule 160 (cteFloat -> .)
+    RBRACKET        reduce using rule 160 (cteFloat -> .)
+    SEMICOLON       reduce using rule 160 (cteFloat -> .)
+    LBRACKET        reduce using rule 160 (cteFloat -> .)
 
-    cteInt                         shift and go to state 195
+    cteFloat                       shift and go to state 195
 
 state 164
+
+    (92) varcte -> CTEINT paso1 . cteInt assignDirectionCteInt
+    (159) cteInt -> .
+
+    MULTI           reduce using rule 159 (cteInt -> .)
+    DIVIDE          reduce using rule 159 (cteInt -> .)
+    PLUS            reduce using rule 159 (cteInt -> .)
+    MINUS           reduce using rule 159 (cteInt -> .)
+    COMMA           reduce using rule 159 (cteInt -> .)
+    RPAREN          reduce using rule 159 (cteInt -> .)
+    GTHAN           reduce using rule 159 (cteInt -> .)
+    LTHAN           reduce using rule 159 (cteInt -> .)
+    NOTEQUAL        reduce using rule 159 (cteInt -> .)
+    GETHAN          reduce using rule 159 (cteInt -> .)
+    LETHAN          reduce using rule 159 (cteInt -> .)
+    EQUAL           reduce using rule 159 (cteInt -> .)
+    AND             reduce using rule 159 (cteInt -> .)
+    OR              reduce using rule 159 (cteInt -> .)
+    RBRACKET        reduce using rule 159 (cteInt -> .)
+    SEMICOLON       reduce using rule 159 (cteInt -> .)
+    LBRACKET        reduce using rule 159 (cteInt -> .)
+
+    cteInt                         shift and go to state 196
+
+state 165
 
     (91) varcte -> ID paso1 . addType auxVarcte
     (103) addType -> .
@@ -2681,84 +2692,84 @@ state 164
     RBRACKET        reduce using rule 103 (addType -> .)
     SEMICOLON       reduce using rule 103 (addType -> .)
 
-    addType                        shift and go to state 196
-
-state 165
-
-    (120) llamada -> CALL COLON . ID paso24 cteLlamada LPAREN auxLlamada RPAREN paso26
-
-    ID              shift and go to state 197
-
+    addType                        shift and go to state 197
 
 state 166
 
-    (95) varcte -> CTEBOOL paso1 . cteBool assignDirectionCteBool
-    (161) cteBool -> .
+    (120) llamada -> CALL COLON . ID paso24 cteLlamada LPAREN auxLlamada RPAREN paso26
 
-    MULTI           reduce using rule 161 (cteBool -> .)
-    DIVIDE          reduce using rule 161 (cteBool -> .)
-    PLUS            reduce using rule 161 (cteBool -> .)
-    MINUS           reduce using rule 161 (cteBool -> .)
-    COMMA           reduce using rule 161 (cteBool -> .)
-    RPAREN          reduce using rule 161 (cteBool -> .)
-    GTHAN           reduce using rule 161 (cteBool -> .)
-    LTHAN           reduce using rule 161 (cteBool -> .)
-    NOTEQUAL        reduce using rule 161 (cteBool -> .)
-    GETHAN          reduce using rule 161 (cteBool -> .)
-    LETHAN          reduce using rule 161 (cteBool -> .)
-    EQUAL           reduce using rule 161 (cteBool -> .)
-    AND             reduce using rule 161 (cteBool -> .)
-    OR              reduce using rule 161 (cteBool -> .)
-    RBRACKET        reduce using rule 161 (cteBool -> .)
-    SEMICOLON       reduce using rule 161 (cteBool -> .)
-    LBRACKET        reduce using rule 161 (cteBool -> .)
+    ID              shift and go to state 198
 
-    cteBool                        shift and go to state 198
 
 state 167
+
+    (95) varcte -> CTEBOOL paso1 . cteBool assignDirectionCteBool
+    (162) cteBool -> .
+
+    MULTI           reduce using rule 162 (cteBool -> .)
+    DIVIDE          reduce using rule 162 (cteBool -> .)
+    PLUS            reduce using rule 162 (cteBool -> .)
+    MINUS           reduce using rule 162 (cteBool -> .)
+    COMMA           reduce using rule 162 (cteBool -> .)
+    RPAREN          reduce using rule 162 (cteBool -> .)
+    GTHAN           reduce using rule 162 (cteBool -> .)
+    LTHAN           reduce using rule 162 (cteBool -> .)
+    NOTEQUAL        reduce using rule 162 (cteBool -> .)
+    GETHAN          reduce using rule 162 (cteBool -> .)
+    LETHAN          reduce using rule 162 (cteBool -> .)
+    EQUAL           reduce using rule 162 (cteBool -> .)
+    AND             reduce using rule 162 (cteBool -> .)
+    OR              reduce using rule 162 (cteBool -> .)
+    RBRACKET        reduce using rule 162 (cteBool -> .)
+    SEMICOLON       reduce using rule 162 (cteBool -> .)
+    LBRACKET        reduce using rule 162 (cteBool -> .)
+
+    cteBool                        shift and go to state 199
+
+state 168
 
     (119) ciclo -> WHILE paso15 LPAREN expAndOr RPAREN . paso16 bloque paso17
     (147) paso16 -> .
 
     LBRACE          reduce using rule 147 (paso16 -> .)
 
-    paso16                         shift and go to state 199
-
-state 168
-
-    (50) asignacion -> ID paso1 addType auxAsignacion1 EQUALA . asig exp paso11 SEMICOLON
-    (170) asig -> .
-
-    LPAREN          reduce using rule 170 (asig -> .)
-    PLUS            reduce using rule 170 (asig -> .)
-    MINUS           reduce using rule 170 (asig -> .)
-    ID              reduce using rule 170 (asig -> .)
-    CTEINT          reduce using rule 170 (asig -> .)
-    CTEFLOAT        reduce using rule 170 (asig -> .)
-    CTECHAR         reduce using rule 170 (asig -> .)
-    CTEBOOL         reduce using rule 170 (asig -> .)
-    CTESTRING       reduce using rule 170 (asig -> .)
-    CALL            reduce using rule 170 (asig -> .)
-
-    asig                           shift and go to state 200
+    paso16                         shift and go to state 200
 
 state 169
 
-    (51) auxAsignacion1 -> LBRACKET exp . RBRACKET
+    (50) asignacion -> ID paso1 addType auxAsignacion1 EQUALA . asig exp paso11 SEMICOLON
+    (171) asig -> .
 
-    RBRACKET        shift and go to state 201
+    LPAREN          reduce using rule 171 (asig -> .)
+    PLUS            reduce using rule 171 (asig -> .)
+    MINUS           reduce using rule 171 (asig -> .)
+    ID              reduce using rule 171 (asig -> .)
+    CTEINT          reduce using rule 171 (asig -> .)
+    CTEFLOAT        reduce using rule 171 (asig -> .)
+    CTECHAR         reduce using rule 171 (asig -> .)
+    CTEBOOL         reduce using rule 171 (asig -> .)
+    CTESTRING       reduce using rule 171 (asig -> .)
+    CALL            reduce using rule 171 (asig -> .)
 
+    asig                           shift and go to state 201
 
 state 170
+
+    (51) auxAsignacion1 -> LBRACKET exp . RBRACKET
+
+    RBRACKET        shift and go to state 202
+
+
+state 171
 
     (72) condicion -> IF LPAREN expAndOr paso12 RPAREN . bloque auxCondicion paso14
     (30) bloque -> . LBRACE cicloVarsMain cicloBloque RBRACE
 
     LBRACE          shift and go to state 38
 
-    bloque                         shift and go to state 202
+    bloque                         shift and go to state 203
 
-state 171
+state 172
 
     (60) auxCicloExpresion -> AND paso8_and . cicloExpresion paso9 auxCicloExpresion
     (59) cicloExpresion -> . expresion paso10
@@ -2774,7 +2785,7 @@ state 171
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -2782,20 +2793,20 @@ state 171
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    termino                        shift and go to state 84
-    cicloExpresion                 shift and go to state 203
-    cicloTermino                   shift and go to state 88
-    factor                         shift and go to state 89
-    cicloExp                       shift and go to state 90
-    auxFactor                      shift and go to state 94
-    auxExp                         shift and go to state 86
-    expresion                      shift and go to state 100
-    exp                            shift and go to state 101
+    termino                        shift and go to state 85
+    cicloExpresion                 shift and go to state 204
+    cicloTermino                   shift and go to state 89
+    factor                         shift and go to state 90
+    cicloExp                       shift and go to state 91
+    auxFactor                      shift and go to state 95
+    auxExp                         shift and go to state 87
+    expresion                      shift and go to state 101
+    exp                            shift and go to state 102
 
-state 172
+state 173
 
     (61) auxCicloExpresion -> OR paso8_or . cicloExpresion paso9 auxCicloExpresion
     (59) cicloExpresion -> . expresion paso10
@@ -2811,7 +2822,7 @@ state 172
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -2819,20 +2830,20 @@ state 172
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    termino                        shift and go to state 84
-    cicloExpresion                 shift and go to state 204
-    cicloTermino                   shift and go to state 88
-    factor                         shift and go to state 89
-    cicloExp                       shift and go to state 90
-    auxFactor                      shift and go to state 94
-    auxExp                         shift and go to state 86
-    expresion                      shift and go to state 100
-    exp                            shift and go to state 101
+    termino                        shift and go to state 85
+    cicloExpresion                 shift and go to state 205
+    cicloTermino                   shift and go to state 89
+    factor                         shift and go to state 90
+    cicloExp                       shift and go to state 91
+    auxFactor                      shift and go to state 95
+    auxExp                         shift and go to state 87
+    expresion                      shift and go to state 101
+    exp                            shift and go to state 102
 
-state 173
+state 174
 
     (66) auxExpresion -> NOTEQUAL diferente . exp
     (75) exp -> . cicloExp
@@ -2846,7 +2857,7 @@ state 173
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -2854,18 +2865,18 @@ state 173
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    auxExp                         shift and go to state 86
-    termino                        shift and go to state 84
-    exp                            shift and go to state 205
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    cicloExp                       shift and go to state 90
-    cicloTermino                   shift and go to state 88
+    auxExp                         shift and go to state 87
+    termino                        shift and go to state 85
+    exp                            shift and go to state 206
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    cicloExp                       shift and go to state 91
+    cicloTermino                   shift and go to state 89
 
-state 174
+state 175
 
     (64) auxExpresion -> GTHAN mayor . exp
     (75) exp -> . cicloExp
@@ -2879,7 +2890,7 @@ state 174
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -2887,18 +2898,18 @@ state 174
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    auxExp                         shift and go to state 86
-    cicloExp                       shift and go to state 90
-    termino                        shift and go to state 84
-    exp                            shift and go to state 206
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    cicloTermino                   shift and go to state 88
+    auxExp                         shift and go to state 87
+    cicloExp                       shift and go to state 91
+    termino                        shift and go to state 85
+    exp                            shift and go to state 207
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    cicloTermino                   shift and go to state 89
 
-state 175
+state 176
 
     (69) auxExpresion -> EQUAL igual . exp
     (75) exp -> . cicloExp
@@ -2912,7 +2923,7 @@ state 175
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -2920,18 +2931,18 @@ state 175
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    auxExp                         shift and go to state 86
-    termino                        shift and go to state 84
-    exp                            shift and go to state 207
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    cicloExp                       shift and go to state 90
-    cicloTermino                   shift and go to state 88
+    auxExp                         shift and go to state 87
+    termino                        shift and go to state 85
+    exp                            shift and go to state 208
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    cicloExp                       shift and go to state 91
+    cicloTermino                   shift and go to state 89
 
-state 176
+state 177
 
     (67) auxExpresion -> GETHAN mayorIg . exp
     (75) exp -> . cicloExp
@@ -2945,7 +2956,7 @@ state 176
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -2953,18 +2964,18 @@ state 176
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    auxExp                         shift and go to state 86
-    termino                        shift and go to state 84
-    exp                            shift and go to state 208
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    cicloExp                       shift and go to state 90
-    cicloTermino                   shift and go to state 88
+    auxExp                         shift and go to state 87
+    termino                        shift and go to state 85
+    exp                            shift and go to state 209
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    cicloExp                       shift and go to state 91
+    cicloTermino                   shift and go to state 89
 
-state 177
+state 178
 
     (65) auxExpresion -> LTHAN menor . exp
     (75) exp -> . cicloExp
@@ -2978,7 +2989,7 @@ state 177
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -2986,18 +2997,18 @@ state 177
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    auxExp                         shift and go to state 86
-    termino                        shift and go to state 84
-    exp                            shift and go to state 209
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    cicloExp                       shift and go to state 90
-    cicloTermino                   shift and go to state 88
+    auxExp                         shift and go to state 87
+    termino                        shift and go to state 85
+    exp                            shift and go to state 210
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    cicloExp                       shift and go to state 91
+    cicloTermino                   shift and go to state 89
 
-state 178
+state 179
 
     (68) auxExpresion -> LETHAN menorIg . exp
     (75) exp -> . cicloExp
@@ -3011,7 +3022,7 @@ state 178
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -3019,18 +3030,18 @@ state 178
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    auxExp                         shift and go to state 86
-    termino                        shift and go to state 84
-    exp                            shift and go to state 210
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    cicloExp                       shift and go to state 90
-    cicloTermino                   shift and go to state 88
+    auxExp                         shift and go to state 87
+    termino                        shift and go to state 85
+    exp                            shift and go to state 211
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    cicloExp                       shift and go to state 91
+    cicloTermino                   shift and go to state 89
 
-state 179
+state 180
 
     (34) cicloBloqueFuncion -> estatuto . cicloBloqueFuncion
     (34) cicloBloqueFuncion -> . estatuto cicloBloqueFuncion
@@ -3045,33 +3056,33 @@ state 179
     (119) ciclo -> . WHILE paso15 LPAREN expAndOr RPAREN paso16 bloque paso17
 
     RETURN          reduce using rule 35 (cicloBloqueFuncion -> .)
-    ID              shift and go to state 61
-    IF              shift and go to state 62
-    PRINT           shift and go to state 55
-    WHILE           shift and go to state 56
+    ID              shift and go to state 62
+    IF              shift and go to state 63
+    PRINT           shift and go to state 56
+    WHILE           shift and go to state 57
 
-    ciclo                          shift and go to state 57
-    asignacion                     shift and go to state 63
-    estatuto                       shift and go to state 179
-    condicion                      shift and go to state 59
-    cicloBloqueFuncion             shift and go to state 211
-    escritura                      shift and go to state 64
-
-state 180
-
-    (33) bloqueFuncion -> LBRACE cicloVarsFuncion paso21 cicloBloqueFuncion . RETURN expresion SEMICOLON RBRACE
-
-    RETURN          shift and go to state 212
-
+    ciclo                          shift and go to state 58
+    asignacion                     shift and go to state 64
+    estatuto                       shift and go to state 180
+    condicion                      shift and go to state 60
+    cicloBloqueFuncion             shift and go to state 212
+    escritura                      shift and go to state 65
 
 state 181
 
-    (40) auxVar1Funcion -> idVarsFuncion . COLON tipo addTypeFuncion SEMICOLON
+    (33) bloqueFuncion -> LBRACE cicloVarsFuncion paso21 cicloBloqueFuncion . RETURN expresion SEMICOLON RBRACE
 
-    COLON           shift and go to state 213
+    RETURN          shift and go to state 213
 
 
 state 182
+
+    (40) auxVar1Funcion -> idVarsFuncion . COLON tipo addTypeFuncion SEMICOLON
+
+    COLON           shift and go to state 214
+
+
+state 183
 
     (38) varsFuncion -> createVariableDirFuncion VAR auxVar1Funcion .
 
@@ -3083,7 +3094,7 @@ state 182
     RETURN          reduce using rule 38 (varsFuncion -> createVariableDirFuncion VAR auxVar1Funcion .)
 
 
-state 183
+state 184
 
     (42) idVarsFuncion -> ID . addVariableDirFuncion ambIdVarsFuncion
     (43) addVariableDirFuncion -> .
@@ -3091,9 +3102,9 @@ state 183
     COMMA           reduce using rule 43 (addVariableDirFuncion -> .)
     COLON           reduce using rule 43 (addVariableDirFuncion -> .)
 
-    addVariableDirFuncion          shift and go to state 214
+    addVariableDirFuncion          shift and go to state 215
 
-state 184
+state 185
 
     (109) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23 .
 
@@ -3101,7 +3112,7 @@ state 184
     MAIN            reduce using rule 109 (funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23 .)
 
 
-state 185
+state 186
 
     (24) auxVar1Main -> idVarsMain COLON tipo addTypeMain SEMICOLON .
 
@@ -3113,7 +3124,7 @@ state 185
     RBRACE          reduce using rule 24 (auxVar1Main -> idVarsMain COLON tipo addTypeMain SEMICOLON .)
 
 
-state 186
+state 187
 
     (77) ambExp -> auxExp cicloExp .
 
@@ -3132,7 +3143,7 @@ state 186
     LBRACKET        reduce using rule 77 (ambExp -> auxExp cicloExp .)
 
 
-state 187
+state 188
 
     (85) auxTermino -> MULTI paso2_mult .
 
@@ -3148,7 +3159,7 @@ state 187
     CALL            reduce using rule 85 (auxTermino -> MULTI paso2_mult .)
 
 
-state 188
+state 189
 
     (83) ambCicloTermino -> auxTermino cicloTermino .
 
@@ -3169,7 +3180,7 @@ state 188
     LBRACKET        reduce using rule 83 (ambCicloTermino -> auxTermino cicloTermino .)
 
 
-state 189
+state 190
 
     (86) auxTermino -> DIVIDE paso2_div .
 
@@ -3185,14 +3196,14 @@ state 189
     CALL            reduce using rule 86 (auxTermino -> DIVIDE paso2_div .)
 
 
-state 190
+state 191
 
     (55) ambAuxEscritura1 -> COMMA auxEscritura1 .
 
     RPAREN          reduce using rule 55 (ambAuxEscritura1 -> COMMA auxEscritura1 .)
 
 
-state 191
+state 192
 
     (87) factor -> LPAREN paso6 exp RPAREN . paso7
     (137) paso7 -> .
@@ -3215,9 +3226,9 @@ state 191
     SEMICOLON       reduce using rule 137 (paso7 -> .)
     LBRACKET        reduce using rule 137 (paso7 -> .)
 
-    paso7                          shift and go to state 215
+    paso7                          shift and go to state 216
 
-state 192
+state 193
 
     (96) varcte -> CTESTRING paso1 cteString . assignDirectionCteString
     (102) assignDirectionCteString -> .
@@ -3240,9 +3251,9 @@ state 192
     SEMICOLON       reduce using rule 102 (assignDirectionCteString -> .)
     LBRACKET        reduce using rule 102 (assignDirectionCteString -> .)
 
-    assignDirectionCteString       shift and go to state 216
+    assignDirectionCteString       shift and go to state 217
 
-state 193
+state 194
 
     (94) varcte -> CTECHAR paso1 cteChar . assignDirectionCteChar
     (100) assignDirectionCteChar -> .
@@ -3265,9 +3276,9 @@ state 193
     SEMICOLON       reduce using rule 100 (assignDirectionCteChar -> .)
     LBRACKET        reduce using rule 100 (assignDirectionCteChar -> .)
 
-    assignDirectionCteChar         shift and go to state 217
+    assignDirectionCteChar         shift and go to state 218
 
-state 194
+state 195
 
     (93) varcte -> CTEFLOAT paso1 cteFloat . assignDirectionCteFloat
     (99) assignDirectionCteFloat -> .
@@ -3290,9 +3301,9 @@ state 194
     SEMICOLON       reduce using rule 99 (assignDirectionCteFloat -> .)
     LBRACKET        reduce using rule 99 (assignDirectionCteFloat -> .)
 
-    assignDirectionCteFloat        shift and go to state 218
+    assignDirectionCteFloat        shift and go to state 219
 
-state 195
+state 196
 
     (92) varcte -> CTEINT paso1 cteInt . assignDirectionCteInt
     (98) assignDirectionCteInt -> .
@@ -3315,9 +3326,9 @@ state 195
     SEMICOLON       reduce using rule 98 (assignDirectionCteInt -> .)
     LBRACKET        reduce using rule 98 (assignDirectionCteInt -> .)
 
-    assignDirectionCteInt          shift and go to state 219
+    assignDirectionCteInt          shift and go to state 220
 
-state 196
+state 197
 
     (91) varcte -> ID paso1 addType . auxVarcte
     (104) auxVarcte -> . LPAREN exp RPAREN
@@ -3325,8 +3336,8 @@ state 196
     (106) auxVarcte -> .
 
   ! shift/reduce conflict for LBRACKET resolved as shift
-    LPAREN          shift and go to state 220
-    LBRACKET        shift and go to state 221
+    LPAREN          shift and go to state 221
+    LBRACKET        shift and go to state 222
     MULTI           reduce using rule 106 (auxVarcte -> .)
     DIVIDE          reduce using rule 106 (auxVarcte -> .)
     PLUS            reduce using rule 106 (auxVarcte -> .)
@@ -3346,18 +3357,18 @@ state 196
 
   ! LBRACKET        [ reduce using rule 106 (auxVarcte -> .) ]
 
-    auxVarcte                      shift and go to state 222
+    auxVarcte                      shift and go to state 223
 
-state 197
+state 198
 
     (120) llamada -> CALL COLON ID . paso24 cteLlamada LPAREN auxLlamada RPAREN paso26
     (155) paso24 -> .
 
     LPAREN          reduce using rule 155 (paso24 -> .)
 
-    paso24                         shift and go to state 223
+    paso24                         shift and go to state 224
 
-state 198
+state 199
 
     (95) varcte -> CTEBOOL paso1 cteBool . assignDirectionCteBool
     (101) assignDirectionCteBool -> .
@@ -3380,18 +3391,18 @@ state 198
     SEMICOLON       reduce using rule 101 (assignDirectionCteBool -> .)
     LBRACKET        reduce using rule 101 (assignDirectionCteBool -> .)
 
-    assignDirectionCteBool         shift and go to state 224
+    assignDirectionCteBool         shift and go to state 225
 
-state 199
+state 200
 
     (119) ciclo -> WHILE paso15 LPAREN expAndOr RPAREN paso16 . bloque paso17
     (30) bloque -> . LBRACE cicloVarsMain cicloBloque RBRACE
 
     LBRACE          shift and go to state 38
 
-    bloque                         shift and go to state 225
+    bloque                         shift and go to state 226
 
-state 200
+state 201
 
     (50) asignacion -> ID paso1 addType auxAsignacion1 EQUALA asig . exp paso11 SEMICOLON
     (75) exp -> . cicloExp
@@ -3405,7 +3416,7 @@ state 200
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -3413,31 +3424,31 @@ state 200
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    auxExp                         shift and go to state 86
-    cicloTermino                   shift and go to state 88
-    termino                        shift and go to state 84
-    exp                            shift and go to state 226
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    cicloExp                       shift and go to state 90
+    auxExp                         shift and go to state 87
+    cicloTermino                   shift and go to state 89
+    termino                        shift and go to state 85
+    exp                            shift and go to state 227
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    cicloExp                       shift and go to state 91
 
-state 201
+state 202
 
     (51) auxAsignacion1 -> LBRACKET exp RBRACKET .
 
     EQUALA          reduce using rule 51 (auxAsignacion1 -> LBRACKET exp RBRACKET .)
 
 
-state 202
+state 203
 
     (72) condicion -> IF LPAREN expAndOr paso12 RPAREN bloque . auxCondicion paso14
     (73) auxCondicion -> . ELSE paso13 bloque
     (74) auxCondicion -> .
 
-    ELSE            shift and go to state 228
+    ELSE            shift and go to state 229
     ID              reduce using rule 74 (auxCondicion -> .)
     IF              reduce using rule 74 (auxCondicion -> .)
     PRINT           reduce using rule 74 (auxCondicion -> .)
@@ -3445,22 +3456,11 @@ state 202
     RBRACE          reduce using rule 74 (auxCondicion -> .)
     RETURN          reduce using rule 74 (auxCondicion -> .)
 
-    auxCondicion                   shift and go to state 227
-
-state 203
-
-    (60) auxCicloExpresion -> AND paso8_and cicloExpresion . paso9 auxCicloExpresion
-    (140) paso9 -> .
-
-    AND             reduce using rule 140 (paso9 -> .)
-    OR              reduce using rule 140 (paso9 -> .)
-    RPAREN          reduce using rule 140 (paso9 -> .)
-
-    paso9                          shift and go to state 229
+    auxCondicion                   shift and go to state 228
 
 state 204
 
-    (61) auxCicloExpresion -> OR paso8_or cicloExpresion . paso9 auxCicloExpresion
+    (60) auxCicloExpresion -> AND paso8_and cicloExpresion . paso9 auxCicloExpresion
     (140) paso9 -> .
 
     AND             reduce using rule 140 (paso9 -> .)
@@ -3471,6 +3471,17 @@ state 204
 
 state 205
 
+    (61) auxCicloExpresion -> OR paso8_or cicloExpresion . paso9 auxCicloExpresion
+    (140) paso9 -> .
+
+    AND             reduce using rule 140 (paso9 -> .)
+    OR              reduce using rule 140 (paso9 -> .)
+    RPAREN          reduce using rule 140 (paso9 -> .)
+
+    paso9                          shift and go to state 231
+
+state 206
+
     (66) auxExpresion -> NOTEQUAL diferente exp .
 
     AND             reduce using rule 66 (auxExpresion -> NOTEQUAL diferente exp .)
@@ -3479,7 +3490,7 @@ state 205
     SEMICOLON       reduce using rule 66 (auxExpresion -> NOTEQUAL diferente exp .)
 
 
-state 206
+state 207
 
     (64) auxExpresion -> GTHAN mayor exp .
 
@@ -3489,7 +3500,7 @@ state 206
     SEMICOLON       reduce using rule 64 (auxExpresion -> GTHAN mayor exp .)
 
 
-state 207
+state 208
 
     (69) auxExpresion -> EQUAL igual exp .
 
@@ -3499,7 +3510,7 @@ state 207
     SEMICOLON       reduce using rule 69 (auxExpresion -> EQUAL igual exp .)
 
 
-state 208
+state 209
 
     (67) auxExpresion -> GETHAN mayorIg exp .
 
@@ -3509,7 +3520,7 @@ state 208
     SEMICOLON       reduce using rule 67 (auxExpresion -> GETHAN mayorIg exp .)
 
 
-state 209
+state 210
 
     (65) auxExpresion -> LTHAN menor exp .
 
@@ -3519,7 +3530,7 @@ state 209
     SEMICOLON       reduce using rule 65 (auxExpresion -> LTHAN menor exp .)
 
 
-state 210
+state 211
 
     (68) auxExpresion -> LETHAN menorIg exp .
 
@@ -3529,14 +3540,14 @@ state 210
     SEMICOLON       reduce using rule 68 (auxExpresion -> LETHAN menorIg exp .)
 
 
-state 211
+state 212
 
     (34) cicloBloqueFuncion -> estatuto cicloBloqueFuncion .
 
     RETURN          reduce using rule 34 (cicloBloqueFuncion -> estatuto cicloBloqueFuncion .)
 
 
-state 212
+state 213
 
     (33) bloqueFuncion -> LBRACE cicloVarsFuncion paso21 cicloBloqueFuncion RETURN . expresion SEMICOLON RBRACE
     (63) expresion -> . exp auxExpresion
@@ -3551,7 +3562,7 @@ state 212
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -3559,19 +3570,19 @@ state 212
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    expresion                      shift and go to state 231
-    auxExp                         shift and go to state 86
-    termino                        shift and go to state 84
-    exp                            shift and go to state 101
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    cicloExp                       shift and go to state 90
-    cicloTermino                   shift and go to state 88
+    expresion                      shift and go to state 232
+    auxExp                         shift and go to state 87
+    termino                        shift and go to state 85
+    exp                            shift and go to state 102
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    cicloExp                       shift and go to state 91
+    cicloTermino                   shift and go to state 89
 
-state 213
+state 214
 
     (40) auxVar1Funcion -> idVarsFuncion COLON . tipo addTypeFuncion SEMICOLON
     (13) tipo -> . INT ambAuxTipo1
@@ -3580,26 +3591,26 @@ state 213
     (16) tipo -> . FLOAT ambAuxTipo1
     (17) tipo -> . CHAR ambAuxTipo1
 
-    INT             shift and go to state 19
-    BOOL            shift and go to state 20
-    STRING          shift and go to state 16
-    FLOAT           shift and go to state 15
-    CHAR            shift and go to state 18
+    INT             shift and go to state 20
+    BOOL            shift and go to state 21
+    STRING          shift and go to state 17
+    FLOAT           shift and go to state 16
+    CHAR            shift and go to state 19
 
-    tipo                           shift and go to state 232
+    tipo                           shift and go to state 233
 
-state 214
+state 215
 
     (42) idVarsFuncion -> ID addVariableDirFuncion . ambIdVarsFuncion
     (44) ambIdVarsFuncion -> . COMMA idVarsFuncion
     (45) ambIdVarsFuncion -> .
 
-    COMMA           shift and go to state 234
+    COMMA           shift and go to state 235
     COLON           reduce using rule 45 (ambIdVarsFuncion -> .)
 
-    ambIdVarsFuncion               shift and go to state 233
+    ambIdVarsFuncion               shift and go to state 234
 
-state 215
+state 216
 
     (87) factor -> LPAREN paso6 exp RPAREN paso7 .
 
@@ -3617,12 +3628,12 @@ state 215
     EQUAL           reduce using rule 87 (factor -> LPAREN paso6 exp RPAREN paso7 .)
     AND             reduce using rule 87 (factor -> LPAREN paso6 exp RPAREN paso7 .)
     OR              reduce using rule 87 (factor -> LPAREN paso6 exp RPAREN paso7 .)
-    SEMICOLON       reduce using rule 87 (factor -> LPAREN paso6 exp RPAREN paso7 .)
-    RBRACKET        reduce using rule 87 (factor -> LPAREN paso6 exp RPAREN paso7 .)
     LBRACKET        reduce using rule 87 (factor -> LPAREN paso6 exp RPAREN paso7 .)
+    RBRACKET        reduce using rule 87 (factor -> LPAREN paso6 exp RPAREN paso7 .)
+    SEMICOLON       reduce using rule 87 (factor -> LPAREN paso6 exp RPAREN paso7 .)
 
 
-state 216
+state 217
 
     (96) varcte -> CTESTRING paso1 cteString assignDirectionCteString .
 
@@ -3645,7 +3656,7 @@ state 216
     LBRACKET        reduce using rule 96 (varcte -> CTESTRING paso1 cteString assignDirectionCteString .)
 
 
-state 217
+state 218
 
     (94) varcte -> CTECHAR paso1 cteChar assignDirectionCteChar .
 
@@ -3668,7 +3679,7 @@ state 217
     LBRACKET        reduce using rule 94 (varcte -> CTECHAR paso1 cteChar assignDirectionCteChar .)
 
 
-state 218
+state 219
 
     (93) varcte -> CTEFLOAT paso1 cteFloat assignDirectionCteFloat .
 
@@ -3691,7 +3702,7 @@ state 218
     LBRACKET        reduce using rule 93 (varcte -> CTEFLOAT paso1 cteFloat assignDirectionCteFloat .)
 
 
-state 219
+state 220
 
     (92) varcte -> CTEINT paso1 cteInt assignDirectionCteInt .
 
@@ -3714,7 +3725,7 @@ state 219
     LBRACKET        reduce using rule 92 (varcte -> CTEINT paso1 cteInt assignDirectionCteInt .)
 
 
-state 220
+state 221
 
     (104) auxVarcte -> LPAREN . exp RPAREN
     (75) exp -> . cicloExp
@@ -3728,7 +3739,7 @@ state 220
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -3736,18 +3747,18 @@ state 220
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    auxExp                         shift and go to state 86
-    termino                        shift and go to state 84
-    exp                            shift and go to state 235
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    cicloExp                       shift and go to state 90
-    cicloTermino                   shift and go to state 88
+    auxExp                         shift and go to state 87
+    termino                        shift and go to state 85
+    exp                            shift and go to state 236
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    cicloExp                       shift and go to state 91
+    cicloTermino                   shift and go to state 89
 
-state 221
+state 222
 
     (105) auxVarcte -> LBRACKET . exp LBRACKET
     (75) exp -> . cicloExp
@@ -3761,7 +3772,7 @@ state 221
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -3769,18 +3780,18 @@ state 221
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    auxExp                         shift and go to state 86
-    termino                        shift and go to state 84
-    exp                            shift and go to state 236
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    cicloExp                       shift and go to state 90
-    cicloTermino                   shift and go to state 88
+    auxExp                         shift and go to state 87
+    termino                        shift and go to state 85
+    exp                            shift and go to state 237
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    cicloExp                       shift and go to state 91
+    cicloTermino                   shift and go to state 89
 
-state 222
+state 223
 
     (91) varcte -> ID paso1 addType auxVarcte .
 
@@ -3803,16 +3814,16 @@ state 222
     LBRACKET        reduce using rule 91 (varcte -> ID paso1 addType auxVarcte .)
 
 
-state 223
+state 224
 
     (120) llamada -> CALL COLON ID paso24 . cteLlamada LPAREN auxLlamada RPAREN paso26
-    (163) cteLlamada -> .
+    (164) cteLlamada -> .
 
-    LPAREN          reduce using rule 163 (cteLlamada -> .)
+    LPAREN          reduce using rule 164 (cteLlamada -> .)
 
-    cteLlamada                     shift and go to state 237
+    cteLlamada                     shift and go to state 238
 
-state 224
+state 225
 
     (95) varcte -> CTEBOOL paso1 cteBool assignDirectionCteBool .
 
@@ -3835,7 +3846,7 @@ state 224
     LBRACKET        reduce using rule 95 (varcte -> CTEBOOL paso1 cteBool assignDirectionCteBool .)
 
 
-state 225
+state 226
 
     (119) ciclo -> WHILE paso15 LPAREN expAndOr RPAREN paso16 bloque . paso17
     (148) paso17 -> .
@@ -3847,18 +3858,18 @@ state 225
     RBRACE          reduce using rule 148 (paso17 -> .)
     RETURN          reduce using rule 148 (paso17 -> .)
 
-    paso17                         shift and go to state 238
+    paso17                         shift and go to state 239
 
-state 226
+state 227
 
     (50) asignacion -> ID paso1 addType auxAsignacion1 EQUALA asig exp . paso11 SEMICOLON
     (142) paso11 -> .
 
     SEMICOLON       reduce using rule 142 (paso11 -> .)
 
-    paso11                         shift and go to state 239
+    paso11                         shift and go to state 240
 
-state 227
+state 228
 
     (72) condicion -> IF LPAREN expAndOr paso12 RPAREN bloque auxCondicion . paso14
     (145) paso14 -> .
@@ -3870,97 +3881,97 @@ state 227
     RBRACE          reduce using rule 145 (paso14 -> .)
     RETURN          reduce using rule 145 (paso14 -> .)
 
-    paso14                         shift and go to state 240
+    paso14                         shift and go to state 241
 
-state 228
+state 229
 
     (73) auxCondicion -> ELSE . paso13 bloque
     (144) paso13 -> .
 
     LBRACE          reduce using rule 144 (paso13 -> .)
 
-    paso13                         shift and go to state 241
+    paso13                         shift and go to state 242
 
-state 229
+state 230
 
     (60) auxCicloExpresion -> AND paso8_and cicloExpresion paso9 . auxCicloExpresion
     (60) auxCicloExpresion -> . AND paso8_and cicloExpresion paso9 auxCicloExpresion
     (61) auxCicloExpresion -> . OR paso8_or cicloExpresion paso9 auxCicloExpresion
     (62) auxCicloExpresion -> .
 
-    AND             shift and go to state 132
-    OR              shift and go to state 134
-    RPAREN          reduce using rule 62 (auxCicloExpresion -> .)
-
-    auxCicloExpresion              shift and go to state 242
-
-state 230
-
-    (61) auxCicloExpresion -> OR paso8_or cicloExpresion paso9 . auxCicloExpresion
-    (60) auxCicloExpresion -> . AND paso8_and cicloExpresion paso9 auxCicloExpresion
-    (61) auxCicloExpresion -> . OR paso8_or cicloExpresion paso9 auxCicloExpresion
-    (62) auxCicloExpresion -> .
-
-    AND             shift and go to state 132
-    OR              shift and go to state 134
+    AND             shift and go to state 133
+    OR              shift and go to state 135
     RPAREN          reduce using rule 62 (auxCicloExpresion -> .)
 
     auxCicloExpresion              shift and go to state 243
 
 state 231
 
-    (33) bloqueFuncion -> LBRACE cicloVarsFuncion paso21 cicloBloqueFuncion RETURN expresion . SEMICOLON RBRACE
+    (61) auxCicloExpresion -> OR paso8_or cicloExpresion paso9 . auxCicloExpresion
+    (60) auxCicloExpresion -> . AND paso8_and cicloExpresion paso9 auxCicloExpresion
+    (61) auxCicloExpresion -> . OR paso8_or cicloExpresion paso9 auxCicloExpresion
+    (62) auxCicloExpresion -> .
 
-    SEMICOLON       shift and go to state 244
+    AND             shift and go to state 133
+    OR              shift and go to state 135
+    RPAREN          reduce using rule 62 (auxCicloExpresion -> .)
 
+    auxCicloExpresion              shift and go to state 244
 
 state 232
+
+    (33) bloqueFuncion -> LBRACE cicloVarsFuncion paso21 cicloBloqueFuncion RETURN expresion . SEMICOLON RBRACE
+
+    SEMICOLON       shift and go to state 245
+
+
+state 233
 
     (40) auxVar1Funcion -> idVarsFuncion COLON tipo . addTypeFuncion SEMICOLON
     (41) addTypeFuncion -> .
 
     SEMICOLON       reduce using rule 41 (addTypeFuncion -> .)
 
-    addTypeFuncion                 shift and go to state 245
+    addTypeFuncion                 shift and go to state 246
 
-state 233
+state 234
 
     (42) idVarsFuncion -> ID addVariableDirFuncion ambIdVarsFuncion .
 
     COLON           reduce using rule 42 (idVarsFuncion -> ID addVariableDirFuncion ambIdVarsFuncion .)
 
 
-state 234
+state 235
 
     (44) ambIdVarsFuncion -> COMMA . idVarsFuncion
     (42) idVarsFuncion -> . ID addVariableDirFuncion ambIdVarsFuncion
 
-    ID              shift and go to state 183
+    ID              shift and go to state 184
 
-    idVarsFuncion                  shift and go to state 246
-
-state 235
-
-    (104) auxVarcte -> LPAREN exp . RPAREN
-
-    RPAREN          shift and go to state 247
-
+    idVarsFuncion                  shift and go to state 247
 
 state 236
 
-    (105) auxVarcte -> LBRACKET exp . LBRACKET
+    (104) auxVarcte -> LPAREN exp . RPAREN
 
-    LBRACKET        shift and go to state 248
+    RPAREN          shift and go to state 248
 
 
 state 237
 
-    (120) llamada -> CALL COLON ID paso24 cteLlamada . LPAREN auxLlamada RPAREN paso26
+    (105) auxVarcte -> LBRACKET exp . LBRACKET
 
-    LPAREN          shift and go to state 249
+    LBRACKET        shift and go to state 249
 
 
 state 238
+
+    (120) llamada -> CALL COLON ID paso24 cteLlamada . LPAREN auxLlamada RPAREN paso26
+
+    LPAREN          shift and go to state 250
+
+
+state 239
 
     (119) ciclo -> WHILE paso15 LPAREN expAndOr RPAREN paso16 bloque paso17 .
 
@@ -3972,14 +3983,14 @@ state 238
     RBRACE          reduce using rule 119 (ciclo -> WHILE paso15 LPAREN expAndOr RPAREN paso16 bloque paso17 .)
 
 
-state 239
+state 240
 
     (50) asignacion -> ID paso1 addType auxAsignacion1 EQUALA asig exp paso11 . SEMICOLON
 
-    SEMICOLON       shift and go to state 250
+    SEMICOLON       shift and go to state 251
 
 
-state 240
+state 241
 
     (72) condicion -> IF LPAREN expAndOr paso12 RPAREN bloque auxCondicion paso14 .
 
@@ -3987,55 +3998,55 @@ state 240
     IF              reduce using rule 72 (condicion -> IF LPAREN expAndOr paso12 RPAREN bloque auxCondicion paso14 .)
     PRINT           reduce using rule 72 (condicion -> IF LPAREN expAndOr paso12 RPAREN bloque auxCondicion paso14 .)
     WHILE           reduce using rule 72 (condicion -> IF LPAREN expAndOr paso12 RPAREN bloque auxCondicion paso14 .)
-    RBRACE          reduce using rule 72 (condicion -> IF LPAREN expAndOr paso12 RPAREN bloque auxCondicion paso14 .)
     RETURN          reduce using rule 72 (condicion -> IF LPAREN expAndOr paso12 RPAREN bloque auxCondicion paso14 .)
+    RBRACE          reduce using rule 72 (condicion -> IF LPAREN expAndOr paso12 RPAREN bloque auxCondicion paso14 .)
 
 
-state 241
+state 242
 
     (73) auxCondicion -> ELSE paso13 . bloque
     (30) bloque -> . LBRACE cicloVarsMain cicloBloque RBRACE
 
     LBRACE          shift and go to state 38
 
-    bloque                         shift and go to state 251
+    bloque                         shift and go to state 252
 
-state 242
+state 243
 
     (60) auxCicloExpresion -> AND paso8_and cicloExpresion paso9 auxCicloExpresion .
 
     RPAREN          reduce using rule 60 (auxCicloExpresion -> AND paso8_and cicloExpresion paso9 auxCicloExpresion .)
 
 
-state 243
+state 244
 
     (61) auxCicloExpresion -> OR paso8_or cicloExpresion paso9 auxCicloExpresion .
 
     RPAREN          reduce using rule 61 (auxCicloExpresion -> OR paso8_or cicloExpresion paso9 auxCicloExpresion .)
 
 
-state 244
+state 245
 
     (33) bloqueFuncion -> LBRACE cicloVarsFuncion paso21 cicloBloqueFuncion RETURN expresion SEMICOLON . RBRACE
 
-    RBRACE          shift and go to state 252
-
-
-state 245
-
-    (40) auxVar1Funcion -> idVarsFuncion COLON tipo addTypeFuncion . SEMICOLON
-
-    SEMICOLON       shift and go to state 253
+    RBRACE          shift and go to state 253
 
 
 state 246
+
+    (40) auxVar1Funcion -> idVarsFuncion COLON tipo addTypeFuncion . SEMICOLON
+
+    SEMICOLON       shift and go to state 254
+
+
+state 247
 
     (44) ambIdVarsFuncion -> COMMA idVarsFuncion .
 
     COLON           reduce using rule 44 (ambIdVarsFuncion -> COMMA idVarsFuncion .)
 
 
-state 247
+state 248
 
     (104) auxVarcte -> LPAREN exp RPAREN .
 
@@ -4058,7 +4069,7 @@ state 247
     LBRACKET        reduce using rule 104 (auxVarcte -> LPAREN exp RPAREN .)
 
 
-state 248
+state 249
 
     (105) auxVarcte -> LBRACKET exp LBRACKET .
 
@@ -4081,7 +4092,7 @@ state 248
     LBRACKET        reduce using rule 105 (auxVarcte -> LBRACKET exp LBRACKET .)
 
 
-state 249
+state 250
 
     (120) llamada -> CALL COLON ID paso24 cteLlamada LPAREN . auxLlamada RPAREN paso26
     (121) auxLlamada -> . argumentos
@@ -4102,7 +4113,7 @@ state 249
 
   ! reduce/reduce conflict for RPAREN resolved using rule 122 (auxLlamada -> .)
     RPAREN          reduce using rule 122 (auxLlamada -> .)
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -4110,23 +4121,23 @@ state 249
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
   ! RPAREN          [ reduce using rule 124 (argumentos -> .) ]
 
-    termino                        shift and go to state 84
-    argumentos                     shift and go to state 254
-    auxLlamada                     shift and go to state 255
-    auxExp                         shift and go to state 86
-    cicloTermino                   shift and go to state 88
-    factor                         shift and go to state 89
-    auxArgumentos1                 shift and go to state 256
-    cicloExp                       shift and go to state 90
-    auxFactor                      shift and go to state 94
-    exp                            shift and go to state 257
+    termino                        shift and go to state 85
+    argumentos                     shift and go to state 255
+    auxLlamada                     shift and go to state 256
+    auxExp                         shift and go to state 87
+    cicloTermino                   shift and go to state 89
+    factor                         shift and go to state 90
+    auxArgumentos1                 shift and go to state 257
+    cicloExp                       shift and go to state 91
+    auxFactor                      shift and go to state 95
+    exp                            shift and go to state 258
 
-state 250
+state 251
 
     (50) asignacion -> ID paso1 addType auxAsignacion1 EQUALA asig exp paso11 SEMICOLON .
 
@@ -4134,11 +4145,11 @@ state 250
     IF              reduce using rule 50 (asignacion -> ID paso1 addType auxAsignacion1 EQUALA asig exp paso11 SEMICOLON .)
     PRINT           reduce using rule 50 (asignacion -> ID paso1 addType auxAsignacion1 EQUALA asig exp paso11 SEMICOLON .)
     WHILE           reduce using rule 50 (asignacion -> ID paso1 addType auxAsignacion1 EQUALA asig exp paso11 SEMICOLON .)
-    RBRACE          reduce using rule 50 (asignacion -> ID paso1 addType auxAsignacion1 EQUALA asig exp paso11 SEMICOLON .)
     RETURN          reduce using rule 50 (asignacion -> ID paso1 addType auxAsignacion1 EQUALA asig exp paso11 SEMICOLON .)
+    RBRACE          reduce using rule 50 (asignacion -> ID paso1 addType auxAsignacion1 EQUALA asig exp paso11 SEMICOLON .)
 
 
-state 251
+state 252
 
     (73) auxCondicion -> ELSE paso13 bloque .
 
@@ -4150,7 +4161,7 @@ state 251
     RETURN          reduce using rule 73 (auxCondicion -> ELSE paso13 bloque .)
 
 
-state 252
+state 253
 
     (33) bloqueFuncion -> LBRACE cicloVarsFuncion paso21 cicloBloqueFuncion RETURN expresion SEMICOLON RBRACE .
 
@@ -4158,7 +4169,7 @@ state 252
     MAIN            reduce using rule 33 (bloqueFuncion -> LBRACE cicloVarsFuncion paso21 cicloBloqueFuncion RETURN expresion SEMICOLON RBRACE .)
 
 
-state 253
+state 254
 
     (40) auxVar1Funcion -> idVarsFuncion COLON tipo addTypeFuncion SEMICOLON .
 
@@ -4170,28 +4181,28 @@ state 253
     RETURN          reduce using rule 40 (auxVar1Funcion -> idVarsFuncion COLON tipo addTypeFuncion SEMICOLON .)
 
 
-state 254
+state 255
 
     (121) auxLlamada -> argumentos .
 
     RPAREN          reduce using rule 121 (auxLlamada -> argumentos .)
 
 
-state 255
+state 256
 
     (120) llamada -> CALL COLON ID paso24 cteLlamada LPAREN auxLlamada . RPAREN paso26
 
-    RPAREN          shift and go to state 258
+    RPAREN          shift and go to state 259
 
 
-state 256
+state 257
 
     (123) argumentos -> auxArgumentos1 .
 
     RPAREN          reduce using rule 123 (argumentos -> auxArgumentos1 .)
 
 
-state 257
+state 258
 
     (125) auxArgumentos1 -> exp . paso25 ambAuxArgumentos1
     (156) paso25 -> .
@@ -4199,9 +4210,9 @@ state 257
     COMMA           reduce using rule 156 (paso25 -> .)
     RPAREN          reduce using rule 156 (paso25 -> .)
 
-    paso25                         shift and go to state 259
+    paso25                         shift and go to state 260
 
-state 258
+state 259
 
     (120) llamada -> CALL COLON ID paso24 cteLlamada LPAREN auxLlamada RPAREN . paso26
     (157) paso26 -> .
@@ -4224,20 +4235,20 @@ state 258
     SEMICOLON       reduce using rule 157 (paso26 -> .)
     LBRACKET        reduce using rule 157 (paso26 -> .)
 
-    paso26                         shift and go to state 260
+    paso26                         shift and go to state 261
 
-state 259
+state 260
 
     (125) auxArgumentos1 -> exp paso25 . ambAuxArgumentos1
     (126) ambAuxArgumentos1 -> . COMMA auxArgumentos1
     (127) ambAuxArgumentos1 -> .
 
-    COMMA           shift and go to state 262
+    COMMA           shift and go to state 263
     RPAREN          reduce using rule 127 (ambAuxArgumentos1 -> .)
 
-    ambAuxArgumentos1              shift and go to state 261
+    ambAuxArgumentos1              shift and go to state 262
 
-state 260
+state 261
 
     (120) llamada -> CALL COLON ID paso24 cteLlamada LPAREN auxLlamada RPAREN paso26 .
 
@@ -4260,14 +4271,14 @@ state 260
     LBRACKET        reduce using rule 120 (llamada -> CALL COLON ID paso24 cteLlamada LPAREN auxLlamada RPAREN paso26 .)
 
 
-state 261
+state 262
 
     (125) auxArgumentos1 -> exp paso25 ambAuxArgumentos1 .
 
     RPAREN          reduce using rule 125 (auxArgumentos1 -> exp paso25 ambAuxArgumentos1 .)
 
 
-state 262
+state 263
 
     (126) ambAuxArgumentos1 -> COMMA . auxArgumentos1
     (125) auxArgumentos1 -> . exp paso25 ambAuxArgumentos1
@@ -4282,7 +4293,7 @@ state 262
     (79) auxExp -> . PLUS paso3_suma
     (80) auxExp -> . MINUS paso3_resta
 
-    LPAREN          shift and go to state 93
+    LPAREN          shift and go to state 94
     ID              reduce using rule 90 (auxFactor -> .)
     CTEINT          reduce using rule 90 (auxFactor -> .)
     CTEFLOAT        reduce using rule 90 (auxFactor -> .)
@@ -4290,19 +4301,19 @@ state 262
     CTEBOOL         reduce using rule 90 (auxFactor -> .)
     CTESTRING       reduce using rule 90 (auxFactor -> .)
     CALL            reduce using rule 90 (auxFactor -> .)
-    PLUS            shift and go to state 87
-    MINUS           shift and go to state 85
+    PLUS            shift and go to state 88
+    MINUS           shift and go to state 86
 
-    auxExp                         shift and go to state 86
-    termino                        shift and go to state 84
-    exp                            shift and go to state 257
-    factor                         shift and go to state 89
-    auxFactor                      shift and go to state 94
-    auxArgumentos1                 shift and go to state 263
-    cicloExp                       shift and go to state 90
-    cicloTermino                   shift and go to state 88
+    auxExp                         shift and go to state 87
+    termino                        shift and go to state 85
+    exp                            shift and go to state 258
+    factor                         shift and go to state 90
+    auxFactor                      shift and go to state 95
+    auxArgumentos1                 shift and go to state 264
+    cicloExp                       shift and go to state 91
+    cicloTermino                   shift and go to state 89
 
-state 263
+state 264
 
     (126) ambAuxArgumentos1 -> COMMA auxArgumentos1 .
 
@@ -4311,9 +4322,9 @@ state 263
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for CTESTRING in state 72 resolved as shift
-WARNING: shift/reduce conflict for CTESTRING in state 157 resolved as shift
-WARNING: shift/reduce conflict for LBRACKET in state 196 resolved as shift
-WARNING: reduce/reduce conflict in state 249 resolved using rule (auxLlamada -> <empty>)
-WARNING: rejected rule (argumentos -> <empty>) in state 249
+WARNING: shift/reduce conflict for CTESTRING in state 73 resolved as shift
+WARNING: shift/reduce conflict for CTESTRING in state 158 resolved as shift
+WARNING: shift/reduce conflict for LBRACKET in state 197 resolved as shift
+WARNING: reduce/reduce conflict in state 250 resolved using rule (auxLlamada -> <empty>)
+WARNING: rejected rule (argumentos -> <empty>) in state 250
 WARNING: Rule (argumentos -> <empty>) is never reduced

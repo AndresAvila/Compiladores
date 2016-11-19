@@ -5,6 +5,7 @@ import MyLittleDuckl
 import sys 
 import cubo
 
+
 # Get the token map from the lexer.  This is required.
 from MyLittleDuckl import tokens
 from collections import deque
@@ -185,11 +186,270 @@ GOSUB = 19
 RET = 20
 RETURN = 21
 PARAM = 22
+ENDPROC = 23
+ENDPROGRAM = 24
 ERR = -1
 
+def getValue(direccion):
+    #GLOBALES
+    if direccion >= 1000 and direccion < 2000:
+        return dir_int_globales[direccion - 1000]['Valor']
+    elif direccion >= 2000 and direccion < 3000:
+        return dir_float_globales[direccion - 2000]['Valor']
+    elif direccion >= 3000 and direccion < 4000:
+        return dir_char_globales[direccion - 3000]['Valor']
+    elif direccion >= 4000 and direccion < 5000:
+        return dir_string_globales[direccion - 4000]['Valor']
+    elif direccion >= 5000 and direccion < 6000:
+        return dir_bool_globales[direccion - 5000]['Valor']
+    #LOCALES
+    elif direccion >= 6000 and direccion < 7000:
+        return dir_int_locales[direccion - 6000]['Valor']
+    elif direccion >= 7000 and direccion < 8000:
+        return dir_float_locales[direccion - 7000]['Valor']
+    elif direccion >= 8000 and direccion < 9000:
+        return dir_char_locales[direccion - 8000]['Valor']
+    elif direccion >= 9000 and direccion < 10000:
+        return dir_string_locales[direccion - 9000]['Valor']
+    elif direccion >= 10000 and direccion < 11000:
+        return dir_bool_locales[direccion - 10000]['Valor']
+    #FUNCIONES
+    elif direccion >= 11000 and direccion < 12000:
+        return dir_int_funciones[direccion - 11000]['Valor']
+    elif direccion >= 12000 and direccion < 13000:
+        return dir_float_funciones[direccion - 12000]['Valor']
+    elif direccion >= 13000 and direccion < 14000:
+        return dir_char_funciones[direccion - 13000]['Valor']
+    elif direccion >= 14000 and direccion < 15000:
+        return dir_string_funciones[direccion - 14000]['Valor']
+    elif direccion >= 15000 and direccion < 16000:
+        return dir_bool_funciones[direccion - 15000]['Valor']
+    #TEMPORALES
+    elif direccion >= 16000 and direccion < 17000:
+        return dir_int_temporales[direccion - 16000]['Valor']
+    elif direccion >= 17000 and direccion < 18000:
+        return dir_float_temporales[direccion - 17000]['Valor']
+    elif direccion >= 18000 and direccion < 19000:
+        return dir_char_temporales[direccion - 18000]['Valor']
+    elif direccion >= 19000 and direccion < 20000:
+        return dir_string_temporales[direccion - 19000]['Valor']
+    elif direccion >= 20000 and direccion < 21000:
+        return dir_bool_temporales[direccion - 20000]['Valor']
+    #CONSTANTES
+    elif direccion >= 21000 and direccion < 22000:
+        return dir_int_constantes[direccion - 21000]['Valor']
+    elif direccion >= 22000 and direccion < 23000:
+        return dir_float_constantes[direccion - 22000]['Valor']
+    elif direccion >= 23000 and direccion < 24000:
+        return dir_char_constantes[direccion - 23000]['Valor']
+    elif direccion >= 24000 and direccion < 25000:
+        return dir_string_constantes[direccion - 24000]['Valor']
+    elif direccion >= 25000 and direccion < 26000:
+        return dir_bool_constantes[direccion - 25000]['Valor']
+    else:
+        return -1
+
+def setValue(direccion, valor):
+    #GLOBALES
+    if direccion >= 1000 and direccion < 2000:
+        dir_int_globales[direccion - 1000]['Valor']=valor
+    elif direccion >= 2000 and direccion < 3000:
+        dir_float_globales[direccion - 2000]['Valor']=valor
+    elif direccion >= 3000 and direccion < 4000:
+        dir_char_globales[direccion - 3000]['Valor']=valor
+    elif direccion >= 4000 and direccion < 5000:
+        dir_string_globales[direccion - 4000]['Valor']=valor
+    elif direccion >= 5000 and direccion < 6000:
+        dir_bool_globales[direccion - 5000]['Valor']=valor
+    #LOCALES
+    elif direccion >= 6000 and direccion < 7000:
+        dir_int_locales[direccion - 6000]['Valor']=valor
+    elif direccion >= 7000 and direccion < 8000:
+        dir_float_locales[direccion - 7000]['Valor']=valor
+    elif direccion >= 8000 and direccion < 9000:
+        dir_char_locales[direccion - 8000]['Valor']=valor
+    elif direccion >= 9000 and direccion < 10000:
+        dir_string_locales[direccion - 9000]['Valor']=valor
+    elif direccion >= 10000 and direccion < 11000:
+        dir_bool_locales[direccion - 10000]['Valor']=valor
+    #FUNCIONES
+    elif direccion >= 11000 and direccion < 12000:
+        dir_int_funciones[direccion - 11000]['Valor']=valor
+    elif direccion >= 12000 and direccion < 13000:
+        dir_float_funciones[direccion - 12000]['Valor']=valor
+    elif direccion >= 13000 and direccion < 14000:
+        dir_char_funciones[direccion - 13000]['Valor']=valor
+    elif direccion >= 14000 and direccion < 15000:
+        dir_string_funciones[direccion - 14000]['Valor']=valor
+    elif direccion >= 15000 and direccion < 16000:
+        dir_bool_funciones[direccion - 15000]['Valor']=valor
+    #TEMPORALES
+    elif direccion >= 16000 and direccion < 17000:
+        dir_int_temporales[direccion - 16000]['Valor']=valor
+    elif direccion >= 17000 and direccion < 18000:
+        dir_float_temporales[direccion - 17000]['Valor']=valor
+    elif direccion >= 18000 and direccion < 19000:
+        dir_char_temporales[direccion - 18000]['Valor']=valor
+    elif direccion >= 19000 and direccion < 20000:
+        dir_string_temporales[direccion - 19000]['Valor']=valor
+    elif direccion >= 20000 and direccion < 21000:
+        dir_bool_temporales[direccion - 20000]['Valor']=valor
+    #CONSTANTES
+    elif direccion >= 21000 and direccion < 22000:
+        dir_int_constantes[direccion - 21000]['Valor']=valor
+    elif direccion >= 22000 and direccion < 23000:
+        dir_float_constantes[direccion - 22000]['Valor']=valor
+    elif direccion >= 23000 and direccion < 24000:
+        dir_char_constantes[direccion - 23000]['Valor']=valor
+    elif direccion >= 24000 and direccion < 25000:
+        dir_string_constantes[direccion - 24000]['Valor']=valor
+    elif direccion >= 25000 and direccion < 26000:
+        dir_bool_constantes[direccion - 25000]['Valor']=valor
+
+def maquina():
+    auxCont = 40001
+    while cuadruplos[auxCont][0] != ENDPROGRAM:
+        cuadruploActual = cuadruplos[auxCont]
+
+        if cuadruploActual[0] == ASIG:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            resultado= cuadruploActual[3]
+            setValue(resultado, operando1)
+
+        if cuadruploActual[0] == SUMA:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            operando2= cuadruploActual[2]
+            operando2= getValue(operando2)
+            resultado= cuadruploActual[3]
+            setValue(resultado, operando1+operando2)
+
+        if cuadruploActual[0] == RESTA:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            operando2= cuadruploActual[2]
+            operando2= getValue(operando2)
+            resultado= cuadruploActual[3]
+            setValue(resultado, operando1-operando2)
+
+        if cuadruploActual[0] == MULT:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            operando2= cuadruploActual[2]
+            operando2= getValue(operando2)
+            resultado= cuadruploActual[3]
+            setValue(resultado, operando1*operando2)
+
+        if cuadruploActual[0] == DIV:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            operando2= cuadruploActual[2]
+            operando2= getValue(operando2)
+            resultado= cuadruploActual[3]
+            setValue(resultado, operando1/operando2)
+
+        if cuadruploActual[0] == OR:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            operando2= cuadruploActual[2]
+            operando2= getValue(operando2)
+            resultado= cuadruploActual[3]
+
+            if (operando1=="true" or operando2=="true"):
+                setValue(resultado, "true")
+            else:
+                setValue(resultado, "false")
+
+        if cuadruploActual[0] == AND:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            operando2= cuadruploActual[2]
+            operando2= getValue(operando2)
+            resultado= cuadruploActual[3]
+
+            if (operando1=="true" and operando2=="true"):
+                setValue(resultado, "true")
+            else:
+                setValue(resultado, "false")
+
+        if cuadruploActual[0] == MAYOR:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            operando2= cuadruploActual[2]
+            operando2= getValue(operando2)
+            resultado= cuadruploActual[3]
+
+            if (operando1>operando2):
+                setValue(resultado, "true")
+            else:
+                setValue(resultado, "false")
+
+        if cuadruploActual[0] == MENOR:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            operando2= cuadruploActual[2]
+            operando2= getValue(operando2)
+            resultado= cuadruploActual[3]
+
+            if (operando1<operando2):
+                setValue(resultado, "true")
+            else:
+                setValue(resultado, "false")
+
+        if cuadruploActual[0] == MAYORIG:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            operando2= cuadruploActual[2]
+            operando2= getValue(operando2)
+            resultado= cuadruploActual[3]
+
+            if (operando1>=operando2):
+                setValue(resultado, "true")
+            else:
+                setValue(resultado, "false")
+
+        if cuadruploActual[0] == MENORIG:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            operando2= cuadruploActual[2]
+            operando2= getValue(operando2)
+            resultado= cuadruploActual[3]
+
+            if (operando1<=operando2):
+                setValue(resultado, "true")
+            else:
+                setValue(resultado, "false")
+
+        if cuadruploActual[0] == IGUAL:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            operando2= cuadruploActual[2]
+            operando2= getValue(operando2)
+            resultado= cuadruploActual[3]
+
+            if (operando1==operando2):
+                setValue(resultado, "true")
+            else:
+                setValue(resultado, "false")
+
+        if cuadruploActual[0] == DIF:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            operando2= cuadruploActual[2]
+            operando2= getValue(operando2)
+            resultado= cuadruploActual[3]
+
+            if (operando1==operando2):
+                setValue(resultado, "false")
+            else:
+                setValue(resultado, "true")
+
+
+        auxCont += 1
 
 def p_programa(p): #Done
-    '''programa : PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque'''
+    '''programa : PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque pasoFinal'''
     p[0] = "OK"
 
 def p_addProcedureDir(p):
@@ -227,25 +487,24 @@ def p_addTypeGlobal(p):
         variable = varList.pop()
         if(translate(p[-1]) == 1):
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_int_globales + cont_int_globales}
+            dir_int_globales.append({'Valor' : 0, 'Direccion' : inicia_int_globales + cont_int_globales, 'Arreglo' : ''})
             cont_int_globales += 1
-            dir_int_globales.append(0)
-            print("HEY", dir_int_globales)
         elif(translate(p[-1]) == 2):
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_bool_globales + cont_bool_globales}
+            dir_bool_globales.append({'Valor' : '', 'Direccion' : inicia_bool_globales + cont_bool_globales, 'Arreglo' : ''})
             cont_bool_globales += 1
-            dir_bool_globales.append('')
         elif(translate(p[-1]) == 3):
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_string_globales + cont_string_globales}
+            dir_string_globales.append({'Valor' : '', 'Direccion' : inicia_string_globales + cont_string_globales, 'Arreglo' : ''})
             cont_string_globales += 1
-            dir_string_globales.append('')
         elif(translate(p[-1]) == 4):
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_float_globales + cont_float_globales}
+            dir_float_globales.append({'Valor' : 0.0, 'Direccion' : inicia_float_globales + cont_float_globales, 'Arreglo' : ''})
             cont_float_globales += 1
-            dir_float_globales.append(0.0)
         elif(translate(p[-1]) == 5):
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_char_globales + cont_char_globales}
+            dir_char_globales.append({'Valor' : '', 'Direccion' : inicia_char_globales + cont_char_globales, 'Arreglo' : ''})
             cont_char_globales += 1
-            dir_char_globales.append('')
     #print("TERMINA addTypeGlobal")
     print(varDirectory)
 
@@ -309,24 +568,24 @@ def p_addTypeMain(p):
         variable = varListMain.pop()
         if(translate(p[-1]) == 1):
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_int_locales + cont_int_locales}
+            dir_int_locales.append({'Valor' : 0, 'Direccion' : inicia_int_locales + cont_int_locales, 'Arreglo' : ''})
             cont_int_locales += 1
-            dir_int_locales.append(0)
         elif(translate(p[-1]) == 2):
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_bool_locales + cont_bool_locales}
+            dir_bool_locales.append({'Valor' : '', 'Direccion' : inicia_bool_locales + cont_bool_locales, 'Arreglo' : ''})
             cont_bool_locales += 1
-            dir_bool_locales.append('')
         elif(translate(p[-1]) == 3):
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_string_locales + cont_string_locales}
+            dir_string_locales.append({'Valor' : '', 'Direccion' : inicia_string_locales + cont_string_locales, 'Arreglo' : ''})
             cont_string_locales += 1
-            dir_string_locales.append('')
         elif(translate(p[-1]) == 4):
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_float_locales + cont_float_locales}
+            dir_float_locales.append({'Valor' : 0.0, 'Direccion' : inicia_float_locales + cont_float_locales, 'Arreglo' : ''})
             cont_float_locales += 1
-            dir_float_locales.append(0.0)
         elif(translate(p[-1]) == 5):
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_char_locales + cont_char_locales}
+            dir_char_locales.append({'Valor' : '', 'Direccion' : inicia_char_locales + cont_char_locales, 'Arreglo' : ''})
             cont_char_locales += 1
-            dir_char_locales.append('')
     #print("TERMINA addTypfunciones
     print(varDirectoryMain)
 
@@ -390,24 +649,24 @@ def p_addTypeFuncion(p):
         variable = varListFuncion.pop()
         if(translate(p[-1]) == 1):
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_int_funciones + cont_int_funciones}
+            dir_int_funciones.append({'Valor' : 0, 'Direccion' : inicia_int_funciones + cont_int_funciones, 'Arreglo' : ''})
             cont_int_funciones += 1
-            dir_int_funciones.append(0)
         elif(translate(p[-1]) == 2):
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_bool_funciones + cont_bool_funciones}
+            dir_bool_funciones.append({'Valor' : '', 'Direccion' : inicia_bool_funciones + cont_bool_funciones, 'Arreglo' : ''})
             cont_bool_funciones += 1
-            dir_bool_funciones.append('')
         elif(translate(p[-1]) == 3):
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_string_funciones + cont_string_funciones}
+            dir_string_funciones.append({'Valor' : '', 'Direccion' : inicia_string_funciones + cont_string_funciones, 'Arreglo' : ''})
             cont_string_funciones += 1
-            dir_string_funciones.append('')
         elif(translate(p[-1]) == 4):
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_float_funciones + cont_float_funciones}
+            dir_float_funciones.append({'Valor' : 0.0, 'Direccion' : inicia_float_funciones + cont_float_funciones, 'Arreglo' : ''})
             cont_float_funciones += 1
-            dir_float_funciones.append(0.0)
         elif(translate(p[-1]) == 5):
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_char_funciones + cont_char_funciones}
+            dir_char_funciones.append({'Valor' : '', 'Direccion' : inicia_char_funciones + cont_char_funciones, 'Arreglo' : ''})
             cont_char_funciones += 1
-            dir_char_funciones.append('')
     #print("TERMINA addTypeFuncion")
     #print(varDirectoryFunc)
 
@@ -547,7 +806,7 @@ def p_assignDirectionCteInt(p):
     global cont_int_constantes
     global inicia_int_constantes
     if p[-3] not in dirConstantes.keys():
-        dir_int_constantes.append({'Valor' : p[-3], 'Direccion' : inicia_int_constantes + cont_int_constantes})
+        dir_int_constantes.append({'Valor' : int(p[-3]), 'Direccion' : inicia_int_constantes + cont_int_constantes, 'Arreglo' : ''})
         dirConstantes[p[-3]] = {'Direccion' : inicia_int_constantes + cont_int_constantes, 'Tipo' : 1}
         cont_int_constantes += 1
         print("esto es: ", dir_int_constantes)
@@ -557,7 +816,7 @@ def p_assignDirectionCteFloat(p):
     '''assignDirectionCteFloat :'''
     global cont_float_constantes
     if p[-3] not in dirConstantes.keys():
-        dir_float_constantes.append({'Valor' : p[-3], 'Direccion' : inicia_float_constantes + cont_float_constantes})
+        dir_float_constantes.append({'Valor' : float(p[-3]), 'Direccion' : inicia_float_constantes + cont_float_constantes, 'Arreglo' : ''})
         dirConstantes[p[-3]] = {'Direccion' : inicia_float_constantes + cont_float_constantes, 'Tipo' : 4}
         cont_float_constantes += 1
 
@@ -565,7 +824,7 @@ def p_assignDirectionCteChar(p):
     '''assignDirectionCteChar :'''
     global cont_char_constantes
     if p[-3] not in dirConstantes.keys():
-        dir_char_constantes.append({'Valor' : p[-3], 'Direccion' : inicia_char_constantes + cont_char_constantes})
+        dir_char_constantes.append({'Valor' : p[-3], 'Direccion' : inicia_char_constantes + cont_char_constantes, 'Arreglo' : ''})
         dirConstantes[p[-3]] = {'Direccion' : inicia_char_constantes + cont_char_constantes, 'Tipo' : 5}
         cont_char_constantes += 1
 
@@ -573,7 +832,8 @@ def p_assignDirectionCteBool(p):
     '''assignDirectionCteBool :'''
     global cont_bool_constantes
     if p[-3] not in dirConstantes.keys():
-        dir_bool_constantes.append({'Valor' : p[-3], 'Direccion' : inicia_bool_constantes + cont_bool_constantes})
+        print("HEY")
+        dir_bool_constantes.append({'Valor' : p[-3][1:], 'Direccion' : inicia_bool_constantes + cont_bool_constantes, 'Arreglo' : ''})
         dirConstantes[p[-3]] = {'Direccion' : inicia_bool_constantes + cont_bool_constantes, 'Tipo' : 2}
         cont_bool_constantes += 1
 
@@ -581,7 +841,7 @@ def p_assignDirectionCteString(p):
     '''assignDirectionCteString :'''
     global cont_string_constantes
     if p[-3] not in dirConstantes.keys():
-        dir_string_constantes.append({'Valor' : p[-3], 'Direccion' : inicia_string_constantes + cont_string_constantes})
+        dir_string_constantes.append({'Valor' : p[-3], 'Direccion' : inicia_string_constantes + cont_string_constantes, 'Arreglo' : ''})
         dirConstantes[p[-3]] = {'Direccion' : inicia_string_constantes + cont_string_constantes, 'Tipo' : 3}
         cont_string_constantes += 1
 
@@ -801,20 +1061,20 @@ def changeFuncCounter(type):
     global cont_float_funciones
     global cont_char_funciones
     if type == 1:
+        dir_int_funciones.append({'Valor' : 0, 'Direccion' : inicia_int_funciones + cont_int_funciones, 'Arreglo' : ''})
         cont_int_funciones += 1
-        dir_int_funciones.append(0)
     elif type == 4:
+        dir_float_funciones.append({'Valor' : 0.0, 'Direccion' : inicia_float_funciones + cont_float_funciones, 'Arreglo' : ''})
         cont_float_funciones += 1
-        dir_float_funciones.append(0.0)
     elif type == 5:
+        dir_char_funciones.append({'Valor' : '', 'Direccion' : inicia_char_funciones + cont_char_funciones, 'Arreglo' : ''})
         cont_char_funciones += 1
-        dir_char_funciones.append('')
     elif type == 3:
+        dir_string_funciones.append({'Valor' : '', 'Direccion' : inicia_string_funciones + cont_string_funciones, 'Arreglo' : ''})
         cont_string_funciones += 1
-        dir_string_funciones.append('')
     elif type == 2:
+        dir_bool_funciones.append({'Valor' : '', 'Direccion' : inicia_bool_funciones + cont_bool_funciones, 'Arreglo' : ''})
         cont_bool_funciones += 1
-        dir_bool_funciones.append('')
     else:
         pass
 
@@ -858,20 +1118,20 @@ def changeTemporalCounter(type):
     global cont_float_temporales
     global cont_char_temporales
     if type == 1:
+        dir_int_temporales.append({'Valor' : 0, 'Direccion' : inicia_int_temporales + cont_int_temporales, 'Arreglo' : ''})
         cont_int_temporales += 1
-        dir_int_temporales.append(0)
     elif type == 4:
+        dir_float_temporales.append({'Valor' : 0.0, 'Direccion' : inicia_float_temporales + cont_float_temporales, 'Arreglo' : ''})
         cont_float_temporales += 1
-        dir_float_temporales.append(0.0)
     elif type == 5:
+        dir_char_temporales.append({'Valor' : '', 'Direccion' : inicia_char_temporales + cont_char_temporales, 'Arreglo' : ''})
         cont_char_temporales += 1
-        dir_char_temporales.append('')
     elif type == 3:
+        dir_string_temporales.append({'Valor' : '', 'Direccion' : inicia_string_temporales + cont_string_temporales, 'Arreglo' : ''})
         cont_string_temporales += 1
-        dir_string_temporales.append('')
     elif type == 2:
+        dir_bool_temporales.append({'Valor' : '', 'Direccion' : inicia_bool_temporales + cont_bool_temporales, 'Arreglo' : ''})
         cont_bool_temporales += 1
-        dir_bool_temporales.append('')
     else:
         pass
 
@@ -1279,6 +1539,12 @@ def p_paso26(p):
     cuadruplos[contCuadruplos] = [GOSUB, procDirectory[funcActual]['Inicio'], "", ""]
     contCuadruplos += 1 
 
+def p_pasoFinal(p):
+    '''pasoFinal : '''
+    global cuadruplos
+    global contCuadruplos
+    cuadruplos[contCuadruplos]=[ENDPROGRAM, '','','']
+    contCuadruplos +=1
 
 def p_cteInt(p):
     '''cteInt : '''
@@ -1360,5 +1626,10 @@ def archivo(file):
   fi.close()
   if parser.parse(data) == 'OK':
     print('Programa valido')
+    print(dir_int_locales)
+    maquina()
+    print(dir_int_locales)
+    print(dir_bool_locales)
+    print(dir_bool_temporales)
 
 archivo("test")
