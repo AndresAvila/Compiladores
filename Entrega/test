@@ -4,14 +4,14 @@ main {
 	var a: int;
 	var b: int;
 	var c: bool;
-	a = 3 ;
+	a = 4 ;
 	b = 4 ;
 
-	if(a <> b)
-	{
-		test = 5;
+	while(a > 2){
+		a = a - 1;
+		b = b + 1;
 	}
-	
+	test = 3;
 }
 
 

@@ -310,6 +310,8 @@ def maquina():
     auxCont = 40001
     while cuadruplos[auxCont][0] != ENDPROGRAM:
         cuadruploActual = cuadruplos[auxCont]
+        print("here ", auxCont)
+        print("cuadruplo: ", cuadruploActual)
 
         if cuadruploActual[0] == ASIG:
             operando1= cuadruploActual[1]
@@ -439,11 +441,33 @@ def maquina():
             operando2= cuadruploActual[2]
             operando2= getValue(operando2)
             resultado= cuadruploActual[3]
-
+            print(operando1)
+            print(operando2)
             if (operando1==operando2):
                 setValue(resultado, "false")
             else:
                 setValue(resultado, "true")
+
+        if cuadruploActual[0] == GOTO:
+            resultado = cuadruploActual[3]
+
+            auxCont = resultado-1
+
+        if cuadruploActual[0] == GOTOF:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            resultado= cuadruploActual[3]
+
+            if operando1 == "false":
+                auxCont = resultado-1
+
+        if cuadruploActual[0] == GOTOV:
+            operando1= cuadruploActual[1]
+            operando1= getValue(operando1)
+            resultado= cuadruploActual[3]
+
+            if operando1 == "true":
+                auxCont = resultado-1
 
 
         auxCont += 1
@@ -1626,7 +1650,7 @@ def archivo(file):
   fi.close()
   if parser.parse(data) == 'OK':
     print('Programa valido')
-    print(dir_int_locales)
+    print(cuadruplos)
     maquina()
     print(dir_int_locales)
     print(dir_bool_locales)
