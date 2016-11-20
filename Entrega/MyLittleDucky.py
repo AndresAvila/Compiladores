@@ -9,7 +9,7 @@ import cubo
 # Get the token map from the lexer.  This is required.
 from MyLittleDuckl import tokens
 from collections import deque
-
+contprueba = 0
 
 tokens = MyLittleDuckl.tokens   
 varDirectory = {}
@@ -24,6 +24,10 @@ dirConstantes = {}
 dirTemporales = {}
 
 funcActual = ""
+nombreArreglo = ""
+tipoArreglo = ""
+boolArreglo = False
+tamArr = 0
 
 cuadruplos = {}
 pOperadores = []
@@ -149,6 +153,11 @@ dir_bool_constantes=[]
 inicia_bool_constantes=25000
 cont_bool_constantes=0
 
+dir_arreglos_temporales=[]
+inicia_arreglos_temporales=26000
+cont_arreglos_temporales=0
+
+
 # Equivalencia numerica de cada tipo de dato.
 # Int:    1
 # Bool:   2
@@ -188,6 +197,7 @@ RETURN = 21
 PARAM = 22
 ENDPROC = 23
 ENDPROGRAM = 24
+VER = 25
 ERR = -1
 
 def getValue(direccion):
@@ -507,34 +517,69 @@ def p_addTypeGlobal(p):
     global cont_bool_globales
     global cont_char_globales
     global cont_string_globales
+    global tamArr
+    global boolArreglo
+    tamArreglo = int(tamArr)
+    if not boolArreglo :
+        tamArreglo = 0
     while (len(varList) > 0):
         variable = varList.pop()
         if(translate(p[-1]) == 1):
-            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_int_globales + cont_int_globales}
-            dir_int_globales.append({'Valor' : 0, 'Direccion' : inicia_int_globales + cont_int_globales, 'Arreglo' : ''})
-            cont_int_globales += 1
+            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_int_globales + cont_int_globales, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_int_globales + tamArreglo
+                while (cont_int_globales < tamWhile) :
+                    dir_int_globales.append({'Valor' : 0, 'Direccion' : inicia_int_globales + cont_int_globales, 'Arreglo' : ''})
+                    cont_int_globales += 1
+            else :
+                dir_int_globales.append({'Valor' : 0, 'Direccion' : inicia_int_globales + cont_int_globales, 'Arreglo' : ''})
+                cont_int_globales += 1
         elif(translate(p[-1]) == 2):
-            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_bool_globales + cont_bool_globales}
-            dir_bool_globales.append({'Valor' : '', 'Direccion' : inicia_bool_globales + cont_bool_globales, 'Arreglo' : ''})
-            cont_bool_globales += 1
+            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_bool_globales + cont_bool_globales, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_bool_globales + tamArreglo
+                while (cont_bool_globales < tamWhile) :
+                    dir_bool_globales.append({'Valor' : '', 'Direccion' : inicia_bool_globales + cont_bool_globales, 'Arreglo' : ''})
+                    cont_bool_globales += 1
+            else :
+                dir_bool_globales.append({'Valor' : '', 'Direccion' : inicia_bool_globales + cont_bool_globales, 'Arreglo' : ''})
+                cont_bool_globales += 1
         elif(translate(p[-1]) == 3):
-            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_string_globales + cont_string_globales}
-            dir_string_globales.append({'Valor' : '', 'Direccion' : inicia_string_globales + cont_string_globales, 'Arreglo' : ''})
-            cont_string_globales += 1
+            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_string_globales + cont_string_globales, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_string_globales + tamArreglo
+                while (cont_string_globales < tamWhile) :
+                    dir_string_globales.append({'Valor' : '', 'Direccion' : inicia_string_globales + cont_string_globales, 'Arreglo' : ''})
+                    cont_string_globales += 1
+            else :
+                dir_string_globales.append({'Valor' : '', 'Direccion' : inicia_string_globales + cont_string_globales, 'Arreglo' : ''})
+                cont_string_globales += 1
         elif(translate(p[-1]) == 4):
-            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_float_globales + cont_float_globales}
-            dir_float_globales.append({'Valor' : 0.0, 'Direccion' : inicia_float_globales + cont_float_globales, 'Arreglo' : ''})
-            cont_float_globales += 1
+            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_float_globales + cont_float_globales, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_float_globales + tamArreglo
+                while (cont_float_globales < tamWhile) :
+                    dir_float_globales.append({'Valor' : 0.0, 'Direccion' : inicia_float_globales + cont_float_globales, 'Arreglo' : ''})
+                    cont_float_globales += 1
+            else :
+                dir_float_globales.append({'Valor' : 0.0, 'Direccion' : inicia_float_globales + cont_float_globales, 'Arreglo' : ''})
+                cont_float_globales += 1
         elif(translate(p[-1]) == 5):
-            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_char_globales + cont_char_globales}
-            dir_char_globales.append({'Valor' : '', 'Direccion' : inicia_char_globales + cont_char_globales, 'Arreglo' : ''})
-            cont_char_globales += 1
+            varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_char_globales + cont_char_globales, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_char_globales + tamArreglo
+                while (cont_char_globales < tamWhile) :
+                    dir_char_globales.append({'Valor' : '', 'Direccion' : inicia_char_globales + cont_char_globales, 'Arreglo' : ''})
+                    cont_char_globales += 1
+            else :
+                dir_char_globales.append({'Valor' : '', 'Direccion' : inicia_char_globales + cont_char_globales, 'Arreglo' : ''})
+                cont_char_globales += 1
     #print("TERMINA addTypeGlobal")
     print(varDirectory)
-
+    
 
 def p_idVars(p): #Done
-    '''idVars : ID addVariableDir ambIdVars '''
+    '''idVars : ID addVariableDir ambIdVars'''
 
 def p_addVariableDir(p):
     '''addVariableDir : '''
@@ -562,8 +607,20 @@ def p_tipo(p): #Done
 
 
 def p_ambAuxTipo1(p):
-    '''ambAuxTipo1 : LBRACKET CTEINT RBRACKET
-        | ''' 
+    '''ambAuxTipo1 : LBRACKET CTEINT RBRACKET esArr
+        | noEsArr''' 
+
+def p_esArr(p):
+    '''esArr : '''
+    global boolArreglo
+    global tamArr
+    boolArreglo = True
+    tamArr = p[-2]
+
+def p_noEsArr(p):
+    '''noEsArr : '''
+    global boolArreglo
+    boolArreglo = False
 
 def p_cicloVarsMain(p): #Done
     '''cicloVarsMain : varsMain cicloVarsMain 
@@ -588,31 +645,66 @@ def p_addTypeMain(p):
     global cont_bool_locales
     global cont_char_locales
     global cont_string_locales
+    global tamArr
+    global boolArreglo
+    tamArreglo = int(tamArr)
+    if not boolArreglo :
+        tamArreglo = 0
     while (len(varListMain) > 0):
         variable = varListMain.pop()
         if(translate(p[-1]) == 1):
-            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_int_locales + cont_int_locales}
-            dir_int_locales.append({'Valor' : 0, 'Direccion' : inicia_int_locales + cont_int_locales, 'Arreglo' : ''})
-            cont_int_locales += 1
+            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_int_locales + cont_int_locales, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_int_locales + tamArreglo
+                while (cont_int_locales < tamWhile) :
+                    dir_int_locales.append({'Valor' : 0, 'Direccion' : inicia_int_locales + cont_int_locales, 'Arreglo' : ''})
+                    cont_int_locales += 1
+            else :
+                dir_int_locales.append({'Valor' : 0, 'Direccion' : inicia_int_locales + cont_int_locales, 'Arreglo' : ''})
+                cont_int_locales += 1   
         elif(translate(p[-1]) == 2):
-            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_bool_locales + cont_bool_locales}
-            dir_bool_locales.append({'Valor' : '', 'Direccion' : inicia_bool_locales + cont_bool_locales, 'Arreglo' : ''})
-            cont_bool_locales += 1
-        elif(translate(p[-1]) == 3):
-            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_string_locales + cont_string_locales}
-            dir_string_locales.append({'Valor' : '', 'Direccion' : inicia_string_locales + cont_string_locales, 'Arreglo' : ''})
-            cont_string_locales += 1
+            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_bool_locales + cont_bool_locales, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_bool_locales + tamArreglo
+                while (cont_bool_locales < tamWhile) :
+                    dir_bool_locales.append({'Valor' : '', 'Direccion' : inicia_bool_locales + cont_bool_locales, 'Arreglo' : ''})
+                    cont_bool_locales += 1
+            else :
+                dir_bool_locales.append({'Valor' : '', 'Direccion' : inicia_bool_locales + cont_bool_locales, 'Arreglo' : ''})
+                cont_bool_locales += 1
+        elif(translate(p[-1]) == 3): 
+            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_string_locales + cont_string_locales, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_string_locales + tamArreglo
+                while (cont_string_locales < tamWhile) :
+                    dir_string_locales.append({'Valor' : '', 'Direccion' : inicia_string_locales + cont_string_locales, 'Arreglo' : ''})
+                    cont_string_locales += 1
+            else :
+                dir_string_locales.append({'Valor' : '', 'Direccion' : inicia_string_locales + cont_string_locales, 'Arreglo' : ''})
+                cont_string_locales += 1
         elif(translate(p[-1]) == 4):
-            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_float_locales + cont_float_locales}
-            dir_float_locales.append({'Valor' : 0.0, 'Direccion' : inicia_float_locales + cont_float_locales, 'Arreglo' : ''})
-            cont_float_locales += 1
+            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_float_locales + cont_float_locales, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_float_locales + tamArreglo
+                while (cont_float_locales < tamWhile) :
+                    dir_float_locales.append({'Valor' : 0.0, 'Direccion' : inicia_float_locales + cont_float_locales, 'Arreglo' : ''})
+                    cont_float_locales += 1
+            else :
+                dir_float_locales.append({'Valor' : 0.0, 'Direccion' : inicia_float_locales + cont_float_locales, 'Arreglo' : ''})
+                cont_float_locales += 1
         elif(translate(p[-1]) == 5):
-            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_char_locales + cont_char_locales}
-            dir_char_locales.append({'Valor' : '', 'Direccion' : inicia_char_locales + cont_char_locales, 'Arreglo' : ''})
-            cont_char_locales += 1
+            varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_char_locales + cont_char_locales, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_char_locales + tamArreglo
+                while (cont_char_locales < tamWhile) :
+                    dir_char_locales.append({'Valor' : '', 'Direccion' : inicia_char_locales + cont_char_locales, 'Arreglo' : ''})
+                    cont_char_locales += 1
+            else :
+                dir_char_locales.append({'Valor' : '', 'Direccion' : inicia_char_locales + cont_char_locales, 'Arreglo' : ''})
+                cont_char_locales += 1
     #print("TERMINA addTypfunciones
-    print(varDirectoryMain)
-
+    #print(varDirectoryMain)
+    
 
 def p_idVarsMain(p): #Done
     '''idVarsMain : ID addVariableDirMain ambIdVarsMain '''
@@ -669,34 +761,70 @@ def p_addTypeFuncion(p):
     global cont_bool_funciones
     global cont_char_funciones
     global cont_string_funciones
+    global tamArr
+    global boolArreglo
+    tamArreglo = int(tamArr)
+    if not boolArreglo :
+        tamArreglo = 0
     while (len(varListFuncion) > 0):
         variable = varListFuncion.pop()
         if(translate(p[-1]) == 1):
-            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_int_funciones + cont_int_funciones}
-            dir_int_funciones.append({'Valor' : 0, 'Direccion' : inicia_int_funciones + cont_int_funciones, 'Arreglo' : ''})
-            cont_int_funciones += 1
+            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_int_funciones + cont_int_funciones, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_int_funciones + tamArreglo
+                while (cont_int_funciones < tamWhile) :
+                    dir_int_funciones.append({'Valor' : 0, 'Direccion' : inicia_int_funciones + cont_int_funciones, 'Arreglo' : ''})
+                    cont_int_funciones += 1
+            else :
+                dir_int_funciones.append({'Valor' : 0, 'Direccion' : inicia_int_funciones + cont_int_funciones, 'Arreglo' : ''})
+                cont_int_funciones += 1
         elif(translate(p[-1]) == 2):
-            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_bool_funciones + cont_bool_funciones}
-            dir_bool_funciones.append({'Valor' : '', 'Direccion' : inicia_bool_funciones + cont_bool_funciones, 'Arreglo' : ''})
-            cont_bool_funciones += 1
+            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_bool_funciones + cont_bool_funciones, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_bool_funciones + tamArreglo
+                while (cont_bool_funciones < tamWhile) :
+                    dir_bool_funciones.append({'Valor' : '', 'Direccion' : inicia_bool_funciones + cont_bool_funciones, 'Arreglo' : ''})
+                    cont_bool_funciones += 1
+            else :
+                dir_bool_funciones.append({'Valor' : '', 'Direccion' : inicia_bool_funciones + cont_bool_funciones, 'Arreglo' : ''})
+                cont_bool_funciones += 1
         elif(translate(p[-1]) == 3):
-            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_string_funciones + cont_string_funciones}
-            dir_string_funciones.append({'Valor' : '', 'Direccion' : inicia_string_funciones + cont_string_funciones, 'Arreglo' : ''})
-            cont_string_funciones += 1
+            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_string_funciones + cont_string_funciones, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_string_funciones + tamArreglo
+                while (cont_string_funciones < tamWhile) :
+                    dir_string_funciones.append({'Valor' : '', 'Direccion' : inicia_string_funciones + cont_string_funciones, 'Arreglo' : ''})
+                    cont_string_funciones += 1
+            else :
+                dir_string_funciones.append({'Valor' : '', 'Direccion' : inicia_string_funciones + cont_string_funciones, 'Arreglo' : ''})
+                cont_string_funciones += 1
         elif(translate(p[-1]) == 4):
-            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_float_funciones + cont_float_funciones}
-            dir_float_funciones.append({'Valor' : 0.0, 'Direccion' : inicia_float_funciones + cont_float_funciones, 'Arreglo' : ''})
-            cont_float_funciones += 1
+            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_float_funciones + cont_float_funciones, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_float_funciones + tamArreglo
+                while (cont_float_funciones < tamWhile) :
+                    dir_float_funciones.append({'Valor' : 0.0, 'Direccion' : inicia_float_funciones + cont_float_funciones, 'Arreglo' : ''})
+                    cont_float_funciones += 1
+            else :
+                dir_float_funciones.append({'Valor' : 0.0, 'Direccion' : inicia_float_funciones + cont_float_funciones, 'Arreglo' : ''})
+                cont_float_funciones += 1
         elif(translate(p[-1]) == 5):
-            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_char_funciones + cont_char_funciones}
-            dir_char_funciones.append({'Valor' : '', 'Direccion' : inicia_char_funciones + cont_char_funciones, 'Arreglo' : ''})
-            cont_char_funciones += 1
+            varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_char_funciones + cont_char_funciones, 'TamanoArreglo': tamArreglo}
+            if boolArreglo :
+                tamWhile = cont_char_funciones + tamArreglo
+                while (cont_char_funciones < tamWhile) :
+                    dir_char_funciones.append({'Valor' : '', 'Direccion' : inicia_char_funciones + cont_char_funciones, 'Arreglo' : ''})
+                    cont_char_funciones += 1
+            else :
+                dir_char_funciones.append({'Valor' : '', 'Direccion' : inicia_char_funciones + cont_char_funciones, 'Arreglo' : ''})
+                cont_char_funciones += 1
     #print("TERMINA addTypeFuncion")
     #print(varDirectoryFunc)
+    
 
 
 def p_idVarsFuncion(p): #Done
-    '''idVarsFuncion : ID addVariableDirFuncion ambIdVarsFuncion '''
+    '''idVarsFuncion : ID addVariableDirFuncion ambIdVarsFuncion'''
 
 def p_addVariableDirFuncion(p):
     '''addVariableDirFuncion : '''
@@ -729,7 +857,7 @@ def p_asignacion(p): #Done
     #print("entra a asignacion")
 
 def p_auxAsignacion1(p): #Done
-    '''auxAsignacion1 : LBRACKET exp RBRACKET 
+    '''auxAsignacion1 : LBRACKET paso6b exp RBRACKET paso7b paso27
         | '''
 
 def p_escritura(p): #Done
@@ -825,6 +953,8 @@ def p_varcte(p): #Done
         | CTESTRING paso1 cteString assignDirectionCteString
         | llamada '''
 
+    
+
 def p_assignDirectionCteInt(p):
     '''assignDirectionCteInt :'''
     global cont_int_constantes
@@ -885,22 +1015,34 @@ def translate(x):
 
 def p_addType(p):
     '''addType : '''
+    global nombreArreglo
+    global tipoArreglo
     if p[-2] in varDirectory.keys():
         print(translate(varDirectory[p[-2]]['Tipo']))
         pTipos.append(translate(varDirectory[p[-2]]['Tipo']))
+        if varDirectory[p[-2]].get('TamanoArreglo') > 0 :
+            nombreArreglo = p[-2] 
+            tipoArreglo = translate(varDirectory[p[-2]]['Tipo'])
     elif p[-2] in varDirectoryMain.keys():
         print(translate(varDirectoryMain[p[-2]]['Tipo']))
         pTipos.append(translate(varDirectoryMain[p[-2]]['Tipo']))
+        if varDirectoryMain[p[-2]].get('TamanoArreglo') > 0 :
+            nombreArreglo = p[-2]
+            tipoArreglo = translate(varDirectoryMain[p[-2]]['Tipo'])
     elif p[-2] in varDirectoryFunc.keys():
         print(translate(varDirectoryFunc[p[-2]]['Tipo']))
         pTipos.append(translate(varDirectoryFunc[p[-2]]['Tipo']))
+        if varDirectoryFunc[p[-2]].get('TamanoArreglo') > 0 :
+            nombreArreglo = p[-2]
+            tipoArreglo = translate(varDirectoryFunc[p[-2]]['Tipo'])
     else:
+        nombreArreglo = "nada"
         return -1
 
 
 def p_auxVarcte(p): #Done
     '''auxVarcte : LPAREN exp RPAREN
-        | LBRACKET exp LBRACKET 
+        | LBRACKET paso6b exp RBRACKET paso7b paso27
         | '''
 
 def p_cicloFuncion(p): #Done
@@ -1008,6 +1150,8 @@ def p_paso1(p):
     #print(p[-1])
     print(encuentraOperando(p[-1]))
     pOperandos.append(p[-1])
+    
+    
 
 def p_paso2_mult(p):
     '''paso2_mult : '''
@@ -1194,10 +1338,14 @@ def p_paso5(p):
     '''paso5 : '''
     global pTipos
     global pOperadores
-    #print("Entra paso 5")
-    #print(pTipos)
-    #print(pOperandos)
-    
+    global contprueba
+
+    print("Entra paso 5")
+    contprueba += 1
+    print(contprueba)
+    print(pTipos)
+    print(pOperandos)
+    print(pOperadores)
     global contTemporales
     global contCuadruplos
     if pOperadores :
@@ -1230,6 +1378,20 @@ def p_paso6(p):
 def p_paso7(p):
     '''paso7 : '''
     if pOperadores[-1] == "(" :
+        pOperadores.pop()
+    else:
+        print("Falta parentesis izquierdo")
+        exit()
+
+def p_paso6b(p):
+    '''paso6b : '''
+    global esArr 
+    esArr = True
+    pOperadores.append("[")
+
+def p_paso7b(p):
+    '''paso7b : '''
+    if pOperadores[-1] == "[" :
         pOperadores.pop()
     else:
         print("Falta parentesis izquierdo")
@@ -1332,22 +1494,22 @@ def p_paso11(p):
             print(opdoDer)
             print(tipoIzq)
             print(tipoDer)
-            if opdoIzq in varDirectory.keys() or opdoIzq in varDirectoryMain.keys() or opdoIzq in varDirectoryFunc.keys() or opdoIzq in procDirectory.keys():
-                if cubo[tipoDer][tipoIzq][op] != ERR:
-                    tipoRes = cubo[tipoDer][tipoIzq][op]
-                    #print(tipoRes)
-                    cuadruplos[contCuadruplos] = [op, opdoDerDir, "", opdoIzqDir ]
-                    pOperandos.append(contTemporales)
-                    pTipos.append(tipoRes)
-                    contTemporales+=1
-                    contCuadruplos+=1
-                    print(cuadruplos)
-                else:
-                    print("Error arimetico 11 - tipos no validos")
-                    exit()
-            else: 
-                print("La variable no existe ", opdoIzq)
+            #if opdoIzq in varDirectory.keys() or opdoIzq in varDirectoryMain.keys() or opdoIzq in varDirectoryFunc.keys() or opdoIzq in procDirectory.keys():
+            if cubo[tipoDer][tipoIzq][op] != ERR:
+                tipoRes = cubo[tipoDer][tipoIzq][op]
+                #print(tipoRes)
+                cuadruplos[contCuadruplos] = [op, opdoDerDir, "", opdoIzqDir ]
+                pOperandos.append(contTemporales)
+                pTipos.append(tipoRes)
+                contTemporales+=1
+                contCuadruplos+=1
+                print(cuadruplos)
+            else:
+                print("Error arimetico 11 - tipos no validos")
                 exit()
+            #else: 
+                #print("La variable no existe ", opdoIzq)
+                #exit()
     #print("Sale paso 11")
 
 def p_paso12(p):
@@ -1562,6 +1724,51 @@ def p_paso26(p):
     global funcActual
     cuadruplos[contCuadruplos] = [GOSUB, procDirectory[funcActual]['Inicio'], "", ""]
     contCuadruplos += 1 
+
+def translateToTamano(variable):
+    #print("BEFORE IF:", variable)
+    #print("vardirfunc", varDirectoryFunc)
+    if variable in varDirectoryMain.keys():
+        return varDirectoryMain[variable].get('TamanoArreglo')
+    elif variable in varDirectory.keys():
+        return varDirectory[variable].get('TamanoArreglo')
+    elif variable in varDirectoryFunc.keys():
+        #print("ELIF 3", varDirectoryFunc)
+        return varDirectoryFunc[variable].get('TamanoArreglo')
+    elif variable in dirConstantes.keys():
+        return dirConstantes[variable].get('TamanoArreglo')
+    elif variable in parametrosA.keys():
+        #print("ELIF 5", parametrosA)
+        return parametrosA[variable].get('TamanoArreglo')
+    elif variable in dirConstantes.keys():
+        return dirConstantes[variable].get('TamanoArreglo')
+    else:
+        return variable
+
+def p_paso27(p):
+    '''paso27 : '''
+    global nombreArreglo
+    global tipoArreglo
+    global contCuadruplos
+    global cuadruplos
+    global inicia_arreglos_temporales
+    global cont_arreglos_temporales
+    global contprueba
+    print("entra paso27", nombreArreglo)
+    contprueba += 1
+    print(contprueba)
+    print("tamano arreglo" ,translateToTamano(nombreArreglo))
+    res = pOperandos.pop()
+    res = translateToDirection(res)  
+    cuadruplos[contCuadruplos] = [VER, res, 0, translateToTamano(nombreArreglo)]
+    contCuadruplos += 1
+    arr = pOperandos.pop()
+    cuadruplos[contCuadruplos] = [SUMA, translateToDirection(arr), res, inicia_arreglos_temporales + cont_arreglos_temporales]
+    contCuadruplos += 1
+    pOperandos.append(inicia_arreglos_temporales + cont_arreglos_temporales)
+    cont_arreglos_temporales += 1
+    print("pOperandos ya", pOperandos)
+    #a = pOperandos.pop()
 
 def p_pasoFinal(p):
     '''pasoFinal : '''

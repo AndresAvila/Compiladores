@@ -1,17 +1,13 @@
 program gg;
-main {
-	var test: int;
-	var a: int;
-	var b: int;
-	var c: bool;
-	a = 4 ;
-	b = 4 ;
 
-	while(a > 2){
-		a = a - 1;
-		b = b + 1;
-	}
-	test = 3;
+var mes,sad,alf: int;
+
+	
+main {
+	var b: int [5];
+	var c: int [2];
+	b[3] = c[2];
+	
 }
 
 
