@@ -256,6 +256,8 @@ def getValue(direccion):
         return dir_string_constantes[direccion - 24000]['Valor']
     elif direccion >= 25000 and direccion < 26000:
         return dir_bool_constantes[direccion - 25000]['Valor']
+    elif direccion >= 26000 and direccion < 27000:
+        return dir_arreglos_temporales[direccion - 26000]['Valor']
     else:
         return -1
 
@@ -315,48 +317,77 @@ def setValue(direccion, valor):
         dir_string_constantes[direccion - 24000]['Valor']=valor
     elif direccion >= 25000 and direccion < 26000:
         dir_bool_constantes[direccion - 25000]['Valor']=valor
+    elif direccion >= 26000 and direccion < 27000:
+        dir_arreglos_temporales[direccion - 26000]['Valor']=valor
 
 def maquina():
     auxCont = 40001
     while cuadruplos[auxCont][0] != ENDPROGRAM:
         cuadruploActual = cuadruplos[auxCont]
+        
         print("here ", auxCont)
         print("cuadruplo: ", cuadruploActual)
 
         if cuadruploActual[0] == ASIG:
             operando1= cuadruploActual[1]
             operando1= getValue(operando1)
+            if operando1 >= 1000:
+                operando1= getValue(operando1)
             resultado= cuadruploActual[3]
+            if resultado >= 26000:
+                resultado = getValue(resultado)
             setValue(resultado, operando1)
+            print("resultado de la asignacion ",resultado , " = ", operando1)
 
         if cuadruploActual[0] == SUMA:
+            cuadruploAnterior = cuadruplos[auxCont-1]
             operando1= cuadruploActual[1]
-            operando1= getValue(operando1)
+            if operando1 >= 26000:  
+                operando1 = getValue(operando1)
+            if cuadruploAnterior[0] != VER:
+                operando1= getValue(operando1)  
             operando2= cuadruploActual[2]
+            if operando2 >= 26000:  
+                operando2 = getValue(operando2)
             operando2= getValue(operando2)
             resultado= cuadruploActual[3]
             setValue(resultado, operando1+operando2)
 
+
+            print("resultado de la suma",operando1+operando2)
+
         if cuadruploActual[0] == RESTA:
             operando1= cuadruploActual[1]
+            if operando1 >= 26000:  
+                operando1 = getValue(operando1)
             operando1= getValue(operando1)
             operando2= cuadruploActual[2]
+            if operando2 >= 26000:  
+                operando2 = getValue(operando2)
             operando2= getValue(operando2)
             resultado= cuadruploActual[3]
             setValue(resultado, operando1-operando2)
 
         if cuadruploActual[0] == MULT:
             operando1= cuadruploActual[1]
+            if operando1 >= 26000:  
+                operando1 = getValue(operando1)
             operando1= getValue(operando1)
             operando2= cuadruploActual[2]
+            if operando2 >= 26000:  
+                operando2 = getValue(operando2)
             operando2= getValue(operando2)
             resultado= cuadruploActual[3]
             setValue(resultado, operando1*operando2)
 
         if cuadruploActual[0] == DIV:
             operando1= cuadruploActual[1]
+            if operando1 >= 26000:  
+                operando1 = getValue(operando1)
             operando1= getValue(operando1)
             operando2= cuadruploActual[2]
+            if operando2 >= 26000:  
+                operando2 = getValue(operando2)
             operando2= getValue(operando2)
             resultado= cuadruploActual[3]
             setValue(resultado, operando1/operando2)
@@ -387,8 +418,12 @@ def maquina():
 
         if cuadruploActual[0] == MAYOR:
             operando1= cuadruploActual[1]
+            if operando1 >= 26000:  
+                operando1 = getValue(operando1)
             operando1= getValue(operando1)
             operando2= cuadruploActual[2]
+            if operando2 >= 26000:  
+                operando2 = getValue(operando2)
             operando2= getValue(operando2)
             resultado= cuadruploActual[3]
 
@@ -399,8 +434,12 @@ def maquina():
 
         if cuadruploActual[0] == MENOR:
             operando1= cuadruploActual[1]
+            if operando1 >= 26000:  
+                operando1 = getValue(operando1)
             operando1= getValue(operando1)
             operando2= cuadruploActual[2]
+            if operando2 >= 26000:  
+                operando2 = getValue(operando2)
             operando2= getValue(operando2)
             resultado= cuadruploActual[3]
 
@@ -411,8 +450,12 @@ def maquina():
 
         if cuadruploActual[0] == MAYORIG:
             operando1= cuadruploActual[1]
+            if operando1 >= 26000:  
+                operando1 = getValue(operando1)
             operando1= getValue(operando1)
             operando2= cuadruploActual[2]
+            if operando2 >= 26000:  
+                operando2 = getValue(operando2)
             operando2= getValue(operando2)
             resultado= cuadruploActual[3]
 
@@ -423,8 +466,12 @@ def maquina():
 
         if cuadruploActual[0] == MENORIG:
             operando1= cuadruploActual[1]
+            if operando1 >= 26000:  
+                operando1 = getValue(operando1)
             operando1= getValue(operando1)
             operando2= cuadruploActual[2]
+            if operando2 >= 26000:  
+                operando2 = getValue(operando2)
             operando2= getValue(operando2)
             resultado= cuadruploActual[3]
 
@@ -435,8 +482,12 @@ def maquina():
 
         if cuadruploActual[0] == IGUAL:
             operando1= cuadruploActual[1]
+            if operando1 >= 26000:  
+                operando1 = getValue(operando1)
             operando1= getValue(operando1)
             operando2= cuadruploActual[2]
+            if operando2 >= 26000:  
+                operando2 = getValue(operando2)
             operando2= getValue(operando2)
             resultado= cuadruploActual[3]
 
@@ -447,8 +498,12 @@ def maquina():
 
         if cuadruploActual[0] == DIF:
             operando1= cuadruploActual[1]
+            if operando1 >= 26000:  
+                operando1 = getValue(operando1)
             operando1= getValue(operando1)
             operando2= cuadruploActual[2]
+            if operando2 >= 26000:  
+                operando2 = getValue(operando2)
             operando2= getValue(operando2)
             resultado= cuadruploActual[3]
             print(operando1)
@@ -478,6 +533,21 @@ def maquina():
 
             if operando1 == "true":
                 auxCont = resultado-1
+
+        if cuadruploActual[0] == VER:
+            operador1 = cuadruploActual[1]
+            operador1 = getValue(operador1)
+            operador2 = cuadruploActual[3]
+            if operador1 > operador2 or operador1 < 0:
+                print("fuera de rango")
+                exit() 
+
+        if cuadruploActual[0] == PRINT:
+            operando1 = cuadruploActual[3]
+            if operando1 >= 26000:  
+                operando1 = getValue(operando1)
+            operando1 = getValue(operando1)
+            print("resultado del print: ", operando1)
 
 
         auxCont += 1
@@ -1327,7 +1397,7 @@ def p_paso4(p):
                 pTipos.append(tipoRes)
                 changeTemporalCounter(tipoRes)
                 contCuadruplos+=1
-                print(cuadruplos)
+                #print(cuadruplos)
             else:
                 print("Error arimetico 4 - tipos no validos")
                 exit()
@@ -1365,7 +1435,7 @@ def p_paso5(p):
                 pTipos.append(tipoRes)
                 changeTemporalCounter(tipoRes)
                 contCuadruplos+=1
-                print(cuadruplos)
+                #print(cuadruplos)
             else:
                 print("Error arimetico 5 - tipos no validos")
                 exit()
@@ -1432,7 +1502,7 @@ def p_paso9(p):
                 pTipos.append(tipoRes)
                 changeTemporalCounter(tipoRes)
                 contCuadruplos+=1
-                print(cuadruplos)
+                #print(cuadruplos)
             else:
                 print("Error arimetico 9 - tipos no validos")
                 exit()
@@ -1465,7 +1535,7 @@ def p_paso10(p):
                 pTipos.append(tipoRes)
                 changeTemporalCounter(tipoRes)
                 contCuadruplos+=1
-                print(cuadruplos)
+                #print(cuadruplos)
             else:
                 print("Error arimetico 10 - tipos no validos")
                 exit()
@@ -1503,7 +1573,7 @@ def p_paso11(p):
                 pTipos.append(tipoRes)
                 contTemporales+=1
                 contCuadruplos+=1
-                print(cuadruplos)
+                #print(cuadruplos)
             else:
                 print("Error arimetico 11 - tipos no validos")
                 exit()
@@ -1550,7 +1620,7 @@ def p_paso14(p):
     global contCuadruplos
     global pSaltos
     cuadruplos[pSaltos.pop()][3] = contCuadruplos
-    print(cuadruplos)
+    #print(cuadruplos)
 
 def p_paso15(p):
     '''paso15 : '''
@@ -1594,8 +1664,8 @@ def p_paso18(p):
     global contCuadruplos
     global pOperandos
     print("entra print")
-    cuadruplos[contCuadruplos] = [PRINT, "", "", pOperandos.pop()]
-    print(cuadruplos)
+    cuadruplos[contCuadruplos] = [PRINT, "", "", translateToDirection(pOperandos.pop())]
+    #print(cuadruplos)
     print("sale print")
     contCuadruplos += 1
     #print("cuadruplos print: " , cuadruplos)
@@ -1637,7 +1707,7 @@ def p_paso22(p):
     procDirectory[funcActual]['Variables'].clear()
     cuadruplos[contCuadruplos] = [RET, "", "", ""]
     contCuadruplos += 1
-    print(cuadruplos)
+    #print(cuadruplos)
     parametrosA.clear()
     decNumParametro = 0
     
@@ -1658,7 +1728,7 @@ def p_paso23(p):
         cuadruplos[contCuadruplos] = [RETURN, "", "", translateToDirection(res)]
         procDirectory[funcActual]['Retorno'] = translateToDirection(res)
         contCuadruplos += 1
-        print(cuadruplos)
+        #print(cuadruplos)
         print("PROC DIRECTORY", procDirectory[funcActual])
     else :
         print("Tipo de retorno invalido")
@@ -1754,18 +1824,22 @@ def p_paso27(p):
     global inicia_arreglos_temporales
     global cont_arreglos_temporales
     global contprueba
-    print("entra paso27", nombreArreglo)
-    contprueba += 1
-    print(contprueba)
-    print("tamano arreglo" ,translateToTamano(nombreArreglo))
+    #print("entra paso27", nombreArreglo)
+    #contprueba += 1
+    #print(contprueba)
+    #print("tamano arreglo" ,translateToTamano(nombreArreglo))
     res = pOperandos.pop()
-    res = translateToDirection(res)  
-    cuadruplos[contCuadruplos] = [VER, res, 0, translateToTamano(nombreArreglo)]
-    contCuadruplos += 1
     arr = pOperandos.pop()
+
+    res = translateToDirection(res)  
+    cuadruplos[contCuadruplos] = [VER, res, 0, translateToTamano(nombreArreglo) - 1]
+    contCuadruplos += 1
+    
     cuadruplos[contCuadruplos] = [SUMA, translateToDirection(arr), res, inicia_arreglos_temporales + cont_arreglos_temporales]
     contCuadruplos += 1
+
     pOperandos.append(inicia_arreglos_temporales + cont_arreglos_temporales)
+    dir_arreglos_temporales.append({'Valor' : '', 'Direccion' : inicia_arreglos_temporales + cont_arreglos_temporales, 'Arreglo' : ''})
     cont_arreglos_temporales += 1
     print("pOperandos ya", pOperandos)
     #a = pOperandos.pop()
@@ -1857,6 +1931,9 @@ def archivo(file):
   fi.close()
   if parser.parse(data) == 'OK':
     print('Programa valido')
+    print(varDirectory)
+    print(varDirectoryMain)
+    print(procDirectory)
     print(cuadruplos)
     maquina()
     print(dir_int_locales)
