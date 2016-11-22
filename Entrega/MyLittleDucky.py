@@ -1389,8 +1389,8 @@ def p_assignDirectionCteBool(p):
     global cont_bool_constantes
     if p[-3] not in dirConstantes.keys():
         print("HEY")
-        dir_bool_constantes.append({'Valor' : p[-3][1:], 'Direccion' : inicia_bool_constantes + cont_bool_constantes, 'Arreglo' : ''})
-        dirConstantes[p[-3][1:]] = {'Direccion' : inicia_bool_constantes + cont_bool_constantes, 'Tipo' : 2}
+        dir_bool_constantes.append({'Valor' : p[-3], 'Direccion' : inicia_bool_constantes + cont_bool_constantes, 'Arreglo' : ''})
+        dirConstantes[p[-3]] = {'Direccion' : inicia_bool_constantes + cont_bool_constantes, 'Tipo' : 2}
         cont_bool_constantes += 1
 
 def p_assignDirectionCteString(p):
