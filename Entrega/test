@@ -1,23 +1,23 @@
 program gg;
+var ya, tu, el: int;
+var al : int[3];
+
 
 function int func (int d) {
-	var mes,sad,alf: int;
-	mes = 5;
-
-	return mes;
+	var x: int;
+	return d;
 }
-
+function int dos (int f) {
+	return f;
+}
 
 	
 main {
 	var b: int [10];
 	var c: int [15];
-	var d: int;
+	var SADSF,e,AD: string;
 
-	
-	d = call:func(d);
-	
-	
+	c[2 + 4] = 5;
 	
 }
 

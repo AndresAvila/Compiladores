@@ -9,6 +9,9 @@ import cubo
 # Get the token map from the lexer.  This is required.
 from MyLittleDuckl import tokens
 from collections import deque
+
+#from memoria import Memoria
+
 contprueba = 0
 
 tokens = MyLittleDuckl.tokens   
@@ -22,12 +25,15 @@ varListFuncion = []
 dirProcedure = {}
 dirConstantes = {}
 dirTemporales = {}
+dirCompleto = {}
 
+nombrePrograma = ""
 funcActual = ""
 nombreArreglo = ""
 tipoArreglo = ""
 boolArreglo = False
 tamArr = 0
+
 
 cuadruplos = {}
 pOperadores = []
@@ -38,6 +44,24 @@ contCuadruplos = 40001
 contParametros = 0
 contVarLocFunc = 0
 pSaltos = []
+
+cantIntGlobales = 0
+cantBoolGlobales = 0
+cantFloatGlobales = 0
+cantCharGlobales = 0
+cantStringGlobales = 0
+
+cantIntLocales = 0
+cantBoolLocales = 0
+cantFloatLocales = 0
+cantCharLocales = 0
+cantStringLocales = 0
+
+cantIntFunciones = 0
+cantBoolFunciones = 0
+cantFloatFunciones = 0
+cantCharFunciones = 0
+cantStringFunciones = 0
 
 parametrosA = {}
 decNumParametro = 0
@@ -320,8 +344,154 @@ def setValue(direccion, valor):
     elif direccion >= 26000 and direccion < 27000:
         dir_arreglos_temporales[direccion - 26000]['Valor']=valor
 
+class Memoria:
+
+    def __init__(self, name, memoria):
+        self.name  = name
+        # inicializa la memoria por tipo de datos
+        self.ints  = memoria['Int'] * [""]
+        self.bools = memoria['Bool'] * [""]
+        self.strings = memoria['String'] * [""]
+        self.floats = memoria['Float'] * [""]
+        self.chars = memoria['Char'] * [""]
+        
+        
+        self.temp_int = 100 * [""]
+        self.temp_bool = 100 * [""]
+        self.temp_string = 100 * [""]
+        self.temp_float = 100 * [""]   
+        self.temp_char = 100 * [""]
+        self.temp_arr = 100 * [""]
+        
+
+
+    def offsetDireccion(self, direccion):
+        # funcion que calcula el offset y tipo de una direccion recibida
+        addressScope = self.scopeDireccion(direccion)[1]
+
+        offset = direccion - addressScope
+        if offset >= 0 and offset < 1000:
+            return ['INT', 0]
+        elif offset >= 1000 and offset < 2000:
+            return ['FLOAT', 1000]
+        elif offset >= 2000 and offset < 3000:
+             return ['CHAR', 2000]
+        elif offset >= 3000 and offset < 4000:
+            return ['STRING', 3000]
+        elif offset >= 4000 and offset < 5000:
+            return ['BOOL', 4000]
+        else:
+            return "Error"
+
+    def scopeDireccion(self, direccion):
+        # funcion que regresa el scope y la direccion base de una direccion recibida
+        if direccion >= 1000 and direccion < 6000:
+            return ['Global', 1000]
+
+        elif direccion >= 6000 and direccion < 11000:
+            return ['Local', 6000]
+
+        elif direccion >= 11000 and direccion < 16000:
+            return ['Funciones', 11000]
+
+        elif direccion >= 16000 and direccion < 21000:
+            return ['Temporales', 16000]
+
+        elif direccion >= 21000 and direccion < 26000:
+            return ['Constantes', 21000]
+        elif direccion >= 26000:
+            return ['TemporalesArr', 26000]
+        else:
+            return ['Error', 9999999]
+
+
+    def memoriaActual(self, scope, tipo):
+        # funcion que regresa la memoria requerida en base al scope
+        if scope == 'Global' or scope == 'Funcion' or scope == 'Local':
+            if tipo == 'INT':
+                return self.ints
+            elif tipo == 'BOOL':
+                return self.bools
+            elif tipo == 'STRING':
+                return self.strings
+            elif tipo == 'FLOAT':
+                return self.floats
+            elif tipo == 'CHAR':
+                return self.chars
+            
+            
+        elif scope == 'Temporales':
+            if tipo == 'INT':
+                return self.temp_int
+            elif tipo == 'BOOL':
+                return self.temp_bool
+            elif tipo == 'STRING':
+                return self.temp_strings
+            elif tipo == 'FLOAT':
+                return self.temp_float
+            elif tipo == 'CHAR':
+                return self.temp_char
+
+
+    def getValorDeDireccion(self, direccion, constantes):
+
+        # funcion que regresa el valor almacenado en memoria al recibir una direccion
+        scope = self.scopeDireccion(direccion)[0]
+
+        tipo = self.offsetDireccion(direccion)[0]
+        print("scope ", scope)
+        print("tipo ", tipo)
+        if scope != 'Constantes': # si no es una constante, busca en la misma memoria
+            dirBase = self.scopeDireccion(direccion)[1]
+
+            offset = self.offsetDireccion(direccion)[1]
+            print("dirBase ", dirBase)
+            print("offset ", offset)
+            real = direccion - dirBase - offset
+            mem = self.memoriaActual(scope, tipo)
+            if real >= len(mem):
+                print("Error: posicion de arreglo no existente.")
+                exit()
+            return mem[real]
+        else: # busca la constante en base a la direccion
+            keys = constantes.keys()
+            cons = constantes[keys[0]]
+            cantidad = len(constantes.keys())
+            i = 0
+            while i < cantidad:
+                if constantes[keys[i]]['Direccion'] == direccion:
+                    return keys[i]
+                i += 1
+
+
+    def setValorDeDireccion(self, direccion, valor):
+        print(direccion, " direccion")
+        scope = self.scopeDireccion(direccion)[0]
+        print(scope, " scope")
+        tipo = self.offsetDireccion(direccion)[0]
+        print(tipo, " tipo")
+        dirBase = self.scopeDireccion(direccion)[1]
+        print(dirBase, " dirBase")
+        offset = self.offsetDireccion(direccion)[1]
+        print(offset, " offset")
+        real = direccion - dirBase - offset
+        print(real, " real")
+        mem = self.memoriaActual(scope, tipo)
+        print(mem, " mem")
+        if real >= len(mem):
+                print("Error: direccion no existente.")
+                exit()
+        mem[real] = valor
+
+
 def maquina():
     auxCont = 40001
+    pilaMemorias = {}
+    MemoriaGlobal = Memoria("Global", dirCompleto[dirCompleto.keys()[0]]['Directorio Globales']['TamanoMemoria'])
+    MemoriaActual = Memoria("Main", dirCompleto[dirCompleto.keys()[0]]['Directorio Locales']['TamanoMemoria'])
+    MemoriaNueva = ""
+    constantes = dirConstantes
+
     while cuadruplos[auxCont][0] != ENDPROGRAM:
         cuadruploActual = cuadruplos[auxCont]
         
@@ -330,14 +500,23 @@ def maquina():
 
         if cuadruploActual[0] == ASIG:
             operando1= cuadruploActual[1]
-            operando1= getValue(operando1)
-            if operando1 >= 1000:
-                operando1= getValue(operando1)
+            if operando1 >= 1000 and operando1 < 6000:
+                operando1= MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+            else:
+                operando1= MemoriaActual.getValorDeDireccion(operando1, constantes)
+            #if operando1 >= 1000:
+                #operando1= getValue(operando1)
             resultado= cuadruploActual[3]
             if resultado >= 26000:
                 resultado = getValue(resultado)
-            setValue(resultado, operando1)
-            print("resultado de la asignacion ",resultado , " = ", operando1)
+            if operando1 >= 1000 and operando1 < 6000:
+                MemoriaGlobal.setValorDeDireccion(resultado, operando1)
+                respuesta = MemoriaGlobal.getValorDeDireccion(resultado, constantes)
+            else:
+                MemoriaActual.setValorDeDireccion(resultado, operando1)
+                respuesta = MemoriaActual.getValorDeDireccion(resultado, constantes)
+            
+            print("resultado de la asignacion ",resultado , " = ", respuesta)
 
         if cuadruploActual[0] == SUMA:
             cuadruploAnterior = cuadruplos[auxCont-1]
@@ -549,6 +728,11 @@ def maquina():
             operando1 = getValue(operando1)
             print("resultado del print: ", operando1)
 
+        
+
+
+
+
 
         auxCont += 1
 
@@ -563,6 +747,8 @@ def p_addProcedureDir(p):
     varDirectory.clear()
     #print("TERMINA addProcedureDir")
     print(dirProcedure)
+    global nombreArreglo
+    nombreArreglo = p[-1]
 
 def p_cicloVars(p): #Done
     '''cicloVars : vars cicloVars 
@@ -589,12 +775,22 @@ def p_addTypeGlobal(p):
     global cont_string_globales
     global tamArr
     global boolArreglo
+    global cantIntGlobales 
+    global cantBoolGlobales 
+    global cantFloatGlobales 
+    global cantCharGlobales 
+    global cantStringGlobales 
+
     tamArreglo = int(tamArr)
+    sumaArr = 0
     if not boolArreglo :
         tamArreglo = 0
+    else :
+        sumaArr = tamArreglo - 1
     while (len(varList) > 0):
         variable = varList.pop()
         if(translate(p[-1]) == 1):
+            cantIntGlobales += 1 + sumaArr
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_int_globales + cont_int_globales, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_int_globales + tamArreglo
@@ -605,6 +801,7 @@ def p_addTypeGlobal(p):
                 dir_int_globales.append({'Valor' : 0, 'Direccion' : inicia_int_globales + cont_int_globales, 'Arreglo' : ''})
                 cont_int_globales += 1
         elif(translate(p[-1]) == 2):
+            cantBoolGlobales += 1 + sumaArr
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_bool_globales + cont_bool_globales, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_bool_globales + tamArreglo
@@ -615,6 +812,7 @@ def p_addTypeGlobal(p):
                 dir_bool_globales.append({'Valor' : '', 'Direccion' : inicia_bool_globales + cont_bool_globales, 'Arreglo' : ''})
                 cont_bool_globales += 1
         elif(translate(p[-1]) == 3):
+            cantStringGlobales += 1 + sumaArr
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_string_globales + cont_string_globales, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_string_globales + tamArreglo
@@ -625,6 +823,7 @@ def p_addTypeGlobal(p):
                 dir_string_globales.append({'Valor' : '', 'Direccion' : inicia_string_globales + cont_string_globales, 'Arreglo' : ''})
                 cont_string_globales += 1
         elif(translate(p[-1]) == 4):
+            cantFloatGlobales  += 1 + sumaArr
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_float_globales + cont_float_globales, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_float_globales + tamArreglo
@@ -635,6 +834,7 @@ def p_addTypeGlobal(p):
                 dir_float_globales.append({'Valor' : 0.0, 'Direccion' : inicia_float_globales + cont_float_globales, 'Arreglo' : ''})
                 cont_float_globales += 1
         elif(translate(p[-1]) == 5):
+            cantCharGlobales += 1 + sumaArr
             varDirectory[variable] = {'Tipo' : p[-1], 'Scope' : 'Global', 'Direccion': inicia_char_globales + cont_char_globales, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_char_globales + tamArreglo
@@ -677,7 +877,7 @@ def p_tipo(p): #Done
 
 
 def p_ambAuxTipo1(p):
-    '''ambAuxTipo1 : LBRACKET CTEINT RBRACKET esArr
+    '''ambAuxTipo1 : LBRACKET CTEINT RBRACKET esArr assignDirectionCteInt
         | noEsArr''' 
 
 def p_esArr(p):
@@ -717,12 +917,21 @@ def p_addTypeMain(p):
     global cont_string_locales
     global tamArr
     global boolArreglo
+    global cantIntLocales 
+    global cantBoolLocales 
+    global cantFloatLocales 
+    global cantCharLocales 
+    global cantStringLocales
     tamArreglo = int(tamArr)
+    sumaArr = 0
     if not boolArreglo :
         tamArreglo = 0
+    else :
+        sumaArr = tamArreglo - 1
     while (len(varListMain) > 0):
         variable = varListMain.pop()
         if(translate(p[-1]) == 1):
+            cantIntLocales += 1 + sumaArr
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_int_locales + cont_int_locales, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_int_locales + tamArreglo
@@ -733,6 +942,7 @@ def p_addTypeMain(p):
                 dir_int_locales.append({'Valor' : 0, 'Direccion' : inicia_int_locales + cont_int_locales, 'Arreglo' : ''})
                 cont_int_locales += 1   
         elif(translate(p[-1]) == 2):
+            cantBoolLocales += 1 + sumaArr
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_bool_locales + cont_bool_locales, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_bool_locales + tamArreglo
@@ -743,6 +953,7 @@ def p_addTypeMain(p):
                 dir_bool_locales.append({'Valor' : '', 'Direccion' : inicia_bool_locales + cont_bool_locales, 'Arreglo' : ''})
                 cont_bool_locales += 1
         elif(translate(p[-1]) == 3): 
+            cantStringLocales += 1 + sumaArr
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_string_locales + cont_string_locales, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_string_locales + tamArreglo
@@ -753,6 +964,7 @@ def p_addTypeMain(p):
                 dir_string_locales.append({'Valor' : '', 'Direccion' : inicia_string_locales + cont_string_locales, 'Arreglo' : ''})
                 cont_string_locales += 1
         elif(translate(p[-1]) == 4):
+            cantFloatLocales += 1 + sumaArr
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_float_locales + cont_float_locales, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_float_locales + tamArreglo
@@ -763,6 +975,7 @@ def p_addTypeMain(p):
                 dir_float_locales.append({'Valor' : 0.0, 'Direccion' : inicia_float_locales + cont_float_locales, 'Arreglo' : ''})
                 cont_float_locales += 1
         elif(translate(p[-1]) == 5):
+            cantCharLocales += 1 + sumaArr
             varDirectoryMain[variable] = {'Tipo' : p[-1], 'Scope' : 'Main', 'Direccion': inicia_char_locales + cont_char_locales, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_char_locales + tamArreglo
@@ -833,12 +1046,21 @@ def p_addTypeFuncion(p):
     global cont_string_funciones
     global tamArr
     global boolArreglo
+    global cantIntFunciones
+    global cantBoolFunciones
+    global cantFloatFunciones
+    global cantCharFunciones
+    global cantStringFunciones
     tamArreglo = int(tamArr)
+    sumaArr = 0
     if not boolArreglo :
         tamArreglo = 0
+    else :
+        sumaArr = tamArreglo - 1
     while (len(varListFuncion) > 0):
         variable = varListFuncion.pop()
         if(translate(p[-1]) == 1):
+            cantIntFunciones += 1 + sumaArr
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_int_funciones + cont_int_funciones, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_int_funciones + tamArreglo
@@ -849,6 +1071,7 @@ def p_addTypeFuncion(p):
                 dir_int_funciones.append({'Valor' : 0, 'Direccion' : inicia_int_funciones + cont_int_funciones, 'Arreglo' : ''})
                 cont_int_funciones += 1
         elif(translate(p[-1]) == 2):
+            cantBoolFunciones += 1 + sumaArr
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_bool_funciones + cont_bool_funciones, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_bool_funciones + tamArreglo
@@ -859,6 +1082,7 @@ def p_addTypeFuncion(p):
                 dir_bool_funciones.append({'Valor' : '', 'Direccion' : inicia_bool_funciones + cont_bool_funciones, 'Arreglo' : ''})
                 cont_bool_funciones += 1
         elif(translate(p[-1]) == 3):
+            cantStringFunciones += 1 + sumaArr
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_string_funciones + cont_string_funciones, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_string_funciones + tamArreglo
@@ -869,6 +1093,7 @@ def p_addTypeFuncion(p):
                 dir_string_funciones.append({'Valor' : '', 'Direccion' : inicia_string_funciones + cont_string_funciones, 'Arreglo' : ''})
                 cont_string_funciones += 1
         elif(translate(p[-1]) == 4):
+            cantFloatFunciones += 1 + sumaArr
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_float_funciones + cont_float_funciones, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_float_funciones + tamArreglo
@@ -879,6 +1104,7 @@ def p_addTypeFuncion(p):
                 dir_float_funciones.append({'Valor' : 0.0, 'Direccion' : inicia_float_funciones + cont_float_funciones, 'Arreglo' : ''})
                 cont_float_funciones += 1
         elif(translate(p[-1]) == 5):
+            cantCharFunciones += 1 + sumaArr
             varDirectoryFunc[variable] = {'Tipo' : p[-1], 'Scope' : 'Funcion', 'Direccion': inicia_char_funciones + cont_char_funciones, 'TamanoArreglo': tamArreglo}
             if boolArreglo :
                 tamWhile = cont_char_funciones + tamArreglo
@@ -907,6 +1133,8 @@ def p_addVariableDirFuncion(p):
         print("Se agrego ")
         varListFuncion.append(p[-1])
         contVarLocFunc += 1
+
+
         
         
 
@@ -1126,10 +1354,22 @@ def p_addProcDirectoryFunc(p):
     '''addProcDirectoryFunc : '''
     global contParametros
     global contVarLocFunc
+    global cantIntFunciones
+    global cantBoolFunciones
+    global cantFloatFunciones
+    global cantCharFunciones
+    global cantStringFunciones
     procDirectory[funcActual]['Variables'] = varDirectoryFunc.copy()
     procDirectory[funcActual]['Tipo'] = p[-7]
     procDirectory[funcActual]['# Parametros'] = contParametros
     procDirectory[funcActual]['Locales'] = contVarLocFunc
+    procDirectory[funcActual]['TamanoMemoria'] = {'Int' : cantIntFunciones, 'Bool' : cantBoolFunciones, 'String' : cantStringFunciones, 'Float' : cantFloatFunciones, 'Char' : cantCharFunciones}
+
+    cantIntFunciones = 0
+    cantBoolFunciones = 0
+    cantFloatFunciones = 0
+    cantCharFunciones = 0
+    cantStringFunciones = 0
 
     #procDirectory[p[-6]] = {'Variables' : varDirectoryFunc.copy(), 'Tipo' : p[-6], 'Parametros' : contParametros, 'Locales' : contVarLocFunc, 'Inicio' : contCuadruplos }
     #varDirectoryFunc.clear()
@@ -1159,6 +1399,11 @@ def p_addParameters(p):
     global contParametros
     global funcActual
     global decNumParametro
+    global cantIntFunciones
+    global cantBoolFunciones
+    global cantFloatFunciones
+    global cantCharFunciones
+    global cantStringFunciones
     if (p[-1] in varDirectoryFunc or p[-1] in varDirectoryMain or p[-1] in varDirectory):
         print("Ya existe la variable")
     else:
@@ -1173,6 +1418,16 @@ def p_addParameters(p):
         parametrosA[varListFuncion.pop()] = {'Valor' : 0, 'Tipo' : p[-2], 'NumParametro' : decNumParametro, 'Direccion': getBaseFuncDirection(translate(p[-2])) + getFuncCounter(translate(p[-2]))}
         changeFuncCounter(translate(p[-2]))
         procDirectory[funcActual]['Parametros'] = parametrosA.copy()
+    if p[-2] == 'int':
+        cantIntFunciones += 1
+    elif p[-2] == 'bool':
+        cantBoolFunciones += 1
+    elif p[-2] == 'string':
+        cantStringFunciones += 1
+    elif p[-2] == 'float':
+        cantFloatFunciones += 1
+    elif p[-2] == 'char':
+        cantCharFunciones += 1
         
 
 def p_ambAuxParamentros(p): #Done
@@ -1184,7 +1439,7 @@ def p_ciclo(p): #Done
     #print("entra a ciclo")
 
 def p_llamada(p): #Done
-    '''llamada : CALL COLON ID paso24 cteLlamada LPAREN auxLlamada RPAREN paso26'''
+    '''llamada : CALL COLON ID paso24 cteLlamada LPAREN paso6 auxLlamada RPAREN paso7 paso26'''
     print("entra a llamada")
 
 def p_auxLlamada(p): #Done
@@ -1380,7 +1635,8 @@ def p_paso4(p):
     #print("Entra paso4")
     global contTemporales
     global contCuadruplos
-    print(funcActual)
+    print("entra a suma aqui")
+    print(pOperandos)
     if pOperadores :
         if pOperadores[-1] == SUMA or pOperadores[-1]== RESTA :
             op = pOperadores.pop()
@@ -1763,29 +2019,31 @@ def p_paso25(p):
     global contCuadruplos
     global numArgumento
     global funcActual
+    print("pOperandos: a ", pOperandos)
     res = pOperandos.pop()
     tipo = pTipos.pop()
-    numArgumento = 1
-    try :
-        print("res:", res)
-        print("osoyogi:", procDirectory[funcActual]['Parametros'])
-        numPar = procDirectory[funcActual]['Parametros'][res]['NumParametro']
-        print("############################")
-        if numPar == numArgumento :
-            tipoParam = translate(procDirectory[funcActual]['Parametros'][res]['Tipo'])
-            if tipo == tipoParam :
-                cuadruplos[contCuadruplos] = [PARAM, translateParameterToDirection(res), "", numArgumento]
-                numArgumento += 1
-                contCuadruplos += 1
-            else :
-                print("Tipo invalido, no se puede")
-                exit()
+    #numArgumento = 1
+    #try :
+    print("res:", res)
+    print("osoyogi:", procDirectory[funcActual]['Parametros'])
+    numPar = procDirectory[funcActual]['Parametros'][res]['NumParametro']
+    print("############################", numPar)
+    if numPar == numArgumento :
+        tipoParam = translate(procDirectory[funcActual]['Parametros'][res]['Tipo'])
+        if tipo == tipoParam :
+            cuadruplos[contCuadruplos] = [PARAM, translateParameterToDirection(res), "", numArgumento]
+            numArgumento += 1
+            contCuadruplos += 1
+            print(cuadruplos)
         else :
-            print("Argumentos invalidos")
+            print("Tipo invalido, no se puede")
             exit()
-    except :
-        print("Error try")
+    else :
+        print("Argumentos invalidos")
         exit()
+    #except :
+        #print("Error try")
+        #exit()
         
 def p_paso26(p):
     '''paso26 : '''
@@ -1830,7 +2088,7 @@ def p_paso27(p):
     #print("tamano arreglo" ,translateToTamano(nombreArreglo))
     res = pOperandos.pop()
     arr = pOperandos.pop()
-
+    pTipos.pop()
     res = translateToDirection(res)  
     cuadruplos[contCuadruplos] = [VER, res, 0, translateToTamano(nombreArreglo) - 1]
     contCuadruplos += 1
@@ -1850,6 +2108,10 @@ def p_pasoFinal(p):
     global contCuadruplos
     cuadruplos[contCuadruplos]=[ENDPROGRAM, '','','']
     contCuadruplos +=1
+    varDirectory['TamanoMemoria'] = {'Int' : cantIntGlobales, 'Bool' : cantBoolGlobales, 'String' : cantStringGlobales, 'Float' : cantFloatGlobales, 'Char' : cantCharGlobales}
+    varDirectoryMain['TamanoMemoria'] = {'Int' : cantIntLocales, 'Bool' : cantBoolLocales, 'String' : cantStringLocales, 'Float' : cantFloatLocales, 'Char' : cantCharLocales}
+    dirCompleto[nombrePrograma] = {'Directorio Globales' : varDirectory, 'Directorio Locales' : varDirectoryMain, 'Directorio Funciones' : procDirectory, 'Directorio Constantes' : dirConstantes}
+    print(dirCompleto)
 
 def p_cteInt(p):
     '''cteInt : '''
@@ -1883,7 +2145,7 @@ def p_cteLlamada(p):
     pTipos.append(translate(procDirectory[p[-2]]['Tipo']))
     pOperandos.append(procDirectory[p[-2]]['Retorno'])
     print(pTipos, "pTipos")
-    print(pOperandos, "pOperandos")
+    print(pOperandos, "pOperandos AQUI")
     print("sale ctellamada")
 
 def p_mayor(p):
@@ -1936,8 +2198,6 @@ def archivo(file):
     print(procDirectory)
     print(cuadruplos)
     maquina()
-    print(dir_int_locales)
-    print(dir_bool_locales)
-    print(dir_bool_temporales)
+    
 
 archivo("test")
