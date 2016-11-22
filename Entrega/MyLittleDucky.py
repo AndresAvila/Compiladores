@@ -656,23 +656,24 @@ def maquina():
 
         if cuadruploActual[0] == OR:
             operando1= cuadruploActual[1]
+
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:  
+                if operando1 >= 26000 and not isinstance(operando1, str):  
                     operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
                 operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:
+                if operando1 >= 26000 and not isinstance(operando1, str):
                     operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
-
+            print("OPERANDO 1 OR: ", operando1)
             operando2= cuadruploActual[2]
             if operando2 >= 1000 and operando2 < 6000:
                 operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
-                if operando2 >= 26000:  
+                if operando2 >= 26000 and not isinstance(operando2, str):  
                     operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
             else:
                 operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
-                if operando2 >= 26000:
+                if operando2 >= 26000 and not isinstance(operando2, str):
                     operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
 
             resultado= cuadruploActual[3]
@@ -686,26 +687,27 @@ def maquina():
                 MemoriaGlobal.setValorDeDireccion(resultado, respuesta)
             else:
                 MemoriaActual.setValorDeDireccion(resultado, respuesta)
+            print("RESULTADO DEL OR",respuesta)
 
         if cuadruploActual[0] == AND:
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:  
+                if operando1 >= 26000 and not isinstance(operando1, str):  
                     operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
                 operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:
+                if operando1 >= 26000 and not isinstance(operando1, str):
                     operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
 
             operando2= cuadruploActual[2]
             if operando2 >= 1000 and operando2 < 6000:
                 operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
-                if operando2 >= 26000:  
+                if operando2 >= 26000 and not isinstance(operando2, str):  
                     operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
             else:
                 operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
-                if operando2 >= 26000:
+                if operando2 >= 26000 and not isinstance(operando2, str):
                     operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
 
             resultado= cuadruploActual[3]
@@ -856,21 +858,21 @@ def maquina():
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:  
+                if operando1 >= 26000 and not isinstance(operando1, str):  
                     operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
                 operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:
+                if operando1 >= 26000 and not isinstance(operando1, str):
                     operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
 
             operando2= cuadruploActual[2]
             if operando2 >= 1000 and operando2 < 6000:
                 operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
-                if operando2 >= 26000:  
+                if operando2 >= 26000 and not isinstance(operando2, str):  
                     operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
             else:
                 operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
-                if operando2 >= 26000:
+                if operando2 >= 26000 and not isinstance(operando2, str):
                     operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
 
             resultado= cuadruploActual[3]
@@ -889,21 +891,21 @@ def maquina():
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:  
+                if operando1 >= 26000 and not isinstance(operando1, str):  
                     operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
                 operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:
+                if operando1 >= 26000 and not isinstance(operando1, str):
                     operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
 
             operando2= cuadruploActual[2]
             if operando2 >= 1000 and operando2 < 6000:
                 operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
-                if operando2 >= 26000:  
+                if operando2 >= 26000 and not isinstance(operando2, str):  
                     operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
             else:
                 operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
-                if operando2 >= 26000:
+                if operando2 >= 26000 and not isinstance(operando2, str):
                     operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
 
             resultado= cuadruploActual[3]
@@ -927,30 +929,30 @@ def maquina():
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:  
+                if operando1 >= 26000 and not isinstance(operando1, str):  
                     operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
                 operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:
+                if operando1 >= 26000 and not isinstance(operando1, str):
                     operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
             resultado= cuadruploActual[3]
 
-            if operando1 == "false":
+            if operando1 == "_false":
                 auxCont = resultado-1
 
         if cuadruploActual[0] == GOTOV:
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:  
+                if operando1 >= 26000 and not isinstance(operando1, str):  
                     operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
                 operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:
+                if operando1 >= 26000 and not isinstance(operando1, str):
                     operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
             resultado= cuadruploActual[3]
 
-            if operando1 == "true":
+            if operando1 == "_true":
                 auxCont = resultado-1
 
         if cuadruploActual[0] == VER:
@@ -972,11 +974,11 @@ def maquina():
             operando1= cuadruploActual[3]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:  
+                if operando1 >= 26000 and not isinstance(operando1, str):  
                     operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
                 operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:
+                if operando1 >= 26000 and not isinstance(operando1, str):
                     operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
             print("resultado del print: ", operando1)
 
@@ -2045,6 +2047,10 @@ def p_paso10(p):
                 contCuadruplos+=1
                 #print(cuadruplos)
             else:
+                print(tipoDer)
+                print(tipoIzq)
+                print(op)
+                print("EJELE", cubo[tipoDer][tipoIzq][op])
                 print("Error arimetico 10 - tipos no validos")
                 exit()
     #print("Sale paso 10")  

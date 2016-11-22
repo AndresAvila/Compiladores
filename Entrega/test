@@ -13,14 +13,12 @@ main {
 	var SADSF,e,AD: string;
 	var s: char;
 	var fl: float;
-
+	ay = 8;
 	x = _true;
 	y = _false;
-	if(x || y){
-		ay = 5;
-		a = 4.0;
-		e = 'pene';
-		s = 'c';
+	while (x == _true){
+		print(ay);
+		x = _false;
 	}
 	
 
