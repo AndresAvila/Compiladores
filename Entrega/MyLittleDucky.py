@@ -590,23 +590,24 @@ def maquina():
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:  
+                if operando1 >= 1000:  
                     operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
                 operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:
+                if operando1 >= 1000:
                     operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
 
             operando2= cuadruploActual[2]
             if operando2 >= 1000 and operando2 < 6000:
                 operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
-                if operando2 >= 26000:  
+                if operando2 >= 1000:  
                     operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
             else:
                 operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
-                if operando2 >= 26000:
+                if operando2 >= 1000:
                     operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
-
+            print("op1", operando1)
+            print("op2", operando2)
             resultado= cuadruploActual[3]
             if resultado >= 1000 and resultado < 6000:
                 MemoriaGlobal.setValorDeDireccion(resultado, operando1-operando2)
@@ -617,21 +618,21 @@ def maquina():
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:  
+                if operando1 >= 1000:  
                     operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
                 operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:
+                if operando1 >= 1000:
                     operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
 
             operando2= cuadruploActual[2]
             if operando2 >= 1000 and operando2 < 6000:
                 operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
-                if operando2 >= 26000:  
+                if operando2 >= 1000:  
                     operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
             else:
                 operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
-                if operando2 >= 26000:
+                if operando2 >= 1000:
                     operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
 
             resultado= cuadruploActual[3]
@@ -644,21 +645,21 @@ def maquina():
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:  
+                if operando1 >= 1000:  
                     operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
                 operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
-                if operando1 >= 26000:
+                if operando1 >= 1000:
                     operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
 
             operando2= cuadruploActual[2]
             if operando2 >= 1000 and operando2 < 6000:
                 operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
-                if operando2 >= 26000:  
+                if operando2 >= 1000:  
                     operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
             else:
                 operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
-                if operando2 >= 26000:
+                if operando2 >= 1000:
                     operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
 
             resultado= cuadruploActual[3]

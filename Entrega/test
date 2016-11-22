@@ -16,11 +16,11 @@ main {
 	var fl: float;
 	ay = 8;
 
-	b[5] = 3;
-	c[2] = b[2 + 3] + b[5];
+	b[5] = 8;
+	c[2] = b[2 + 3] / 4;
 	x = _true;
 	y = _false;
-	while (x == _true){
+	while (x || y){
 		print(ay);
 		x = _false;
 	}
