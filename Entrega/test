@@ -21,8 +21,14 @@ main {
 	var b: int [10];
 	var c: int [15];
 	var SADSF,e,AD: string;
+	var fl: float;
 
+<<<<<<< HEAD
 	a = 4.4 + 3 + 2;
+=======
+	fl = 3.3 + 3 + 2;
+
+>>>>>>> 1e426585ed5d1d4331986463c5e8c70e5e9bb49f
 	
 	
 }

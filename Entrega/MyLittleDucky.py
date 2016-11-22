@@ -356,12 +356,12 @@ class Memoria:
         self.chars = memoria['Char'] * [None]
         
         
-        self.temp_int = 100 * [""]
-        self.temp_bool = 100 * [""]
-        self.temp_string = 100 * [""]
-        self.temp_float = 100 * [""]   
-        self.temp_char = 100 * [""]
-        self.temp_arr = 100 * [""]
+        self.temp_int = 100 * [None]
+        self.temp_bool = 100 * [None]
+        self.temp_string = 100 * [None]
+        self.temp_float = 100 * [None]   
+        self.temp_char = 100 * [None]
+        self.temp_arr = 100 * [None]
         
 
 
@@ -468,7 +468,13 @@ class Memoria:
             i = 0
             while i < cantidad:
                 if constantes[keys[i]]['Direccion'] == direccion:
-                    return keys[i]
+                    if tipo == 'INT':
+                        return int(keys[i])
+                    elif tipo == 'FLOAT':
+                        return float(keys[i])
+                    else:
+                        print(keys[i], "return keysi")
+                        return keys[i]
                 i += 1
 
 
@@ -561,6 +567,7 @@ def maquina():
             print("resultado: ", resultado)
             if resultado >= 1000 and resultado < 6000:
                 MemoriaGlobal.setValorDeDireccion(resultado, operando1+operando2)
+                resupesta = MemoriaGlobal.getValorDeDireccion(resultado)
             else:
                 MemoriaActual.setValorDeDireccion(resultado, operando1+operando2)
 
