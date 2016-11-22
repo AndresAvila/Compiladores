@@ -17,7 +17,7 @@ main {
 	ay = 8;
 
 	b[5] = 3;
-	c[2] = b[2 + 3] + 4;
+	c[2] = b[2 + 3] + b[5];
 	x = _true;
 	y = _false;
 	while (x == _true){
