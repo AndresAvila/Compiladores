@@ -387,6 +387,7 @@ class Memoria:
 
     def scopeDireccion(self, direccion):
         # funcion que regresa el scope y la direccion base de una direccion recibida
+        #print(direccion, "direccion")
         if direccion >= 1000 and direccion < 6000:
             return ['Global', 1000]
 
@@ -394,7 +395,7 @@ class Memoria:
             return ['Local', 6000]
 
         elif direccion >= 11000 and direccion < 16000:
-            return ['Funciones', 11000]
+            return ['Funcion', 11000]
 
         elif direccion >= 16000 and direccion < 21000:
             return ['Temporales', 16000]
@@ -409,7 +410,7 @@ class Memoria:
 
     def memoriaActual(self, scope, tipo):
         # funcion que regresa la memoria requerida en base al scope
-        if scope == 'Global' or scope == 'Funcion' or scope == 'Local':
+        if scope == 'Global' or scope == 'Funcion' or scope == 'Local' or scope == 'Constantes':
             if tipo == 'INT':
                 return self.ints
             elif tipo == 'BOOL':
@@ -440,13 +441,15 @@ class Memoria:
 
 
 
+
+
     def getValorDeDireccion(self, direccion, constantes):
 
         # funcion que regresa el valor almacenado en memoria al recibir una direccion
         scope = self.scopeDireccion(direccion)[0]
-
+        #print("scope a", scope)
         tipo = self.offsetDireccion(direccion)[0]
-        #print("scope ", scope)
+        
         #print("tipo ", tipo)
         if scope != 'Constantes': # si no es una constante, busca en la misma memoria
             dirBase = self.scopeDireccion(direccion)[1]
@@ -455,6 +458,7 @@ class Memoria:
             #print("dirBase ", dirBase)
             #print("offset ", offset)
             real = direccion - dirBase - offset
+            #print(real, "real")
             mem = self.memoriaActual(scope, tipo)
             #print("mem......", mem)
             if real >= len(mem):
@@ -480,6 +484,7 @@ class Memoria:
 
     def setValorDeDireccion(self, direccion, valor):
         #print(direccion, " direccion")
+        #print(valor, " valor")
         scope = self.scopeDireccion(direccion)[0]
         #print(scope, " scope")
         tipo = self.offsetDireccion(direccion)[0]
@@ -492,19 +497,29 @@ class Memoria:
         #print(real, " real")
         mem = self.memoriaActual(scope, tipo)
         #print(mem, " mem")
+        boolCons = True
         if real >= len(mem):
+            if direccion >= 21000 and direccion < 26000:
+                mem.pop()
+                mem.append(valor)
+                #print(mem, "mem aqui")
+                boolCons = False
+            else:
                 print("Error: direccion no existente.")
                 exit()
-        mem[real] = valor
+        if boolCons:
+            mem[real] = valor
 
 
 def maquina():
     auxCont = 40001
-    pilaMemorias = {}
+    pilaMemorias = []
+    saltos = []
     MemoriaGlobal = Memoria("Global", dirCompleto[dirCompleto.keys()[0]]['Directorio Globales']['TamanoMemoria'])
     MemoriaActual = Memoria("Main", dirCompleto[dirCompleto.keys()[0]]['Directorio Locales']['TamanoMemoria'])
     MemoriaNueva = ""
     constantes = dirConstantes
+    retVal = None
 
     while cuadruplos[auxCont][0] != ENDPROGRAM:
         cuadruploActual = cuadruplos[auxCont]
@@ -547,6 +562,7 @@ def maquina():
         if cuadruploActual[0] == SUMA:
             cuadruploAnterior = cuadruplos[auxCont-1]
             operando1= cuadruploActual[1]
+            print(operando1, "op1")
             if operando1 >= 1000 and operando1 < 6000:
                 if operando1 >= 26000:  
                     operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -557,7 +573,7 @@ def maquina():
                     operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
                 if cuadruploAnterior[0] != VER: 
                     operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
-                
+            print(operando1, "op1")   
 
             operando2= cuadruploActual[2]
             if operando2 >= 1000 and operando2 < 6000:
@@ -573,7 +589,7 @@ def maquina():
                 if operando2 >= 1000:
                     operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
 
-                
+            print(operando1, " operando1 ", operando2, " operando2" )    
             respuesta = operando1 + operando2
             resultado = cuadruploActual[3]
             if resultado >= 1000 and resultado < 6000:
@@ -996,11 +1012,46 @@ def maquina():
                     operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
             print("resultado del print: ", operando1)
 
+
+        if cuadruploActual[0] == ERA:
+            nombreFuncion = cuadruploActual[1]
+            memoria = dirCompleto[dirCompleto.keys()[0]]['Directorio Funciones'][nombreFuncion]['TamanoMemoria']
+            print(memoria)
+            MemoriaNueva = Memoria(nombreFuncion, memoria)
+
+
+        if cuadruploActual[0] == GOSUB:
+            saltos.append(auxCont)
+            salto = cuadruploActual[1]
+            auxCont = salto - 1
+            pilaMemorias.append(MemoriaActual)
+            MemoriaActual = MemoriaNueva
         
+        if cuadruploActual[0] == RETURN:
+            valor = cuadruploActual[3]
+            if valor >= 1000 and valor < 6000:
+                retorno = MemoriaGlobal.getValorDeDireccion(valor, constantes)
+            else:
+                retorno = MemoriaActual.getValorDeDireccion(valor, constantes)
+            retVal = retorno
 
+        if cuadruploActual[0] == RET:
+            MemoriaActual = pilaMemorias.pop()
+            auxCont = saltos.pop()
 
-
-
+        if cuadruploActual[0] == PARAM:
+            operando1 = cuadruploActual[1]
+            resultado = cuadruploActual[3]
+            #if resultado >= 26000:  
+                #resultado = MemoriaActual.getValorDeDireccion(resultado, constantes)
+            print("parametro ", resultado)
+            if operando1 >= 1000 and operando1 < 6000:
+                valor = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+            else:
+                valor = MemoriaActual.getValorDeDireccion(operando1, constantes)
+            print(valor, " valor")
+            print(operando1, " ope1")
+            MemoriaNueva.setValorDeDireccion(resultado, valor)
 
         auxCont += 1
 
@@ -1616,7 +1667,7 @@ def p_cicloFuncion(p): #Done
         | '''
 
 def p_funcion(p): #Done
-    '''funcion : FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23'''
+    '''funcion : FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso23 paso22 '''
 
 def p_addProcDirectoryFunc(p):
     '''addProcDirectoryFunc : '''
@@ -2272,7 +2323,7 @@ def p_paso24(p):
     funcActual = p[-1]
     if p[-1] in procDirectory :
         print("La funcion existe en procDirectory")
-        cuadruplos[contCuadruplos] = [ERA, procDirectory[funcActual]['# Parametros'] + procDirectory[funcActual]['Locales'], "", ""]
+        cuadruplos[contCuadruplos] = [ERA, funcActual , "", ""]
         contCuadruplos += 1
         numArgumento = 1
     else:
@@ -2298,21 +2349,33 @@ def p_paso25(p):
     #try :
     print("res:", res)
     print("osoyogi:", procDirectory[funcActual]['Parametros'])
-    numPar = procDirectory[funcActual]['Parametros'][res]['NumParametro']
-    print("############################", numPar)
-    if numPar == numArgumento :
-        tipoParam = translate(procDirectory[funcActual]['Parametros'][res]['Tipo'])
-        if tipo == tipoParam :
-            cuadruplos[contCuadruplos] = [PARAM, translateParameterToDirection(res), "", numArgumento]
-            numArgumento += 1
-            contCuadruplos += 1
-            print(cuadruplos)
-        else :
-            print("Tipo invalido, no se puede")
-            exit()
-    else :
-        print("Argumentos invalidos")
-        exit()
+    #print(procDirectory[funcActual]['Parametros'][res]['NumParametro'])
+    #print("print de direccion param ", procDirectory[funcActual]['Parametros'][res]['Direccion'])
+    #print(numArgumento)
+    #print(numPar)
+    parametro = ""
+    print("AQUIIIIIIIIIIII", procDirectory[funcActual]['Parametros'])
+
+    for key in procDirectory[funcActual]['Parametros']:
+        if procDirectory[funcActual]['Parametros'][key]['NumParametro'] == numArgumento:
+            parametro = procDirectory[funcActual]['Parametros'][key]['Direccion']
+
+    print("DIRECCION PARAMETRO", parametro)
+
+    #print("############################", numPar)
+    #if numPar == numArgumento :
+        #tipoParam = translate(procDirectory[funcActual]['Parametros'][res]['Tipo'])
+        #if tipo == tipoParam :
+    cuadruplos[contCuadruplos] = [PARAM, translateToDirection(res), "", parametro]
+    numArgumento += 1
+    contCuadruplos += 1
+    print(cuadruplos)
+    #     else :
+    #         print("Tipo invalido, no se puede")
+    #         exit()
+    # else :
+    #     print("Argumentos invalidos")
+    #     exit()
     #except :
         #print("Error try")
         #exit()

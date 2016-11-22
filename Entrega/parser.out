@@ -113,7 +113,7 @@ Rule 107   auxVarcte -> LBRACKET paso6b exp RBRACKET paso7b paso27
 Rule 108   auxVarcte -> <empty>
 Rule 109   cicloFuncion -> funcion cicloFuncion
 Rule 110   cicloFuncion -> <empty>
-Rule 111   funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
+Rule 111   funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso23 paso22
 Rule 112   addProcDirectoryFunc -> <empty>
 Rule 113   initDicFunc -> <empty>
 Rule 114   auxFunction -> parametros
@@ -431,7 +431,7 @@ state 7
     (1) programa -> PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars . cicloFuncion MAIN paso20 bloque pasoFinal
     (109) cicloFuncion -> . funcion cicloFuncion
     (110) cicloFuncion -> .
-    (111) funcion -> . FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
+    (111) funcion -> . FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso23 paso22
 
     MAIN            reduce using rule 110 (cicloFuncion -> .)
     FUNCTION        shift and go to state 11
@@ -467,7 +467,7 @@ state 10
     (109) cicloFuncion -> funcion . cicloFuncion
     (109) cicloFuncion -> . funcion cicloFuncion
     (110) cicloFuncion -> .
-    (111) funcion -> . FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
+    (111) funcion -> . FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso23 paso22
 
     MAIN            reduce using rule 110 (cicloFuncion -> .)
     FUNCTION        shift and go to state 11
@@ -477,7 +477,7 @@ state 10
 
 state 11
 
-    (111) funcion -> FUNCTION . tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
+    (111) funcion -> FUNCTION . tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso23 paso22
     (13) tipo -> . INT ambAuxTipo1
     (14) tipo -> . BOOL ambAuxTipo1
     (15) tipo -> . STRING ambAuxTipo1
@@ -555,7 +555,7 @@ state 17
 
 state 18
 
-    (111) funcion -> FUNCTION tipo . ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
+    (111) funcion -> FUNCTION tipo . ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso23 paso22
 
     ID              shift and go to state 30
 
@@ -670,7 +670,7 @@ state 29
 
 state 30
 
-    (111) funcion -> FUNCTION tipo ID . initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
+    (111) funcion -> FUNCTION tipo ID . initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso23 paso22
     (113) initDicFunc -> .
 
     LPAREN          reduce using rule 113 (initDicFunc -> .)
@@ -747,7 +747,7 @@ state 37
 
 state 38
 
-    (111) funcion -> FUNCTION tipo ID initDicFunc . LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
+    (111) funcion -> FUNCTION tipo ID initDicFunc . LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso23 paso22
 
     LPAREN          shift and go to state 45
 
@@ -817,7 +817,7 @@ state 44
 
 state 45
 
-    (111) funcion -> FUNCTION tipo ID initDicFunc LPAREN . auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
+    (111) funcion -> FUNCTION tipo ID initDicFunc LPAREN . auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso23 paso22
     (114) auxFunction -> . parametros
     (115) auxFunction -> .
     (116) parametros -> . auxParametros
@@ -933,7 +933,7 @@ state 53
 
 state 54
 
-    (111) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction . RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23
+    (111) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction . RPAREN bloqueFuncion addProcDirectoryFunc paso23 paso22
 
     RPAREN          shift and go to state 72
 
@@ -1118,7 +1118,7 @@ state 71
 
 state 72
 
-    (111) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN . bloqueFuncion addProcDirectoryFunc paso22 paso23
+    (111) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN . bloqueFuncion addProcDirectoryFunc paso23 paso22
     (35) bloqueFuncion -> . LBRACE cicloVarsFuncion paso21 cicloBloqueFuncion RETURN expresion SEMICOLON RBRACE
 
     LBRACE          shift and go to state 83
@@ -1304,7 +1304,7 @@ state 83
 
 state 84
 
-    (111) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion . addProcDirectoryFunc paso22 paso23
+    (111) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion . addProcDirectoryFunc paso23 paso22
     (112) addProcDirectoryFunc -> .
 
     FUNCTION        reduce using rule 112 (addProcDirectoryFunc -> .)
@@ -1723,13 +1723,13 @@ state 110
 
 state 111
 
-    (111) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc . paso22 paso23
-    (157) paso22 -> .
+    (111) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc . paso23 paso22
+    (158) paso23 -> .
 
-    FUNCTION        reduce using rule 157 (paso22 -> .)
-    MAIN            reduce using rule 157 (paso22 -> .)
+    FUNCTION        reduce using rule 158 (paso23 -> .)
+    MAIN            reduce using rule 158 (paso23 -> .)
 
-    paso22                         shift and go to state 151
+    paso23                         shift and go to state 151
 
 state 112
 
@@ -2365,13 +2365,13 @@ state 150
 
 state 151
 
-    (111) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 . paso23
-    (158) paso23 -> .
+    (111) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso23 . paso22
+    (157) paso22 -> .
 
-    FUNCTION        reduce using rule 158 (paso23 -> .)
-    MAIN            reduce using rule 158 (paso23 -> .)
+    FUNCTION        reduce using rule 157 (paso22 -> .)
+    MAIN            reduce using rule 157 (paso22 -> .)
 
-    paso23                         shift and go to state 188
+    paso22                         shift and go to state 188
 
 state 152
 
@@ -3145,10 +3145,10 @@ state 187
 
 state 188
 
-    (111) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23 .
+    (111) funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso23 paso22 .
 
-    FUNCTION        reduce using rule 111 (funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23 .)
-    MAIN            reduce using rule 111 (funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso22 paso23 .)
+    FUNCTION        reduce using rule 111 (funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso23 paso22 .)
+    MAIN            reduce using rule 111 (funcion -> FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso23 paso22 .)
 
 
 state 189
