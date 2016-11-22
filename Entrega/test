@@ -13,12 +13,17 @@ function int dos (int f) {
 
 	
 main {
+	var a: float;
+	var ay: int;
+	var x: bool;
+	var y: bool;
+	var z: bool;
 	var b: int [10];
 	var c: int [15];
 	var SADSF,e,AD: string;
 
-	c[2 + 4] = 5;
-	b[3] = c[6];
+	a = 4.4 + 3 + 2;
+	
 	
 }
 
