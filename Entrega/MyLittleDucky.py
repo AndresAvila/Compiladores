@@ -677,10 +677,10 @@ def maquina():
 
             resultado= cuadruploActual[3]
             respuesta= "error"
-            if operando1=="true" or operando2=="true":
-                respuesta="true"
+            if operando1=="_true" or operando2=="_true":
+                respuesta="_true"
             else:
-                respuesta="false"
+                respuesta="_false"
 
             if resultado >= 1000 and resultado < 6000:
                 MemoriaGlobal.setValorDeDireccion(resultado, respuesta)
@@ -689,112 +689,234 @@ def maquina():
 
         if cuadruploActual[0] == AND:
             operando1= cuadruploActual[1]
-            operando1= getValue(operando1)
-            operando2= cuadruploActual[2]
-            operando2= getValue(operando2)
-            resultado= cuadruploActual[3]
-
-            if (operando1=="true" and operando2=="true"):
-                setValue(resultado, "true")
+            if operando1 >= 1000 and operando1 < 6000:
+                operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:  
+                    operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
-                setValue(resultado, "false")
+                operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:
+                    operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+
+            operando2= cuadruploActual[2]
+            if operando2 >= 1000 and operando2 < 6000:
+                operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
+                if operando2 >= 26000:  
+                    operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
+            else:
+                operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
+                if operando2 >= 26000:
+                    operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
+
+            resultado= cuadruploActual[3]
+            respuesta= "error"
+            if operando1=="_true" and operando2=="_true":
+                respuesta="_true"
+            else:
+                respuesta="_false"
+
+            if resultado >= 1000 and resultado < 6000:
+                MemoriaGlobal.setValorDeDireccion(resultado, respuesta)
+            else:
+                MemoriaActual.setValorDeDireccion(resultado, respuesta)
 
         if cuadruploActual[0] == MAYOR:
             operando1= cuadruploActual[1]
-            if operando1 >= 26000:  
-                operando1 = getValue(operando1)
-            operando1= getValue(operando1)
-            operando2= cuadruploActual[2]
-            if operando2 >= 26000:  
-                operando2 = getValue(operando2)
-            operando2= getValue(operando2)
-            resultado= cuadruploActual[3]
-
-            if (operando1>operando2):
-                setValue(resultado, "true")
+            if operando1 >= 1000 and operando1 < 6000:
+                operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:  
+                    operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
-                setValue(resultado, "false")
+                operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:
+                    operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+
+            operando2= cuadruploActual[2]
+            if operando2 >= 1000 and operando2 < 6000:
+                operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
+                if operando2 >= 26000:  
+                    operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
+            else:
+                operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
+                if operando2 >= 26000:
+                    operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
+
+            resultado= cuadruploActual[3]
+            respuesta= "error"
+            if operando1>operando2:
+                respuesta="_true"
+            else:
+                respuesta="_false"
+
+            if resultado >= 1000 and resultado < 6000:
+                MemoriaGlobal.setValorDeDireccion(resultado, respuesta)
+            else:
+                MemoriaActual.setValorDeDireccion(resultado, respuesta)
 
         if cuadruploActual[0] == MENOR:
             operando1= cuadruploActual[1]
-            if operando1 >= 26000:  
-                operando1 = getValue(operando1)
-            operando1= getValue(operando1)
-            operando2= cuadruploActual[2]
-            if operando2 >= 26000:  
-                operando2 = getValue(operando2)
-            operando2= getValue(operando2)
-            resultado= cuadruploActual[3]
-
-            if (operando1<operando2):
-                setValue(resultado, "true")
+            if operando1 >= 1000 and operando1 < 6000:
+                operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:  
+                    operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
-                setValue(resultado, "false")
+                operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:
+                    operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+
+            operando2= cuadruploActual[2]
+            if operando2 >= 1000 and operando2 < 6000:
+                operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
+                if operando2 >= 26000:  
+                    operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
+            else:
+                operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
+                if operando2 >= 26000:
+                    operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
+
+            resultado= cuadruploActual[3]
+            respuesta= "error"
+            if operando1<operando2:
+                respuesta="_true"
+            else:
+                respuesta="_false"
+
+            if resultado >= 1000 and resultado < 6000:
+                MemoriaGlobal.setValorDeDireccion(resultado, respuesta)
+            else:
+                MemoriaActual.setValorDeDireccion(resultado, respuesta)
 
         if cuadruploActual[0] == MAYORIG:
             operando1= cuadruploActual[1]
-            if operando1 >= 26000:  
-                operando1 = getValue(operando1)
-            operando1= getValue(operando1)
-            operando2= cuadruploActual[2]
-            if operando2 >= 26000:  
-                operando2 = getValue(operando2)
-            operando2= getValue(operando2)
-            resultado= cuadruploActual[3]
-
-            if (operando1>=operando2):
-                setValue(resultado, "true")
+            if operando1 >= 1000 and operando1 < 6000:
+                operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:  
+                    operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
-                setValue(resultado, "false")
+                operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:
+                    operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+
+            operando2= cuadruploActual[2]
+            if operando2 >= 1000 and operando2 < 6000:
+                operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
+                if operando2 >= 26000:  
+                    operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
+            else:
+                operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
+                if operando2 >= 26000:
+                    operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
+
+            resultado= cuadruploActual[3]
+            respuesta= "error"
+            if operando1>=operando2:
+                respuesta="_true"
+            else:
+                respuesta="_false"
+
+            if resultado >= 1000 and resultado < 6000:
+                MemoriaGlobal.setValorDeDireccion(resultado, respuesta)
+            else:
+                MemoriaActual.setValorDeDireccion(resultado, respuesta)
 
         if cuadruploActual[0] == MENORIG:
             operando1= cuadruploActual[1]
-            if operando1 >= 26000:  
-                operando1 = getValue(operando1)
-            operando1= getValue(operando1)
-            operando2= cuadruploActual[2]
-            if operando2 >= 26000:  
-                operando2 = getValue(operando2)
-            operando2= getValue(operando2)
-            resultado= cuadruploActual[3]
-
-            if (operando1<=operando2):
-                setValue(resultado, "true")
+            if operando1 >= 1000 and operando1 < 6000:
+                operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:  
+                    operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
-                setValue(resultado, "false")
+                operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:
+                    operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+
+            operando2= cuadruploActual[2]
+            if operando2 >= 1000 and operando2 < 6000:
+                operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
+                if operando2 >= 26000:  
+                    operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
+            else:
+                operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
+                if operando2 >= 26000:
+                    operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
+
+            resultado= cuadruploActual[3]
+            respuesta= "error"
+            if operando1<=operando2:
+                respuesta="_true"
+            else:
+                respuesta="_false"
+
+            if resultado >= 1000 and resultado < 6000:
+                MemoriaGlobal.setValorDeDireccion(resultado, respuesta)
+            else:
+                MemoriaActual.setValorDeDireccion(resultado, respuesta)
 
         if cuadruploActual[0] == IGUAL:
             operando1= cuadruploActual[1]
-            if operando1 >= 26000:  
-                operando1 = getValue(operando1)
-            operando1= getValue(operando1)
-            operando2= cuadruploActual[2]
-            if operando2 >= 26000:  
-                operando2 = getValue(operando2)
-            operando2= getValue(operando2)
-            resultado= cuadruploActual[3]
-
-            if (operando1==operando2):
-                setValue(resultado, "true")
+            if operando1 >= 1000 and operando1 < 6000:
+                operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:  
+                    operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
-                setValue(resultado, "false")
+                operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:
+                    operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+
+            operando2= cuadruploActual[2]
+            if operando2 >= 1000 and operando2 < 6000:
+                operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
+                if operando2 >= 26000:  
+                    operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
+            else:
+                operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
+                if operando2 >= 26000:
+                    operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
+
+            resultado= cuadruploActual[3]
+            respuesta= "error"
+            if operando1==operando2:
+                respuesta="_true"
+            else:
+                respuesta="_false"
+
+            if resultado >= 1000 and resultado < 6000:
+                MemoriaGlobal.setValorDeDireccion(resultado, respuesta)
+            else:
+                MemoriaActual.setValorDeDireccion(resultado, respuesta)
 
         if cuadruploActual[0] == DIF:
             operando1= cuadruploActual[1]
-            if operando1 >= 26000:  
-                operando1 = getValue(operando1)
-            operando1= getValue(operando1)
-            operando2= cuadruploActual[2]
-            if operando2 >= 26000:  
-                operando2 = getValue(operando2)
-            operando2= getValue(operando2)
-            resultado= cuadruploActual[3]
-            print(operando1)
-            print(operando2)
-            if (operando1==operando2):
-                setValue(resultado, "false")
+            if operando1 >= 1000 and operando1 < 6000:
+                operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:  
+                    operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
             else:
-                setValue(resultado, "true")
+                operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:
+                    operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+
+            operando2= cuadruploActual[2]
+            if operando2 >= 1000 and operando2 < 6000:
+                operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
+                if operando2 >= 26000:  
+                    operando2 = MemoriaGlobal.getValorDeDireccion(operando2, constantes)
+            else:
+                operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
+                if operando2 >= 26000:
+                    operando2 = MemoriaActual.getValorDeDireccion(operando2, constantes)
+
+            resultado= cuadruploActual[3]
+            respuesta= "error"
+            if operando1==operando2:
+                respuesta="_false"
+            else:
+                respuesta="_true"
+
+            if resultado >= 1000 and resultado < 6000:
+                MemoriaGlobal.setValorDeDireccion(resultado, respuesta)
+            else:
+                MemoriaActual.setValorDeDireccion(resultado, respuesta)
 
         if cuadruploActual[0] == GOTO:
             resultado = cuadruploActual[3]
@@ -803,7 +925,14 @@ def maquina():
 
         if cuadruploActual[0] == GOTOF:
             operando1= cuadruploActual[1]
-            operando1= getValue(operando1)
+            if operando1 >= 1000 and operando1 < 6000:
+                operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:  
+                    operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+            else:
+                operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:
+                    operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
             resultado= cuadruploActual[3]
 
             if operando1 == "false":
@@ -811,25 +940,44 @@ def maquina():
 
         if cuadruploActual[0] == GOTOV:
             operando1= cuadruploActual[1]
-            operando1= getValue(operando1)
+            if operando1 >= 1000 and operando1 < 6000:
+                operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:  
+                    operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+            else:
+                operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:
+                    operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
             resultado= cuadruploActual[3]
 
             if operando1 == "true":
                 auxCont = resultado-1
 
         if cuadruploActual[0] == VER:
-            operador1 = cuadruploActual[1]
-            operador1 = getValue(operador1)
+            operando1= cuadruploActual[1]
+            if operando1 >= 1000 and operando1 < 6000:
+                operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:  
+                    operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+            else:
+                operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:
+                    operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
             operador2 = cuadruploActual[3]
             if operador1 > operador2 or operador1 < 0:
                 print("fuera de rango")
                 exit() 
 
         if cuadruploActual[0] == PRINT:
-            operando1 = cuadruploActual[3]
-            if operando1 >= 26000:  
-                operando1 = getValue(operando1)
-            operando1 = getValue(operando1)
+            operando1= cuadruploActual[3]
+            if operando1 >= 1000 and operando1 < 6000:
+                operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:  
+                    operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
+            else:
+                operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
+                if operando1 >= 26000:
+                    operando1 = MemoriaActual.getValorDeDireccion(operando1, constantes)
             print("resultado del print: ", operando1)
 
         
