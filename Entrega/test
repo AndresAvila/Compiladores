@@ -20,15 +20,13 @@ main {
 	var z: bool;
 	var b: int [10];
 	var c: int [15];
+	var aya: int;
 	var SADSF,e,AD: string;
 	var s: char;
 	var fl: float;
 
-	x = _true;
-	ay = 5;
-	a = 4.0;
-	e = 'pene';
-	s = 'c';
+	b[5] = 3;
+	c[2] = b[2 + 3] + 4;
 
 	
 	
