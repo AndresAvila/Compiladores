@@ -16,9 +16,11 @@ main {
 	var b: int [10];
 	var c: int [15];
 	var SADSF,e,AD: string;
+	var fl: float;
 
-	c[2 + 4] = 5;
-	b[3] = c[6];
+	fl = 3.3 + 3 + 2;
+
+	
 	
 }
 

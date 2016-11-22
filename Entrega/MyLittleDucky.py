@@ -349,19 +349,19 @@ class Memoria:
     def __init__(self, name, memoria):
         self.name  = name
         # inicializa la memoria por tipo de datos
-        self.ints  = memoria['Int'] * [""]
-        self.bools = memoria['Bool'] * [""]
-        self.strings = memoria['String'] * [""]
-        self.floats = memoria['Float'] * [""]
-        self.chars = memoria['Char'] * [""]
+        self.ints  = memoria['Int'] * [None]
+        self.bools = memoria['Bool'] * [None]
+        self.strings = memoria['String'] * [None]
+        self.floats = memoria['Float'] * [None]
+        self.chars = memoria['Char'] * [None]
         
         
-        self.temp_int = 100 * [""]
-        self.temp_bool = 100 * [""]
-        self.temp_string = 100 * [""]
-        self.temp_float = 100 * [""]   
-        self.temp_char = 100 * [""]
-        self.temp_arr = 100 * [""]
+        self.temp_int = 100 * [None]
+        self.temp_bool = 100 * [None]
+        self.temp_string = 100 * [None]
+        self.temp_float = 100 * [None]   
+        self.temp_char = 100 * [None]
+        self.temp_arr = 100 * [None]
         
 
 
@@ -467,7 +467,14 @@ class Memoria:
             i = 0
             while i < cantidad:
                 if constantes[keys[i]]['Direccion'] == direccion:
-                    return int(keys[i])
+                    if tipo == 'INT':
+                        return int(keys[i])
+                    elif tipo == 'FLOAT':
+                        return float(keys[i])
+                    else:
+                        print(keys[i], "return keysi")
+                        return keys[i]
+                    
                 i += 1
 
 
@@ -515,10 +522,10 @@ def maquina():
             else:
                 operando1= MemoriaActual.getValorDeDireccion(operando1, constantes)
                 if resultado >= 26000:
-                    resultado = MemoriaGlobal.getValorDeDireccion(resultado, constantes)
+                    resultado = MemoriaActual.getValorDeDireccion(resultado, constantes)
                     print("resultado.....", resultado)
-            if operando1 >= 1000:
-                operando1= getValue(operando1)
+            #if operando1 >= 1000:
+                #operando1= getValue(operando1)
             
             
             if operando1 >= 1000 and operando1 < 6000:
@@ -565,6 +572,7 @@ def maquina():
             print("resultado: ", resultado)
             if resultado >= 1000 and resultado < 6000:
                 MemoriaGlobal.setValorDeDireccion(resultado, operando1+operando2)
+                resupesta = MemoriaGlobal.getValorDeDireccion(resultado)
             else:
                 MemoriaActual.setValorDeDireccion(resultado, operando1+operando2)
 
