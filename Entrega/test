@@ -10,17 +10,20 @@ main {
 	var z: bool;
 	var b: int [10];
 	var c: int [15];
+	var aya: int;
 	var SADSF,e,AD: string;
 	var s: char;
 	var fl: float;
 	ay = 8;
+
+	b[5] = 3;
+	c[2] = b[2 + 3] + 4;
 	x = _true;
 	y = _false;
 	while (x == _true){
 		print(ay);
 		x = _false;
 	}
-	
 
 	
 	
