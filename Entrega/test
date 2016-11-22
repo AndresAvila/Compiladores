@@ -2,16 +2,6 @@ program gg;
 var ya, tu, el: int;
 var al : int[3];
 
-
-function int func (int d) {
-	var x: int;
-	return d;
-}
-function int dos (int f) {
-	return f;
-}
-
-	
 main {
 	var a: float;
 	var ay: int;
@@ -27,6 +17,14 @@ main {
 
 	b[5] = 3;
 	c[2] = b[2 + 3] + 4;
+	x = _true;
+	y = _false;
+	if(x || y){
+		ay = 5;
+		a = 4.0;
+		e = 'pene';
+		s = 'c';
+	}
 
 	
 	
