@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Loopy</title>
+  <script src="blockly_uncompressed.js"></script>
+  <script src="generators/javascript.js"></script>
+  <script src="generators/javascript/logic.js"></script>
+  <script src="generators/javascript/loops.js"></script>
+  <script src="generators/javascript/math.js"></script>
+  <script src="generators/javascript/text.js"></script>
+  <script src="generators/javascript/lists.js"></script>
+  <script src="generators/javascript/variables.js"></script>
+  <script src="generators/javascript/functions.js"></script>
+  <script src="generators/javascript/program.js"></script>
+  <script src="generators/javascript/prueba.js"></script>
+  <script src="msg/messages.js"></script>
+  <script src="blocks/logic.js"></script>
+  <script src="blocks/loops.js"></script>
+  <script src="blocks/math.js"></script>
+  <script src="blocks/text.js"></script>
+  <script src="blocks/lists.js"></script>
+  <script src="blocks/variables.js"></script>
+  <script src="blocks/functions.js"></script>
+  <script src="blocks/program.js"></script>
+  <script src="blocks/prueba.js"></script>
+  <script src="script.js"></script>
+  <link rel="stylesheet" href="style.css" media="screen" title="no title" charset="utf-8">
+</head>
+
+<body onload="start()">
+
+  <div id="collaborators"></div>
+  <div id="blocklyDiv"></div>
+
+  <xml id="toolbox" style="display: none">
+
+    <category name="Programa" colour="20">
+      <block type="program"></block>
+      <block type="main"></block>
+    </category>
+
+    <category name="Funciones" colour="65">
+      <block type="function"></block>
+      <block type="unparametro"></block>
+      <block type="masparam"></block>
+      <block type="llamada"></block>
+      <block type="return"></block>
+    </category>
+    
+    <category name="Variables" colour="210">
+      <block type="assignment"></block>
+      
+      <block type="var"></block>
+      <block type="var_coma"></block>
+      <block type="decvariables"></block>
+      <block type="decarreglos"></block>
+      <block type="asigarr"></block>
+    </category>
+
+    <category name="Numéricos" colour="230">
+      <block type="math_number" gap="32"></block>
+      <block type="math_arithmetic">
+      <block type="math_arithmetic_more">
+    </category>
+
+    <category name="Texto" colour="160">      
+      <block type="char_var"></block>
+      <block type="char_var_dos"></block>
+      <block type="print"></block>
+     
+
+    </category>
+
+    <category name="Lógica" colour="0">
+      <block type="logic_boolean"></block>
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+    </category>
+    
+
+    <category name="Ciclo" colour="120">
+      <block type="controls_whileUntil"></block>
+    </category>
+
+    
+  </xml>
+
+  <h1>Loopy</h1>
+
+ <p>
+    <input type="button" value="Export to XML" onclick="toXml()">
+    &nbsp;
+    <input type="button" value="Import from XML" onclick="fromXml()" id="import">
+    <br><br>
+    <input type="button" value="To JavaScrit" onclick="toCode('JavaScript')">
+    &nbsp;
+    <input type="button" value="Make File" onclick="makeFile()">
+    <br><br>
+    <textarea id="importExport" style="width: 26%; height: 40em"
+      onchange="taChange();" onkeyup="taChange()"></textarea>
+  </p>
+
+  <script type="text/javascript">
+    function makeFile() {
+      var text = document.getElementById("importExport");
+      console.log(text.value);
+      text_file(text.value);
+      function text_file(text) {
+        var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, "test.txt");
+      }
+    }
+  </script>
+
+</body>
+</html>
+
