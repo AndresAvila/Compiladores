@@ -13,7 +13,10 @@ function int fact(int n) {
 
 main {
 	var a: int;
+	var b,c: string;
+	b = 'El factorial de:';
+	c = 'Es:';
 	a = call:fact(4);
-	
+	print(b,4,c,a);
 }
 

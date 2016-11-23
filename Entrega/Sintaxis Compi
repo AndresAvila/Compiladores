@@ -1,10 +1,10 @@
 Sintaxis Compiladores
 
-PROGRAMA ::= 'program' 'id' ';' VARS* (FUNCIÓN)* BLOQUE
+PROGRAMA ::= 'program' 'id' ';' VARS* (FUNCIÓN)* 'main' BLOQUE
 VARS ::= 'var' ( 'id' ( ',' 'id' )* ':' TIPO ';' )+
 TIPO ::= (('int'|'bool'|'string'| 'float') ('[' 'cte int' ']')+) | char
 BLOQUE ::= '{' ESTATUTO* '}'
-ESTATUTO ::= ASIGNACIÓN | CONDICIÓN | ESCRITURA | LECTURA | LLAMADA | CICLO
+ESTATUTO ::= ASIGNACIÓN | CONDICIÓN | ESCRITURA | CICLO
 ASIGNACIÓN ::= 'id' ('[' EXP ']')? '=' EXP ';'
 ESCRITURA ::= 'print' '(' (EXP | 'cte string')(',' (EXP | 'cte string'))* ')' ';'
 EXPRESIÓN ::= EXP (('>' | '<' | '<>' | '>=' | '<=' | '==')EXP)?
@@ -12,10 +12,9 @@ CONDICIÓN ::= 'if' '(' EXPRESIÓN ')' BLOQUE ('else' BLOQUE)?
 EXP ::= TÉRMINO (( '+' | '-' )TÉRMINO)*
 TÉRMINO ::= FACTOR (( '*' | '/' )FACTOR)*
 FACTOR ::= '(' EXP ')' | ( '+' | '-' )? VAR_CTE
-VAR_CTE ::= 'id' (('(' EXP ')')|('[' EXP ']'))? | 'cte int' | 'cte float' | 'cte char' | 'cte bool' | 'cte string'
+VAR_CTE ::= 'id' (('(' EXP ')')|('[' EXP ']'))? | 'cte int' | 'cte float' | 'cte char' | 'cte bool' | 'cte string' | LLAMADA
 FUNCIÓN ::= 'function' 'id' '(' PARAMETROS? ')' BLOQUE
 PARAMETROS ::= TIPO 'id' (',' TIPO 'id')*
 CICLO ::= 'while' '(' EXPRESIÓN ')' BLOQUE
 LLAMADA ::= 'id' '(' ARGUMENTOS? ')'
 ARGUMENTOS ::= (EXP (',' EXP)*)?
-LECTURA ::= 'read' '(' 'id' ')' ';'

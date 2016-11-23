@@ -3,16 +3,16 @@
 <html>
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <meta name="generator" content="Railroad Diagram Generator 1.44.1240"><style type="text/css" xml:space="preserve">
+      <meta name="generator" content="Railroad Diagram Generator 1.45.1338"><style type="text/css" xml:space="preserve">
     ::-moz-selection
     {
-      color: #FFFAF0;
-      background: #0F0A00;
+      color: #FFFCF0;
+      background: #0F0C00;
     }
     ::selection
     {
-      color: #FFFAF0;
-      background: #0F0A00;
+      color: #FFFCF0;
+      background: #0F0C00;
     }      
     .ebnf a
     {
@@ -20,50 +20,50 @@
     }
     .ebnf a:hover
     {
-      color: #050300;
+      color: #050400;
       text-decoration: underline;
     }    
     .signature
     {
-      color: #805500;
+      color: #806600;
       font-size: 11px;
       text-align: right;
     }
     body
     {
       font: normal 12px Verdana, sans-serif;
-      color: #0F0A00;
-      background: #FFFAF0;
+      color: #0F0C00;
+      background: #FFFCF0;
     }
     a:link, a:visited
     {
-      color: #0F0A00;
+      color: #0F0C00;
     }
     a:link.signature, a:visited.signature
     {
-      color: #805500;
+      color: #806600;
     }
     a.button, #tabs li a
     {
       padding: 0.25em 0.5em;
-      border: 1px solid #805500;
-      background: #F1E2C6;
-      color: #805500;
+      border: 1px solid #806600;
+      background: #F1E8C6;
+      color: #806600;
       text-decoration: none;
       font-weight: bold;
     }
     a.button:hover, #tabs li a:hover
     {
-      color: #050300;
-      background: #FFF0D1;
-      border-color: #050300;       
+      color: #050400;
+      background: #FFF6D1;
+      border-color: #050400;       
     }     
     #tabs
     {
       padding: 3px 10px;
       margin-left: 0;
       margin-top: 58px;
-      border-bottom: 1px solid #0F0A00;
+      border-bottom: 1px solid #0F0C00;
     }  
     #tabs li
     {
@@ -73,14 +73,14 @@
     }
     #tabs li a
     {     
-      border-bottom: 1px solid #0F0A00;
+      border-bottom: 1px solid #0F0C00;
     }
     #tabs li a.active
     {
-      color: #0F0A00;
-      background: #FFFAF0;
-      border-color: #0F0A00;
-      border-bottom: 1px solid #FFFAF0;
+      color: #0F0C00;
+      background: #FFFCF0;
+      border-color: #0F0C00;
+      border-bottom: 1px solid #FFFCF0;
       outline: none;
     }
     #divs div
@@ -94,9 +94,9 @@
     }
     #text
     {
-      border-color: #805500;
-      background: #FFFDFA;
-      color: #050300;
+      border-color: #806600;
+      background: #FFFEFA;
+      color: #050400;
     }
     .small
     {
@@ -121,12 +121,12 @@
     div.download
     {
       display: none;
-      background: #FFFAF0;
+      background: #FFFCF0;
       position: absolute;
       right: 34px;
       top: 94px;
       padding: 10px;
-      border: 1px dotted #0F0A00;
+      border: 1px dotted #0F0C00;
     }
     #divs div.ebnf, div.ebnf
     {
@@ -134,7 +134,7 @@
       padding-left: 16px;
       padding-top: 2px; 
       padding-bottom: 2px; 
-      background: #FFF0D1;
+      background: #FFF6D1;
     }
     tr.option-line td:first-child
     {
@@ -146,14 +146,14 @@
     }
     table.palette
     {
-      border-top: 1px solid #050300;
-      border-right: 1px solid #050300;
+      border-top: 1px solid #050400;
+      border-right: 1px solid #050400;
       margin-bottom: 4px
     }
     td.palette
     {
-      border-bottom: 1px solid #050300;
-      border-left: 1px solid #050300;
+      border-bottom: 1px solid #050400;
+      border-left: 1px solid #050400;
     }
     a.palette
     {
@@ -172,14 +172,14 @@
    <body>
       
       <p style="font-size: 14px; font-weight:bold"><a name="PROGRAMA">PROGRAMA:</a></p>
-      <img border="0" src="diagram/PROGRAMA.png" height="70" width="572" usemap="#PROGRAMA.map"><map name="PROGRAMA.map">
+      <img border="0" src="diagram/PROGRAMA.png" height="70" width="644" usemap="#PROGRAMA.map"><map name="PROGRAMA.map">
          <area shape="rect" coords="241,1,293,33" href="#VARS" title="VARS">
          <area shape="rect" coords="353,1,431,33" href="#FUNCI%C3%93N" title="FUNCIÓN">
-         <area shape="rect" coords="471,35,543,67" href="#BLOQUE" title="BLOQUE"></map>
+         <area shape="rect" coords="543,35,615,67" href="#BLOQUE" title="BLOQUE"></map>
       
       <p>
          
-         <div class="ebnf"><pre><a href="#PROGRAMA" title="PROGRAMA" shape="rect">PROGRAMA</a> ::= 'program' 'id' ';' <a href="#VARS" title="VARS" shape="rect">VARS</a>* <a href="#FUNCI%C3%93N" title="FUNCIÓN" shape="rect">FUNCIÓN</a>* <a href="#BLOQUE" title="BLOQUE" shape="rect">BLOQUE</a></pre></div>
+         <div class="ebnf"><pre><a href="#PROGRAMA" title="PROGRAMA" shape="rect">PROGRAMA</a> ::= 'program' 'id' ';' <a href="#VARS" title="VARS" shape="rect">VARS</a>* <a href="#FUNCI%C3%93N" title="FUNCIÓN" shape="rect">FUNCIÓN</a>* 'main' <a href="#BLOQUE" title="BLOQUE" shape="rect">BLOQUE</a></pre></div>
          
       </p>
       
@@ -247,21 +247,17 @@
          </ul>
          
       </p><br><p style="font-size: 14px; font-weight:bold"><a name="ESTATUTO">ESTATUTO:</a></p>
-      <img border="0" src="diagram/ESTATUTO.png" height="256" width="198" usemap="#ESTATUTO.map"><map name="ESTATUTO.map">
+      <img border="0" src="diagram/ESTATUTO.png" height="168" width="198" usemap="#ESTATUTO.map"><map name="ESTATUTO.map">
          <area shape="rect" coords="49,1,149,33" href="#ASIGNACI%C3%93N" title="ASIGNACIÓN">
          <area shape="rect" coords="49,45,143,77" href="#CONDICI%C3%93N" title="CONDICIÓN">
          <area shape="rect" coords="49,89,139,121" href="#ESCRITURA" title="ESCRITURA">
-         <area shape="rect" coords="49,133,125,165" href="#LECTURA" title="LECTURA">
-         <area shape="rect" coords="49,177,125,209" href="#LLAMADA" title="LLAMADA">
-         <area shape="rect" coords="49,221,109,253" href="#CICLO" title="CICLO"></map>
+         <area shape="rect" coords="49,133,109,165" href="#CICLO" title="CICLO"></map>
       
       <p>
          
          <div class="ebnf"><pre><a href="#ESTATUTO" title="ESTATUTO" shape="rect">ESTATUTO</a> ::= <a href="#ASIGNACI%C3%93N" title="ASIGNACIÓN" shape="rect">ASIGNACIÓN</a>
            | <a href="#CONDICI%C3%93N" title="CONDICIÓN" shape="rect">CONDICIÓN</a>
            | <a href="#ESCRITURA" title="ESCRITURA" shape="rect">ESCRITURA</a>
-           | <a href="#LECTURA" title="LECTURA" shape="rect">LECTURA</a>
-           | <a href="#LLAMADA" title="LLAMADA" shape="rect">LLAMADA</a>
            | <a href="#CICLO" title="CICLO" shape="rect">CICLO</a></pre></div>
          
       </p>
@@ -275,14 +271,14 @@
          </ul>
          
       </p><br><p style="font-size: 14px; font-weight:bold"><a name="ASIGNACI%C3%93N">ASIGNACIÓN:</a></p>
-      <img border="0" src="diagram/ASIGNACI%C3%93N.png" height="68" width="492" usemap="#ASIGNACI%C3%93N.map"><map name="ASIGNACI%C3%93N.map">
+      <img border="0" src="diagram/ASIGNACI%C3%93N.png" height="68" width="444" usemap="#ASIGNACI%C3%93N.map"><map name="ASIGNACI%C3%93N.map">
          <area shape="rect" coords="147,33,191,65" href="#EXP" title="EXP">
-         <area shape="rect" coords="327,1,419,33" href="#EXPRESI%C3%93N" title="EXPRESIÓN"></map>
+         <area shape="rect" coords="327,1,371,33" href="#EXP" title="EXP"></map>
       
       <p>
          
          <div class="ebnf"><pre><a href="#ASIGNACI%C3%93N" title="ASIGNACIÓN" shape="rect">ASIGNACIÓN</a>
-         ::= 'id' ( '[' <a href="#EXP" title="EXP" shape="rect">EXP</a> ']' )? '=' <a href="#EXPRESI%C3%93N" title="EXPRESIÓN" shape="rect">EXPRESIÓN</a> ';'</pre></div>
+         ::= 'id' ( '[' <a href="#EXP" title="EXP" shape="rect">EXP</a> ']' )? '=' <a href="#EXP" title="EXP" shape="rect">EXP</a> ';'</pre></div>
          
       </p>
       
@@ -295,13 +291,13 @@
          </ul>
          
       </p><br><p style="font-size: 14px; font-weight:bold"><a name="ESCRITURA">ESCRITURA:</a></p>
-      <img border="0" src="diagram/ESCRITURA.png" height="124" width="436" usemap="#ESCRITURA.map"><map name="ESCRITURA.map">
-         <area shape="rect" coords="185,45,277,77" href="#EXPRESI%C3%93N" title="EXPRESIÓN"></map>
+      <img border="0" src="diagram/ESCRITURA.png" height="124" width="426" usemap="#ESCRITURA.map"><map name="ESCRITURA.map">
+         <area shape="rect" coords="185,45,229,77" href="#EXP" title="EXP"></map>
       
       <p>
          
          <div class="ebnf"><pre><a href="#ESCRITURA" title="ESCRITURA" shape="rect">ESCRITURA</a>
-         ::= 'print' '(' ( <a href="#EXPRESI%C3%93N" title="EXPRESIÓN" shape="rect">EXPRESIÓN</a> | 'cte string' ) ( ',' ( <a href="#EXPRESI%C3%93N" title="EXPRESIÓN" shape="rect">EXPRESIÓN</a> | 'cte string' ) )* ')' ';'</pre></div>
+         ::= 'print' '(' ( <a href="#EXP" title="EXP" shape="rect">EXP</a> | 'cte string' ) ( ',' ( <a href="#EXP" title="EXP" shape="rect">EXP</a> | 'cte string' ) )* ')' ';'</pre></div>
          
       </p>
       
@@ -329,20 +325,14 @@
          
          <ul>
             
-            <li><a href="#ASIGNACI%C3%93N" title="ASIGNACIÓN">ASIGNACIÓN</a></li>
-            
             <li><a href="#CICLO" title="CICLO">CICLO</a></li>
             
             <li><a href="#CONDICI%C3%93N" title="CONDICIÓN">CONDICIÓN</a></li>
             
-            <li><a href="#ESCRITURA" title="ESCRITURA">ESCRITURA</a></li>
-            
-            <li><a href="#FACTOR" title="FACTOR">FACTOR</a></li>
-            
          </ul>
          
       </p><br><p style="font-size: 14px; font-weight:bold"><a name="CONDICI%C3%93N">CONDICIÓN:</a></p>
-      <img border="0" src="diagram/CONDICI%C3%93N.png" height="68" width="624" usemap="#CONDICI%C3%93N.map"><map name="CONDICI%C3%93N.map">
+      <img border="0" src="diagram/CONDICI%C3%93N.png" height="68" width="580" usemap="#CONDICI%C3%93N.map"><map name="CONDICI%C3%93N.map">
          <area shape="rect" coords="123,1,215,33" href="#EXPRESI%C3%93N" title="EXPRESIÓN">
          <area shape="rect" coords="281,1,353,33" href="#BLOQUE" title="BLOQUE">
          <area shape="rect" coords="459,33,531,65" href="#BLOQUE" title="BLOQUE"></map>
@@ -350,7 +340,7 @@
       <p>
          
          <div class="ebnf"><pre><a href="#CONDICI%C3%93N" title="CONDICIÓN" shape="rect">CONDICIÓN</a>
-         ::= 'if' '(' <a href="#EXPRESI%C3%93N" title="EXPRESIÓN" shape="rect">EXPRESIÓN</a> ')' <a href="#BLOQUE" title="BLOQUE" shape="rect">BLOQUE</a> ( 'else' <a href="#BLOQUE" title="BLOQUE" shape="rect">BLOQUE</a> )? ';'</pre></div>
+         ::= 'if' '(' <a href="#EXPRESI%C3%93N" title="EXPRESIÓN" shape="rect">EXPRESIÓN</a> ')' <a href="#BLOQUE" title="BLOQUE" shape="rect">BLOQUE</a> ( 'else' <a href="#BLOQUE" title="BLOQUE" shape="rect">BLOQUE</a> )?</pre></div>
          
       </p>
       
@@ -380,7 +370,11 @@
             
             <li><a href="#ASIGNACI%C3%93N" title="ASIGNACIÓN">ASIGNACIÓN</a></li>
             
+            <li><a href="#ESCRITURA" title="ESCRITURA">ESCRITURA</a></li>
+            
             <li><a href="#EXPRESI%C3%93N" title="EXPRESIÓN">EXPRESIÓN</a></li>
+            
+            <li><a href="#FACTOR" title="FACTOR">FACTOR</a></li>
             
             <li><a href="#VAR_CTE" title="VAR_CTE">VAR_CTE</a></li>
             
@@ -405,13 +399,13 @@
          </ul>
          
       </p><br><p style="font-size: 14px; font-weight:bold"><a name="FACTOR">FACTOR:</a></p>
-      <img border="0" src="diagram/FACTOR.png" height="156" width="282" usemap="#FACTOR.map"><map name="FACTOR.map">
-         <area shape="rect" coords="95,1,187,33" href="#EXPRESI%C3%93N" title="EXPRESIÓN">
+      <img border="0" src="diagram/FACTOR.png" height="156" width="264" usemap="#FACTOR.map"><map name="FACTOR.map">
+         <area shape="rect" coords="95,1,139,33" href="#EXP" title="EXP">
          <area shape="rect" coords="139,45,215,77" href="#VAR_CTE" title="VAR_CTE"></map>
       
       <p>
          
-         <div class="ebnf"><pre><a href="#FACTOR" title="FACTOR" shape="rect">FACTOR</a>   ::= '(' <a href="#EXPRESI%C3%93N" title="EXPRESIÓN" shape="rect">EXPRESIÓN</a> ')'
+         <div class="ebnf"><pre><a href="#FACTOR" title="FACTOR" shape="rect">FACTOR</a>   ::= '(' <a href="#EXP" title="EXP" shape="rect">EXP</a> ')'
            | ( '+' | '-' )? <a href="#VAR_CTE" title="VAR_CTE" shape="rect">VAR_CTE</a></pre></div>
          
       </p>
@@ -425,9 +419,10 @@
          </ul>
          
       </p><br><p style="font-size: 14px; font-weight:bold"><a name="VAR_CTE">VAR_CTE:</a></p>
-      <img border="0" src="diagram/VAR_CTE.png" height="332" width="326" usemap="#VAR_CTE.map"><map name="VAR_CTE.map">
+      <img border="0" src="diagram/VAR_CTE.png" height="376" width="326" usemap="#VAR_CTE.map"><map name="VAR_CTE.map">
          <area shape="rect" coords="167,33,211,65" href="#EXP" title="EXP">
-         <area shape="rect" coords="167,77,211,109" href="#EXP" title="EXP"></map>
+         <area shape="rect" coords="167,77,211,109" href="#EXP" title="EXP">
+         <area shape="rect" coords="49,341,125,373" href="#LLAMADA" title="LLAMADA"></map>
       
       <p>
          
@@ -436,7 +431,8 @@
            | 'cte float'
            | 'cte char'
            | 'cte bool'
-           | 'cte string'</pre></div>
+           | 'cte string'
+           | <a href="#LLAMADA" title="LLAMADA" shape="rect">LLAMADA</a></pre></div>
          
       </p>
       
@@ -487,13 +483,13 @@
          </ul>
          
       </p><br><p style="font-size: 14px; font-weight:bold"><a name="CICLO">CICLO:</a></p>
-      <img border="0" src="diagram/CICLO.png" height="36" width="454" usemap="#CICLO.map"><map name="CICLO.map">
+      <img border="0" src="diagram/CICLO.png" height="36" width="410" usemap="#CICLO.map"><map name="CICLO.map">
          <area shape="rect" coords="151,1,243,33" href="#EXPRESI%C3%93N" title="EXPRESIÓN">
          <area shape="rect" coords="309,1,381,33" href="#BLOQUE" title="BLOQUE"></map>
       
       <p>
          
-         <div class="ebnf"><pre><a href="#CICLO" title="CICLO" shape="rect">CICLO</a>    ::= 'while' '(' <a href="#EXPRESI%C3%93N" title="EXPRESIÓN" shape="rect">EXPRESIÓN</a> ')' <a href="#BLOQUE" title="BLOQUE" shape="rect">BLOQUE</a> ';'</pre></div>
+         <div class="ebnf"><pre><a href="#CICLO" title="CICLO" shape="rect">CICLO</a>    ::= 'while' '(' <a href="#EXPRESI%C3%93N" title="EXPRESIÓN" shape="rect">EXPRESIÓN</a> ')' <a href="#BLOQUE" title="BLOQUE" shape="rect">BLOQUE</a></pre></div>
          
       </p>
       
@@ -519,7 +515,7 @@
          
          <ul>
             
-            <li><a href="#ESTATUTO" title="ESTATUTO">ESTATUTO</a></li>
+            <li><a href="#VAR_CTE" title="VAR_CTE">VAR_CTE</a></li>
             
          </ul>
          
@@ -542,23 +538,6 @@
             
          </ul>
          
-      </p><br><p style="font-size: 14px; font-weight:bold"><a name="LECTURA">LECTURA:</a></p>
-      <img border="0" src="diagram/LECTURA.png" height="36" width="296">
-      
-      <p>
-         
-         <div class="ebnf"><pre><a href="#LECTURA" title="LECTURA" shape="rect">LECTURA</a>  ::= 'read' '(' 'id' ')' ';'</pre></div>
-         
-      </p>
-      
-      <p>referenced by:
-         
-         <ul>
-            
-            <li><a href="#ESTATUTO" title="ESTATUTO">ESTATUTO</a></li>
-            
-         </ul>
-         
       </p><br><hr>
       
       <p>
@@ -576,7 +555,7 @@
                </td>
                
                <td><a name="Railroad-Diagram-Generator" title="http://www.bottlecaps.de/rr/ui" href="http://www.bottlecaps.de/rr/ui" target="_blank">
-                     <img border="0" src="diagram/rr-1.44.1240.png" height="16" width="16"></a></td>
+                     <img border="0" src="diagram/rr-1.45.1338.png" height="16" width="16"></a></td>
                
             </tr>
             

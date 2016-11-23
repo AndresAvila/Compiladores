@@ -1,7 +1,7 @@
 from collections import defaultdict
 cubo = defaultdict(lambda :defaultdict(lambda :defaultdict(int)))
 
-# Significado de cada dimencion del cubo.
+# Significado de cada dimension del cubo.
 # x = operando 1
 # y = operando 2
 # z = operador
@@ -421,7 +421,3 @@ cubo[5][2][13] = -1
 cubo[5][3][13] = -1
 cubo[5][4][13] = -1
 cubo[5][5][13] = 5
-
-# Funcion para consultar tipo de dato resultante.
-def getResultType(op1, op2, s):
-	return cubo[op1][op2][s]

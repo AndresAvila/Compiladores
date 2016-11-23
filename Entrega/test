@@ -4,39 +4,6 @@ main {
     var y,x,j,i, temp: int;
     var b: int[6];
     var str: string;
-    str = '-------------------';
-    j = 0;
-    i = 0;
-    b[0] = 3;
-    b[1] = 2;
-    b[2] = 1;
-    b[3] = 5;
-    b[4] = 7;
-    b[5] = 2;
-
-    y = 0;
-    while(y < 6){
-        print(b[y]);
-        y = y + 1;
-    }
-
-    print(str);
-
-    while(i < 5){
-    j = i + 1;
-        while(j < 6){
-            if(b[i] < b[j]){
-                temp = b[i];
-                b[i] = b[j];
-                b[j] = temp;
-            }
-            j = j + 1;
-        }
-        i = i + 1;
-    }
-    x = 0;
-    while(x < 6){
-        print(b[x]);
-        x = x + 1;
-    }
+    y = (1 + 2) * 3;
+    print(y);
 }
