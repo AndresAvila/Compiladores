@@ -1,22 +1,31 @@
-# Yacc example
+########               ########
+########               ########
+########    Loopy      ########
+######## Andres Avila  ########
+######## Jesus Navarro ########
+
+
+
+
+
 
 import ply.yacc as yacc
-import MyLittleDuckl
+import Loopyl
 import sys 
 import cubo
 
 
-# Get the token map from the lexer.  This is required.
-from MyLittleDuckl import tokens
+
+from Loopyl import tokens
 from collections import deque
 from Queue import PriorityQueue
 
 
-#from memoria import Memoria
+
 
 contprueba = 0
 
-tokens = MyLittleDuckl.tokens   
+tokens = Loopyl.tokens    
 varDirectory = {}
 varDirectoryMain = {}
 varDirectoryFunc = {}
@@ -228,9 +237,9 @@ ERR = -1
 
 
 
-class Memoria:
+class Memoria:    #Clase que almacena las direcciones en sus diferentes scopes por medio de listas, cada memoria es un objeto diferente
 
-    def __init__(self, name, memoria, temporales):
+    def __init__(self, name, memoria, temporales):    #Constructor de memoria, se requiere un nombre, la cantidad de memoria necesaria y la cantidad de temporales
         self.name  = name
         self.ints  = memoria['Int'] * [None]
         self.bools = memoria['Bool'] * [None]
@@ -252,8 +261,8 @@ class Memoria:
 
    
 
-    def offsetDireccion(self, direccion):
-        # funcion que calcula el offset y tipo de una direccion recibida
+    def offsetDireccion(self, direccion):  #Metodo que calcula el offset y tipo de una direccion recibida
+        
         addressScope = self.scopeDireccion(direccion)[1]
         offset = direccion - addressScope
         if offset >= 0 and offset < 1000:
@@ -272,9 +281,8 @@ class Memoria:
 
             return "Error"
 
-    def scopeDireccion(self, direccion):
-        # funcion que regresa el scope y la direccion base de una direccion recibida
-        #print(direccion, "direccion")
+    def scopeDireccion(self, direccion): #Metodo que regresa el scope de la direccion recibida como parametro
+        
         if direccion >= 1000 and direccion < 6000:
             return ['Global', 1000]
 
@@ -295,8 +303,8 @@ class Memoria:
             return ['Error', 9999999]
 
 
-    def memoriaActual(self, scope, tipo):
-        # funcion que regresa la memoria requerida en base al scope
+    def memoriaActual(self, scope, tipo):   #Metodo que regresa la lista correspondiente al tipo y scope solicitado
+        
         if scope == 'Global' or scope == 'Funcion' or scope == 'Local' or scope == 'Constantes':
             if tipo == 'INT':
                 return self.ints
@@ -330,15 +338,15 @@ class Memoria:
 
 
 
-    def getValorDeDireccion(self, direccion, constantes):
+    def getValorDeDireccion(self, direccion, constantes):    #Metodo que regresa el valor de la direccion solicitada
 
-        # funcion que regresa el valor almacenado en memoria al recibir una direccion
+        
         scope = self.scopeDireccion(direccion)[0]
-        #print("scope a", scope)
+       
         tipo = self.offsetDireccion(direccion)[0]
         
-        #print("tipo ", tipo)
-        if scope != 'Constantes': # si no es una constante, busca en la misma memoria
+        #
+        if scope != 'Constantes': 
             dirBase = self.scopeDireccion(direccion)[1]
 
             offset = self.offsetDireccion(direccion)[1]
@@ -369,7 +377,7 @@ class Memoria:
                 i += 1
 
 
-    def setValorDeDireccion(self, direccion, valor):
+    def setValorDeDireccion(self, direccion, valor):    #Asigna el valor a la direccion 
         #print(direccion, " direccion")
         #print(valor, " valor")
         scope = self.scopeDireccion(direccion)[0]
@@ -398,32 +406,32 @@ class Memoria:
             mem[real] = valor
 
 
-def maquina():
+def maquina():     #Funcion donde se ejecuta la maquina virtual 
     auxCont = 40001
     pilaMemorias = []
     saltos = []
-    MemoriaGlobal = Memoria("Global", dirCompleto[dirCompleto.keys()[0]]['Directorio Globales']['TamanoMemoria'], dirCompleto[dirCompleto.keys()[0]]['Directorio Temporales']['TamanoMemoria'])
-    MemoriaActual = Memoria("Main", dirCompleto[dirCompleto.keys()[0]]['Directorio Locales']['TamanoMemoria'], dirCompleto[dirCompleto.keys()[0]]['Directorio Temporales']['TamanoMemoria'])
+    MemoriaGlobal = Memoria("Global", dirCompleto[dirCompleto.keys()[0]]['Directorio Globales']['TamanoMemoria'], dirCompleto[dirCompleto.keys()[0]]['Directorio Temporales']['TamanoMemoria'])   #Memoria Global
+    MemoriaActual = Memoria("Main", dirCompleto[dirCompleto.keys()[0]]['Directorio Locales']['TamanoMemoria'], dirCompleto[dirCompleto.keys()[0]]['Directorio Temporales']['TamanoMemoria'])     #Memoria Main que puede cambiar si hay llamadas a funciones
     MemoriaNueva = ""
     constantes = dirConstantes
 
-    while cuadruplos[auxCont][0] != ENDPROGRAM:
+    while cuadruplos[auxCont][0] != ENDPROGRAM:   #Mientras el cuadruplo no sea ENDPROGRAM continua
         cuadruploActual = cuadruplos[auxCont]
         
         #print("here ", auxCont)
         #print("cuadruplo: ", cuadruploActual)
 
-        if cuadruploActual[0] == ASIG:
+        if cuadruploActual[0] == ASIG:   # Cuando el craduplo actual es asignacion
             operando1= cuadruploActual[1]
             resultado= cuadruploActual[3]
             #print(MemoriaActual.valor_Retorno)
-            if MemoriaActual.valor_Retorno != None:
+            if MemoriaActual.valor_Retorno != None:   # valida que se le va a asignar el valor de retorno a una temporal
                 #print("VALOR DE RETORNO: ", MemoriaActual.valor_Retorno)
                 operando1 = MemoriaActual.valor_Retorno
                 MemoriaActual.valor_Retorno = None
 
 
-                if operando1 >= 1000 and operando1 < 6000:
+                if operando1 >= 1000 and operando1 < 6000:     # La memoria es global 
                     if operando1 >= 1000 and not isinstance(operando1, str):
                         operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
                     MemoriaGlobal.setValorDeDireccion(resultado, operando1)
@@ -439,7 +447,7 @@ def maquina():
             else:
                 if operando1 >= 1000 and operando1 < 6000:
                     operando1= MemoriaGlobal.getValorDeDireccion(operando1, constantes)
-                    if resultado >= 26000 and not isinstance(operando1, str):
+                    if resultado >= 26000 and not isinstance(operando1, str):    # Quiere decir que es una direccion y no un valor
                         resultado = MemoriaGlobal.getValorDeDireccion(resultado, constantes)
                     if operando1 >= 26000 and not isinstance(operando1, str):
                         operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -465,12 +473,12 @@ def maquina():
             
             #print("resultado de la asignacion ",resultado , " = ", respuesta)
 
-        if cuadruploActual[0] == SUMA:
+        if cuadruploActual[0] == SUMA:   # Cuando el cuadruplo actual suma
             cuadruploAnterior = cuadruplos[auxCont-1]
             operando1= cuadruploActual[1]
             #print(operando1, "op1")
             if operando1 >= 1000 and operando1 < 6000:
-                if operando1 >= 26000:  
+                if operando1 >= 26000:      #Quiere decir que es una direccion y no un valor 
                     operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
                 if cuadruploAnterior[0] != VER:
                     operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -508,7 +516,7 @@ def maquina():
 
             #print("resultado de la suma",respuesta)
 
-        if cuadruploActual[0] == RESTA:
+        if cuadruploActual[0] == RESTA:  # Cuando el cuadruplo actual es resta
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -536,7 +544,7 @@ def maquina():
             else:
                 MemoriaActual.setValorDeDireccion(resultado, operando1-operando2)
 
-        if cuadruploActual[0] == MULT:
+        if cuadruploActual[0] == MULT:  # Cuando el cuadruplo actual es multiplicacion
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -563,7 +571,7 @@ def maquina():
             else:
                 MemoriaActual.setValorDeDireccion(resultado, operando1*operando2)
 
-        if cuadruploActual[0] == DIV:
+        if cuadruploActual[0] == DIV:   # Cuando el cuadruplo actual es multiplicacion
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -590,7 +598,7 @@ def maquina():
             else:
                 MemoriaActual.setValorDeDireccion(resultado, operando1/operando2)
 
-        if cuadruploActual[0] == OR:
+        if cuadruploActual[0] == OR:  # Cuando el cuadruplo actual es OR
             operando1= cuadruploActual[1]
 
             if operando1 >= 1000 and operando1 < 6000:
@@ -625,7 +633,7 @@ def maquina():
                 MemoriaActual.setValorDeDireccion(resultado, respuesta)
             #print("RESULTADO DEL OR",respuesta)
 
-        if cuadruploActual[0] == AND:
+        if cuadruploActual[0] == AND:    # Cuando el cuadruplo actual es AND
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -658,7 +666,7 @@ def maquina():
             else:
                 MemoriaActual.setValorDeDireccion(resultado, respuesta)
 
-        if cuadruploActual[0] == MAYOR:
+        if cuadruploActual[0] == MAYOR:    # Cuando el cuadruplo actual es MAYOR
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -757,7 +765,7 @@ def maquina():
             else:
                 MemoriaActual.setValorDeDireccion(resultado, respuesta)
 
-        if cuadruploActual[0] == MENORIG:
+        if cuadruploActual[0] == MENORIG:   # Cuando el cuadruplo actual es MENORIG
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -790,7 +798,7 @@ def maquina():
             else:
                 MemoriaActual.setValorDeDireccion(resultado, respuesta)
 
-        if cuadruploActual[0] == IGUAL:
+        if cuadruploActual[0] == IGUAL:   # Cuando el cuadruplo actual es igual
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -823,7 +831,7 @@ def maquina():
             else:
                 MemoriaActual.setValorDeDireccion(resultado, respuesta)
 
-        if cuadruploActual[0] == DIF:
+        if cuadruploActual[0] == DIF:     # Cuando el cuadruplo actual es DIFERENTE
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -863,7 +871,7 @@ def maquina():
 
 
 
-        if cuadruploActual[0] == GOTOF:
+        if cuadruploActual[0] == GOTOF:     # Cuando el cuadruplo actual es GOTOF
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -880,7 +888,7 @@ def maquina():
 
             #print("VAMOS A........", auxCont+1)
 
-        if cuadruploActual[0] == GOTOV:
+        if cuadruploActual[0] == GOTOV:     # Cuando el cuadruplo actual es GOTOV
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -895,7 +903,7 @@ def maquina():
             if operando1 == "_true":
                 auxCont = resultado-1
 
-        if cuadruploActual[0] == VER:
+        if cuadruploActual[0] == VER:   # Cuando el cuadruplo actual es VERIFICA, verifica que el valor este dentro del rango del arreglo
             operando1= cuadruploActual[1]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -910,7 +918,7 @@ def maquina():
                 print("fuera de rango")
                 exit() 
 
-        if cuadruploActual[0] == PRINT:
+        if cuadruploActual[0] == PRINT:   # Cuando el cuadruplo actual es PRINT 
             operando1= cuadruploActual[3]
             if operando1 >= 1000 and operando1 < 6000:
                 operando1 = MemoriaGlobal.getValorDeDireccion(operando1, constantes)
@@ -926,22 +934,22 @@ def maquina():
                 print(operando1)
 
 
-        if cuadruploActual[0] == ERA:
+        if cuadruploActual[0] == ERA:   # Cuando el cuadruplo actual es ERA
             nombreFuncion = cuadruploActual[1]
             memoria = dirCompleto[dirCompleto.keys()[0]]['Directorio Funciones'][nombreFuncion]['TamanoMemoria']
             temporales = dirCompleto[dirCompleto.keys()[0]]['Directorio Temporales']['TamanoMemoria']
             #print(memoria)
-            MemoriaNueva = Memoria(nombreFuncion, memoria, temporales)
+            MemoriaNueva = Memoria(nombreFuncion, memoria, temporales)   # Crea un nuevo objeto de memoria
 
 
-        if cuadruploActual[0] == GOSUB:
+        if cuadruploActual[0] == GOSUB:   #  Cuando el cuadruplo actual es GOSUB
             saltos.append(auxCont)
             salto = cuadruploActual[1]
             auxCont = salto - 1
-            pilaMemorias.append(MemoriaActual)
-            MemoriaActual = MemoriaNueva
+            pilaMemorias.append(MemoriaActual)    # Mete en la pila de memorias la pila actual 
+            MemoriaActual = MemoriaNueva    # Cambia la memoria por la creada en el ERA 
         
-        if cuadruploActual[0] == RETURN:
+        if cuadruploActual[0] == RETURN:    #   Regresa el valor de retorno de la funcion
             valor = cuadruploActual[3]
             if valor >= 1000 and valor < 6000:
                 retorno = MemoriaGlobal.getValorDeDireccion(valor, constantes)
@@ -958,13 +966,13 @@ def maquina():
             auxCont = cuadruploRET - 1
                     
 
-        if cuadruploActual[0] == RET:
+        if cuadruploActual[0] == RET:    # Sale de la funcion
             aux = MemoriaActual.valor_Retorno
             MemoriaActual = pilaMemorias.pop()
             MemoriaActual.valor_Retorno = aux
             auxCont = saltos.pop()
 
-        if cuadruploActual[0] == PARAM:
+        if cuadruploActual[0] == PARAM:   # Cuadruplo que asigna los valores de los parametros 
             operando1 = cuadruploActual[1]
             resultado = cuadruploActual[3]
             #if resultado >= 26000:  
@@ -984,7 +992,7 @@ def p_programa(p): #Done
     '''programa : PROGRAM ID addProcedureDir SEMICOLON paso19 cicloVars cicloFuncion MAIN paso20 bloque pasoFinal'''
     p[0] = "OK"
 
-def p_addProcedureDir(p):
+def p_addProcedureDir(p):  #  Crea el directorio de procedimientos metiendole las variables y su tipo que estan en el directorio de variables 
     '''addProcedureDir : '''
     #print("Pasa por addProcedureDir")
     dirProcedure[p[-1]] = {'Variables' : varDirectory.copy(), 'Tipo' : p[-2]} 
@@ -1009,7 +1017,7 @@ def p_createVariableDir(p):
 def p_auxVar1(p): #Done
     '''auxVar1 : idVars COLON tipo addTypeGlobal SEMICOLON'''
 
-def p_addTypeGlobal(p):
+def p_addTypeGlobal(p):   # Asigna a los directorios de variables sus respectivos valores
     '''addTypeGlobal : '''
     #print("pasa por addTypeGlobal")
     global cont_int_globales
@@ -1095,7 +1103,7 @@ def p_addTypeGlobal(p):
 def p_idVars(p): #Done
     '''idVars : ID addVariableDir ambIdVars'''
 
-def p_addVariableDir(p):
+def p_addVariableDir(p):  # Mete las variables a la lista de variables globales
     '''addVariableDir : '''
     #print("pasa por addVariableDir")
     if (p[-1] in varDirectory):
@@ -1500,8 +1508,9 @@ def p_varcte(p): #Done
         | llamada '''
 
     
+# Agrega a los directorios de constantes 
 
-def p_assignDirectionCteInt(p):
+def p_assignDirectionCteInt(p):    
     '''assignDirectionCteInt :'''
     global cont_int_constantes
     global inicia_int_constantes
@@ -1544,7 +1553,7 @@ def p_assignDirectionCteString(p):
         dirConstantes[p[-3]] = {'Direccion' : inicia_string_constantes + cont_string_constantes, 'Tipo' : 3}
         cont_string_constantes += 1
 
-def translate(x):
+def translate(x):   # regresa el valor del tipo
     if x == "int":
         return 1
     elif x == "bool":
@@ -1558,7 +1567,7 @@ def translate(x):
     else:
         return -1
 
-def p_addType(p):
+def p_addType(p):   
     '''addType : '''
     global nombreArreglo
     global tipoArreglo
@@ -1597,7 +1606,7 @@ def p_cicloFuncion(p): #Done
 def p_funcion(p): #Done
     '''funcion : FUNCTION tipo ID initDicFunc LPAREN auxFunction RPAREN bloqueFuncion addProcDirectoryFunc paso23 paso22 '''
 
-def p_addProcDirectoryFunc(p):
+def p_addProcDirectoryFunc(p):   # Asigna los valores correspondientes al directorio de funciones
     '''addProcDirectoryFunc : '''
     global contParametros
     global contVarLocFunc
@@ -1625,7 +1634,7 @@ def p_addProcDirectoryFunc(p):
     #print("pasa por addProcDirectoryFunc")
     #print(procDirectory)
 
-def p_initDicFunc(p):
+def p_initDicFunc(p):  # Inicializa el directorio de procedimientos
     '''initDicFunc : '''
     global funcActual
     funcActual = p[-1]
@@ -1641,7 +1650,7 @@ def p_parametros(p): # Done
 def p_auxParametros(p): #Done
     '''auxParametros : tipo ID addParameters ambAuxParametros'''
 
-def p_addParameters(p):
+def p_addParameters(p):  # Agrega los parametros al directorio de procedimientos
     '''addParameters : '''
     global contParametros
     global funcActual
@@ -1709,7 +1718,7 @@ def p_lectura(p): #Done
     ''' lectura : READ LPAREN ID RPAREN SEMICOLON '''
     #print("entra a lectura")
 
-def encuentraOperando(x):
+def encuentraOperando(x):  # busca variables en los directorios y regresa la direccion
     if x in varDirectory:
         return varDirectory[x].get('Direccion')
     if x in varDirectoryMain:
@@ -1718,7 +1727,7 @@ def encuentraOperando(x):
         return varDirectoryFunc[x].get('Direccion')
 
 #Cuadruplos
-def p_paso1(p):
+def p_paso1(p):   # Agrega operando a la pila de operandos
     '''paso1 : '''
     #print(p[-1])
     #print(encuentraOperando(p[-1]))
@@ -1726,23 +1735,23 @@ def p_paso1(p):
     
     
 
-def p_paso2_mult(p):
+def p_paso2_mult(p):  # Agrega multiplicacion a la pila de operadores
     '''paso2_mult : '''
     pOperadores.append(MULT)
 
-def p_paso2_div(p):
+def p_paso2_div(p): # Agrega multiplicacion a la pila de operadores
     '''paso2_div : '''
     pOperadores.append(DIV)
 
-def p_paso3_suma(p):
+def p_paso3_suma(p): # Agrega suma a la pila de operadores
     '''paso3_suma : '''
     pOperadores.append(SUMA)
 
-def p_paso3_resta(p):
+def p_paso3_resta(p):  # Agrega resta a la pila de operadores
     '''paso3_resta : '''
     pOperadores.append(RESTA)
 
-def translateToDirection(variable):
+def translateToDirection(variable):  # busca variable y regresa direccion
     #print("BEFORE IF:", variable)
     #print("vardirfunc", varDirectoryFunc)
     if variable in varDirectoryMain.keys():
@@ -1762,7 +1771,7 @@ def translateToDirection(variable):
     else:
         return variable
 
-def getBaseFuncDirection(type):
+def getBaseFuncDirection(type):  # obtiene la base de la direccion
     if type == 1:
         return 11000
     elif type == 4:
@@ -1776,7 +1785,7 @@ def getBaseFuncDirection(type):
     else:
         return -1
 
-def getFuncCounter(type):
+def getFuncCounter(type):   # regresa el contador de las direcciones correspondientes
     global cont_int_funciones
     global cont_bool_funciones
     global cont_string_funciones
@@ -1795,7 +1804,7 @@ def getFuncCounter(type):
     else:
         return -1
 
-def changeFuncCounter(type):
+def changeFuncCounter(type):   # Aumenta los contadores de las direcciones
     global cont_int_funciones
     global cont_bool_funciones
     global cont_string_funciones
@@ -1876,7 +1885,7 @@ def changeTemporalCounter(type):
     else:
         pass
 
-def p_paso4(p):
+def p_paso4(p):  # Genera cuadruplo de suma / resta
     '''paso4 : '''
     global pOperadores
     global pTipos
@@ -1908,7 +1917,7 @@ def p_paso4(p):
     #print("Sale paso 4") 
 
 
-def p_paso5(p):
+def p_paso5(p):  # Genera los cuadruplos de multiplicacion y division
     '''paso5 : '''
     global pTipos
     global pOperadores
@@ -1945,11 +1954,11 @@ def p_paso5(p):
                 exit()
     #print("Sale paso 5")               
 
-def p_paso6(p):
+def p_paso6(p):  # Mete el fondo falso a la pila de operadores
     '''paso6 : '''
     pOperadores.append("(")
 
-def p_paso7(p):
+def p_paso7(p):  # Saca el fondo falso
     '''paso7 : '''
     if pOperadores[-1] == "(" :
         pOperadores.pop()
@@ -1957,13 +1966,13 @@ def p_paso7(p):
         print("Falta parentesis izquierdo")
         exit()
 
-def p_paso6b(p):
+def p_paso6b(p):  # Mete fondo falso para arreglos
     '''paso6b : '''
     global esArr 
     esArr = True
     pOperadores.append("[")
 
-def p_paso7b(p):
+def p_paso7b(p):  # Saca fondo falso para arreglos
     '''paso7b : '''
     if pOperadores[-1] == "[" :
         pOperadores.pop()
@@ -1971,15 +1980,15 @@ def p_paso7b(p):
         print("Falta parentesis izquierdo")
         exit()
 
-def p_paso8_and(p):
+def p_paso8_and(p):  # Mete && a la pila de operadores
     '''paso8_and : '''
     pOperadores.append(AND)
 
-def p_paso8_or(p):
+def p_paso8_or(p):  # Mete || a la pila de operadores
     '''paso8_or : '''
     pOperadores.append(OR)
 
-def p_paso9(p):
+def p_paso9(p):  # Genera cuadruplo de && y ||
     '''paso9 : '''
     global pTipos
     global pOperadores
@@ -2012,7 +2021,7 @@ def p_paso9(p):
                 exit()
     #print("Sale paso 9") 
 
-def p_paso10(p):
+def p_paso10(p):   # Genera cuadruplo de >, <, ==, !=, <=, >=
     '''paso10 : '''
     global pTipos
     global pOperadores
@@ -2049,7 +2058,7 @@ def p_paso10(p):
                 exit()
     #print("Sale paso 10")  
 
-def p_paso11(p):
+def p_paso11(p):  # Genera cuadruplo de asignacion
     '''paso11 : '''
     global pTipos
     global pOperadores
@@ -2090,7 +2099,7 @@ def p_paso11(p):
                 #exit()
     #print("Sale paso 11")
 
-def p_paso12(p):
+def p_paso12(p): # Genera cuadruplo de GOTOF
     '''paso12 : '''
     global pTipos
     global pOperandos
@@ -2110,7 +2119,7 @@ def p_paso12(p):
         print("Condicion del if no es bool")
         exit()
 
-def p_paso13(p):
+def p_paso13(p):  # Genera cuadruplo de GOTO
     '''paso13 : '''
     global contCuadruplos
     global pSaltos
@@ -2122,7 +2131,7 @@ def p_paso13(p):
     #print("cuadruplos paso 13", cuadruplos)
     #print(pSaltos)
 
-def p_paso14(p):
+def p_paso14(p):  # Mete el valor a cuadruplo de GotoF
     '''paso14 : '''
     global cuadruplos
     global contCuadruplos
@@ -2130,13 +2139,13 @@ def p_paso14(p):
     cuadruplos[pSaltos.pop()][3] = contCuadruplos
     #print(cuadruplos)
 
-def p_paso15(p):
+def p_paso15(p): # Mete a la pila de saltos el cuadruplo
     '''paso15 : '''
     global pSaltos
     global contCuadruplos
     pSaltos.append(contCuadruplos)
 
-def p_paso16(p):
+def p_paso16(p):  # Genera cuadruplo de GOTOF
     '''paso16 : '''
     global pTipos
     global pOperandos
@@ -2156,7 +2165,7 @@ def p_paso16(p):
         print("Condicion del while no es bool")
         exit()
 
-def p_paso17(p):
+def p_paso17(p):  # Genera cuadruplo de GOTO
     '''paso17 : '''
     global cuadruplos
     global pSaltos
@@ -2166,7 +2175,7 @@ def p_paso17(p):
     contCuadruplos += 1
     #print("cuadruplos while: " , cuadruplos)
 
-def p_paso18(p):
+def p_paso18(p):  # Genera cuadruplo de print
     '''paso18 : '''
     global cuadruplos
     global contCuadruplos
@@ -2178,7 +2187,7 @@ def p_paso18(p):
     contCuadruplos += 1
     #print("cuadruplos print: " , cuadruplos)
 
-def p_paso19(p):
+def p_paso19(p):  # Genera cuadruplo de goto 
     '''paso19 : '''
     global cuadruplos
     global contCuadruplos
@@ -2187,14 +2196,14 @@ def p_paso19(p):
     pSaltos.append(contCuadruplos)
     contCuadruplos += 1
 
-def p_paso20(p):
+def p_paso20(p):  #   Asigna cuadruplo a GOTO
     '''paso20 : '''
     global cuadruplos
     global contCuadruplos
     global pSaltos
     cuadruplos[pSaltos.pop()][3] = contCuadruplos
 
-def p_paso21(p):
+def p_paso21(p):  # Direccion de inicio 
     '''paso21 : '''
     global pSaltos
     global cuadruplos
@@ -2206,7 +2215,7 @@ def p_paso21(p):
     #print('-------------------')
     #procDirectory[funcActual]['Inicio'] = contCuadruplos
 
-def p_paso22(p):
+def p_paso22(p):  # Genera cuadruplo de RET
     '''paso22 : '''
     global cuadruplos
     global contCuadruplos
@@ -2223,7 +2232,7 @@ def p_paso22(p):
     decNumParametro = 0
     
 
-def p_paso23(p):
+def p_paso23(p): # Genera cuadruplo de return
     '''paso23 : '''
     global pOperandos
     global contCuadruplos
@@ -2256,7 +2265,7 @@ def p_paso23(p):
         print("Tipo de retorno invalido")
         exit()
 
-def p_paso24(p):
+def p_paso24(p): # Genera cuadruplo de ERA
     '''paso24 : '''
     global funcActual
     global numArgumento
@@ -2280,7 +2289,7 @@ def translateParameterToDirection(variable):
     else:
         return -1
 
-def p_paso25(p):
+def p_paso25(p):  # Paso auxiliar parametros
     '''paso25 : '''
     global cuadruplos
     global contCuadruplos
@@ -2324,7 +2333,7 @@ def p_paso25(p):
         #print("Error try")
         #exit()
         
-def p_paso26(p):
+def p_paso26(p): # Genera cuadruplo GOSUB
     '''paso26 : '''
     global cuadruplos
     global contCuadruplos
@@ -2354,7 +2363,7 @@ def translateToTamano(variable):
     else:
         return variable
 
-def p_paso27(p):
+def p_paso27(p): # Genera cuadruplo VER
     '''paso27 : '''
     global nombreArreglo
     global tipoArreglo
@@ -2383,7 +2392,7 @@ def p_paso27(p):
     #print("pOperandos ya", pOperandos)
     #a = pOperandos.pop()
 
-def p_paso28(p):
+def p_paso28(p):  # Genera cuadruplo asig a temporal
     '''paso28 : '''
     global contCuadruplos
     global cuadruplos
@@ -2401,7 +2410,7 @@ def p_paso28(p):
     #print(getBaseTemporalDirection(tipo) + getTemporalCounter(tipo), "Contador temporal")
     contCuadruplos += 1
 
-def p_pasoFinal(p):
+def p_pasoFinal(p):  # Genera cuadruplo ENDPROGRAM
     '''pasoFinal : '''
     global cuadruplos
     global contCuadruplos
