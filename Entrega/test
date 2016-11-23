@@ -1,33 +1,27 @@
 program gg;
-var ya, tu, el: int;
-var al : int[3];
 
-function int func (int cafsd, int perro) {
-	var ocho : int;
-	ocho = perro;
-	return ocho;
+
+
+function int fact(int n) {	
+    var result: int;
+	if(n == 1) {
+    	return 1;
+    }
+
+    result = 3;
+    return result;
 }
 
+
 main {
-	var a: float;
-	var ay: int;
-	var x: bool;
-	var y: bool;
-	var z: bool;
-	var b: int [10];
-	var c: int [15];
-	var SADSF,e,AD: string;
-	var s: char;
-	var fl: float;
-	var carajo: int;
-	carajo = 4;
-	c[4] = 5;
-	
-	ya = c[3 + 3 - 2] - 2;
+	var a: int;
+	var b: int[10];
+	b[3] = 3;
 
-	ya = call:func(1 + 2, 4);
-
+	a = call:fact(4) + call:fact(b[3]);
 	
+
+
 	
 }
 
