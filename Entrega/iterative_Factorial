@@ -1,0 +1,25 @@
+program iterativeFactorial;
+
+function int itFactorial(int n) {   
+    var num : int;
+    num = 1;
+    while (n >= 1) {
+        num = num * n;
+        n = n - 1;
+    }
+    return num;
+}
+
+
+main {
+    var a: int;
+    var b: int;
+    var str1, str2: string;
+    str1 = 'El factorial de:';
+    str2 = 'Es:';
+    b = 5;
+    a = call:itFactorial(b);
+    print(str1,b,str2,a);
+}
+
+

@@ -1,0 +1,25 @@
+program find;
+
+main {
+    var a,c,i: int;
+    var b: int[6];
+    var str: string;
+    str = 'El valor se encuentra en la casilla: ';
+    i = 0;
+    a = 5;
+    b[0] = 1;
+    b[1] = 2;
+    b[2] = 3;
+    b[3] = 4;
+    b[4] = 5;
+    b[5] = 6;
+    c = 0;
+    while(i < 6){
+        if(b[i] == a) {
+            c = i;
+        }
+        i = i + 1;
+    }
+    print(str,c);
+
+}

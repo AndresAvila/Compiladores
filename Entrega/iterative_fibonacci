@@ -1,0 +1,30 @@
+program iterativeFibonacci;
+
+function int itFibonacci(int n) {	
+    var a,b,aux,i:int;
+    a = 0;
+    b = 1;
+    i = 0;
+    while(i < n) {
+    	aux = a;
+    	a = b;
+    	b = aux + b;
+    	i = i + 1;
+    }
+    return a;
+}
+
+
+main {
+	var a: int;
+	var b: int;
+    var str1, str2: string;
+	b = 6;
+	a = call:itFibonacci(b);
+	str1 = 'El valor de Fibonacci en:';
+    str2 = 'Es:';
+    print(str1,b,str2,a);
+	
+}
+
+
