@@ -1,0 +1,19 @@
+program factorial;
+
+function int fact(int n) {	
+    var result: int;
+	if(n == 1) {
+    	return 1;
+    }
+
+    result = call:fact(n - 1) * n;
+    return result;
+}
+
+
+main {
+	var a: int;
+	a = call:fact(4);
+	
+}
+

@@ -9,6 +9,8 @@ import cubo
 # Get the token map from the lexer.  This is required.
 from MyLittleDuckl import tokens
 from collections import deque
+from Queue import PriorityQueue
+
 
 #from memoria import Memoria
 
@@ -34,7 +36,7 @@ tipoArreglo = ""
 boolArreglo = False
 tamArr = 0
 
-
+retornos = PriorityQueue()
 cuadruplos = {}
 pOperadores = []
 pOperandos = []
@@ -1415,7 +1417,7 @@ def p_ambAuxEscritura1(p): #Done
 
 def p_auxEscritura2(p): #Done
     '''auxEscritura2 : exp 
-        | CTESTRING paso1 '''
+        | CTESTRING paso1 assignDirectionCteString'''
 
 def p_cicloExpresion(p):
     '''cicloExpresion : expresion paso10  '''
@@ -2227,6 +2229,7 @@ def p_paso23(p):
     global pTipos
     global pSaltos
     global contRetorno
+    global retornos
     res = pOperandos.pop()
     tipoRes = pTipos.pop()
     #contRetorno += 1
@@ -2240,10 +2243,10 @@ def p_paso23(p):
     if tipoRes == translate(procDirectory[funcActual]['Tipo']) :
         #print("VOY A ENTRAR")
         cuadruplos[contCuadruplos] = [RETURN, "", "", translateToDirection(res)]
-        
-        procDirectory[funcActual]['Retorno'][contRetorno] = translateToDirection(res)
+
+        #procDirectory[funcActual]['Retorno'][contRetorno] = translateToDirection(res)
         contCuadruplos += 1
-        contRetorno += 1
+        retornos.put(translateToDirection(res))
         
         #print(cuadruplos)
         #print("PROC DIRECTORY", procDirectory[funcActual])
@@ -2382,7 +2385,9 @@ def p_paso28(p):
     '''paso28 : '''
     global contCuadruplos
     global cuadruplos
-    operando = procDirectory[p[-9]]['Retorno'][contRetorno]
+    global retornos
+    operando = retornos.get()
+
     #print(operando, "paso28")
     tipo = translate(procDirectory[p[-9]]['Tipo'])
     cuadruplos[contCuadruplos] = [ASIG, operando , "", getBaseTemporalDirection(tipo) + getTemporalCounter(tipo)]
@@ -2434,12 +2439,13 @@ def p_cteLlamada(p):
     global pOperandos
     global pTipos
     global contRetorno
+    global retornos
     #print("entra ctellamada", contRetorno)
     #print("heyeyeyeyeyeyeyye", procDirectory[p[-2]]['Retorno'][contRetorno])
     pTipos.append(translate(procDirectory[p[-2]]['Tipo']))
-    print("procDir1", procDirectory[p[-2]]['Retorno'])
-    print(contRetorno)
-    pOperandos.append(procDirectory[p[-2]]['Retorno'][contRetorno])
+    #print("procDir1", procDirectory[p[-2]]['Retorno'])
+    #print(contRetorno)
+    pOperandos.append(retornos.queue[0])
     #print(pTipos, "pTipos")
     #print(pOperandos, "pOperandos AQUI")
     #print("sale ctellamada")
